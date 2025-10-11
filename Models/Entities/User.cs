@@ -1,0 +1,23 @@
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Midterm_EquipmentRental_Team2.Models
+{
+    // user model
+    public class User
+    {
+        [Key]
+        public int Id { get; set; }
+
+        [Required(ErrorMessage = "Username is required to login")]
+        [MaxLength(50)]
+        public string Usernmame { get; set; }
+
+        [Required(ErrorMessage = "Please enter password to login")]
+        [MaxLength(50)]
+        public string Password { get; set; }
+
+        public string Role { get; set; }
+
+        public bool IsActive { get; set; } = true;
+    }
+}
