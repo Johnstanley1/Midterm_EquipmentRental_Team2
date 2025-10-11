@@ -1,0 +1,6 @@
+@Midterm_EquipmentRental_Team2_HostAddress = http://localhost:5027
+
+GET {{Midterm_EquipmentRental_Team2_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
