@@ -10,7 +10,7 @@ namespace Midterm_EquipmentRental_Team2.Models
 
         [Required(ErrorMessage = "Username is required to login")]
         [MaxLength(50)]
-        public string Usernmame { get; set; }
+        public string Username { get; set; }
 
         [Required(ErrorMessage = "Please enter password to login")]
         [MaxLength(50)]
