@@ -45,6 +45,7 @@ namespace Midterm_EquipmentRental_Team2.Models
         [MaxLength(255)]
         public string Description { get; set; } = string.Empty;
 
+        [Required]
         public bool IsAvailable { get; set; } = true;
 
         [MaxLength(20)]
