@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Midterm_EquipmentRental_Team2.Data;
+using Microsoft.OpenApi.Models;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -27,6 +28,50 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("your-secret-key-goes-here0123456789")),
         };
     });
+
+
+
+// add jwt authentication to swagger
+builder.Services.AddSwaggerGen(options =>
+{
+    options.SwaggerDoc("Bearer", new OpenApiInfo 
+    {
+        Title = $".NET API v1",
+        Version = "v1",
+        Description = "Equipement API v1"
+    });
+
+
+    // This creates the "Authorize button in swagger interface
+    // which allows you to enter a JWT token to authorize requests
+    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        In = ParameterLocation.Header,
+        Description = "Please enter token",
+        Name = "Authorization",
+        BearerFormat = "JWT",
+        Scheme = "Bearer"
+    });
+
+
+    // This adds a lock icons to protected endpoints in swagger
+    options.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            new string[]{ }
+        }
+    });
+
+});
+
 
 
 builder.Services.AddAuthorization();
