@@ -18,8 +18,8 @@ namespace Midterm_EquipmentRental_Team2.Data
 
             modelBuilder.Entity<User>().HasData(
                     new User { Id = 1, Username = "admin", Password = "admin", Role = "Admin", IsActive = true }, // admin
-                    new User { Id = 2, Username = "user1", Password = "user1", Role = "user", IsActive = true },
-                    new User { Id = 3, Username = "user2", Password = "user2", Role = "user", IsActive = true }
+                    new User { Id = 2, Username = "user1", Password = "user1", Role = "User1", IsActive = true },
+                    new User { Id = 3, Username = "user2", Password = "user2", Role = "User2", IsActive = true }
              );
 
             modelBuilder.Entity<Equipment>().HasData(

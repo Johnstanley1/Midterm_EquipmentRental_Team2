@@ -1,5 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Midterm_EquipmentRental_Team2.Models;
+using Midterm_EquipmentRental_Team2.UnitOfWork;
 
 
 /// <summary>
@@ -13,6 +16,19 @@ namespace Midterm_EquipmentRental_Team2.Controllers
     [ApiController]
     public class EquipmentController : ControllerBase
     {
+        private IUnitOfWork _unitOfWork;
 
+        public EquipmentController(IUnitOfWork unitOfWork)
+        {
+            _unitOfWork = unitOfWork;
+        }
+
+
+        [Authorize(Roles = "Admin, User1, User2")]
+        [HttpGet]
+        public ActionResult<IEnumerable<Equipment>> GetAllEquipments()
+        { 
+            return _unitOfWork.Equipements.GetAllEquipments().ToList();
+        }
     }
 }
