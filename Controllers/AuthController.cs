@@ -7,5 +7,6 @@ namespace Midterm_EquipmentRental_Team2.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
+
     }
 }
