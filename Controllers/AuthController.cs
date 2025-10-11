@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity.Data;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using Midterm_EquipmentRental_Team2.Data;
 using Midterm_EquipmentRental_Team2.Models;
@@ -15,25 +13,16 @@ namespace Midterm_EquipmentRental_Team2.Controllers
     public class AuthController : ControllerBase
     {
         private readonly AppDbContext _context;
-        private const string JwtSecret = "your_secret_key_here12345678901234"; // Use a secure key in production
+        private const string JwtSecret = "your-secret-key-goes-here0123456789"; // Use a secure key in production
 
         public AuthController(AppDbContext context)
         {
             _context = context;
         }
 
-        [HttpPost("login")]
-        public ActionResult Login([FromBody] LoginRequest request)
-        {
-            var user = _context.Customers.FirstOrDefault(u => u.Username == request.Username && u.Password == request.Password);
-            if (user == null)
-                return Unauthorized("Invalid username or password");
 
-            var token = GenerateToken(user);
-            return Ok(new { token });
-        }
-
-        private string GenerateToken(Customer user)
+        // generate login tokens by user
+        private string GenerateToken(User user)
         {
             var claims = new[]
             {
@@ -46,9 +35,30 @@ namespace Midterm_EquipmentRental_Team2.Controllers
             var token = new JwtSecurityToken(
                 claims: claims,
                 expires: DateTime.Now.AddMinutes(30),
-                signingCredentials: creds);
+                signingCredentials: creds
+            );
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
+
+
+        // login http post request
+        [HttpPost("login")]
+        public ActionResult Login([FromBody] LoginRequest request)
+        {
+            var user = _context.Users
+                .FirstOrDefault(u => 
+                    u.Username == request.Username && 
+                    u.Password == request.Password
+                );
+
+            if (user == null)
+                return Unauthorized("Invalid username or password");
+
+            var token = GenerateToken(user);
+            return Ok(new { token });
+        }
+
+        
 
     }
 }
