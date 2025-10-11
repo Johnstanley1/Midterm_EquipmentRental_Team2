@@ -6,6 +6,11 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
+/// <summary>
+/// API Controller for managing authentication of users.
+/// Provides login operations by tokenization.
+/// </summary>
+
 namespace Midterm_EquipmentRental_Team2.Controllers
 {
     [Route("api/[controller]")]

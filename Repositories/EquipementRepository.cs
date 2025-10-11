@@ -1,9 +1,12 @@
 ﻿using Midterm_EquipmentRental_Team2.Data;
 using Midterm_EquipmentRental_Team2.Models;
 
+/// <summary>
+/// Equipment repository class implementing the Equipment repository interface crud operations
+/// </summary>
+
 namespace Midterm_EquipmentRental_Team2.Repositories
 {
-    // instantiate database CRUD operations
     public class EquipementRepository : IEquipementRepository
     {
         private AppDbContext _appDbContext;

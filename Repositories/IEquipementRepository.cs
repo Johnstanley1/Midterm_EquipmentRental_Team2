@@ -2,7 +2,10 @@
 
 namespace Midterm_EquipmentRental_Team2.Repositories
 {
-    // set database CRUD logic
+    /// <summary>
+    /// Defines the crud operations on the Equipment model decoupling the business logic
+    /// from the database implementation
+    /// </summary>
     public interface IEquipementRepository
     {
         Equipment GetById(int id);
