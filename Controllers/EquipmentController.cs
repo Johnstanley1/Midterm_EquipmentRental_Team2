@@ -90,7 +90,7 @@ namespace Midterm_EquipmentRental_Team2.Controllers
 
 
         [Authorize(Roles = "Admin")]
-        [HttpPost("{id}")]
+        [HttpDelete("{id}")]
         public ActionResult<Equipment> DeleteEquipement(int id)
         {
             var existingEquipment = _unitOfWork.Equipements.GetEquipmentById(id);
