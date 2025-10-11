@@ -1,6 +1,11 @@
 ﻿namespace Midterm_EquipmentRental_Team2.Models
 {
-    public class EquipmentCategory
+    public enum EquipmentCategory
     {
+        HeavyMachinery,
+        PowerTools,
+        Vehicles,
+        Safety,
+        Surveying
     }
 }

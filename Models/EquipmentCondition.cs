@@ -1,6 +1,11 @@
 ﻿namespace Midterm_EquipmentRental_Team2.Models
 {
-    public class EquipmentCondition
+    public enum EquipmentCondition
     {
+        New,
+        Excellent,
+        Good,
+        Fair,
+        Poor
     }
 }
