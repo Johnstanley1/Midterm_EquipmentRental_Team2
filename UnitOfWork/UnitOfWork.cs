@@ -9,7 +9,7 @@ namespace Midterm_EquipmentRental_Team2.UnitOfWork
     public class UnitOfWork : IUnitOfWork
     {
         private AppDbContext _appDbContext;
-        public IEquipementService Equipements { get; set; }
+        public IEquipementService Equipements { get; }
 
         public UnitOfWork(AppDbContext appDbContext, IEquipementService equipementService)
         { 

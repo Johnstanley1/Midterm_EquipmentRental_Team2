@@ -4,16 +4,30 @@ using Microsoft.IdentityModel.Tokens;
 using Midterm_EquipmentRental_Team2.Data;
 using Microsoft.OpenApi.Models;
 using System.Text;
+using Midterm_EquipmentRental_Team2.Repositories;
+using Midterm_EquipmentRental_Team2.Services;
+using Midterm_EquipmentRental_Team2.UnitOfWork;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+// show enums as strings and not numbers
+.AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+
+}); ;
 
 
 // Configure Entity Framework with In-Memory Database for simplicity
 builder.Services.AddDbContext<AppDbContext>(options => options.UseInMemoryDatabase("EquipmentRentalDb"));
+builder.Services.AddScoped<IEquipementRepository, EquipementRepository>();
+builder.Services.AddScoped<IEquipementService, EquipementService>();
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
 
 // Configure Authentication and Authorization
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -34,7 +48,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 // add jwt authentication to swagger
 builder.Services.AddSwaggerGen(options =>
 {
-    options.SwaggerDoc("Bearer", new OpenApiInfo 
+    options.SwaggerDoc("v1", new OpenApiInfo 
     {
         Title = $".NET API v1",
         Version = "v1",
