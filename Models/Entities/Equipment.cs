@@ -38,23 +38,27 @@ namespace Midterm_EquipmentRental_Team2.Models
         [Key]
         public int Id { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Equipment name is required")]
         [MaxLength(100)]
         public string Name { get; set; } = string.Empty;
 
+
+        [Required(ErrorMessage = "Equipment description is required")]
         [MaxLength(255)]
         public string Description { get; set; } = string.Empty;
 
-        [Required]
         public bool IsAvailable { get; set; } = true;
 
-        [MaxLength(20)]
-        public EquipmentStatus Status { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Equipment status is required")]
+        public EquipmentStatus Status { get; set; } 
+
+
+        [Required(ErrorMessage = "Equipment category is required")]
         public EquipmentCategory Category { get; set; }
 
-        [Required]
+
+        [Required(ErrorMessage = "Equipment condition is required")]
         public EquipmentCondition Condition { get; set; }
 
         //// Navigation property for rentals

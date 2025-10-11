@@ -85,7 +85,7 @@ namespace Midterm_EquipmentRental_Team2.Controllers
 
             _unitOfWork.Equipements.UpdateEquipement(existingEquipment);
             _unitOfWork.complete();
-            return Ok(equipment);
+            return Ok(existingEquipment);
         }
 
 
