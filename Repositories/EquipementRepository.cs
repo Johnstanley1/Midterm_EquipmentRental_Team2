@@ -1,5 +1,6 @@
 ﻿using Midterm_EquipmentRental_Team2.Data;
 using Midterm_EquipmentRental_Team2.Models;
+using static Midterm_EquipmentRental_Team2.Models.Equipment;
 
 /// <summary>
 /// Equipment repository class implementing the Equipment repository interface crud operations
@@ -39,6 +40,13 @@ namespace Midterm_EquipmentRental_Team2.Repositories
         public void Update(Equipment equipment)
         {
             _appDbContext.Equipments.Update(equipment);
+        }
+
+        public IEnumerable<Equipment> GetAvailable(EquipmentStatus equipmentStatus)
+        {
+            return _appDbContext.Equipments
+                .Where(e => e.Status == EquipmentStatus.Available)
+                .ToList();
         }
     }
 }

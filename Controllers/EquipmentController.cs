@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Midterm_EquipmentRental_Team2.Models;
 using Midterm_EquipmentRental_Team2.UnitOfWork;
+using static Midterm_EquipmentRental_Team2.Models.Equipment;
 
 
 /// <summary>
@@ -43,6 +44,19 @@ namespace Midterm_EquipmentRental_Team2.Controllers
                 return NotFound($"No equipement found with id {id}");
             }
             return Ok(equipment);
+        }
+
+
+        [Authorize(Roles = "Admin, User1, User2")]
+        [HttpGet("Status/{available}")]
+        public ActionResult<IEnumerable<Equipment>> GetAvailableEquipment(EquipmentStatus available)
+        { 
+            var equipment = _unitOfWork.Equipements.GetAvailableEquipments(available);
+            if (equipment == null || !equipment.Any())
+                return NotFound($"No equipment found with status {available}");
+
+            return Ok(equipment);
+            
         }
 
 

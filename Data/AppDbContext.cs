@@ -40,8 +40,8 @@ namespace Midterm_EquipmentRental_Team2.Data
                     Category = Equipment.EquipmentCategory.PowerTools,
                     Condition = Equipment.EquipmentCondition.Excellent,
                     Description = "Bosch Electric Jackhammer",
-                    IsAvailable = true,
-                    Status = Equipment.EquipmentStatus.Rented
+                    IsAvailable = false,
+                    Status = Equipment.EquipmentStatus.Maintenance
                 },
                 new Equipment
                 {
@@ -52,6 +52,16 @@ namespace Midterm_EquipmentRental_Team2.Data
                     Description = "DJI Phantom 4 RTK",
                     IsAvailable = true,
                     Status = Equipment.EquipmentStatus.Available
+                },
+                new Equipment
+                {
+                    Id = 4,
+                    Name = "Paint Roller",
+                    Category = Equipment.EquipmentCategory.PowerTools,
+                    Condition = Equipment.EquipmentCondition.Excellent,
+                    Description = "Double Sided Roller",
+                    IsAvailable = false,
+                    Status = Equipment.EquipmentStatus.Rented
                 }
             );
 

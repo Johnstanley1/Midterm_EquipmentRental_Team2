@@ -1,4 +1,5 @@
 ﻿using Midterm_EquipmentRental_Team2.Models;
+using static Midterm_EquipmentRental_Team2.Models.Equipment;
 
 namespace Midterm_EquipmentRental_Team2.Repositories
 {
@@ -10,6 +11,7 @@ namespace Midterm_EquipmentRental_Team2.Repositories
     {
         Equipment GetById(int id);
         IEnumerable<Equipment> GetAll();
+        IEnumerable<Equipment> GetAvailable(EquipmentStatus equipmentStatus);
         void Add(Equipment equipment);
         void Update(Equipment equipment);
         void Delete(Equipment equipment);
