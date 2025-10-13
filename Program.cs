@@ -87,6 +87,21 @@ builder.Services.AddSwaggerGen(options =>
 });
 
 
+/// This enables CORS (cross-origin resource sharing)
+/// Angular runs on a different port so its origin needs to be allowed in .NET
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(
+        "AllowAngular",
+        policy =>
+        {
+            policy.WithOrigins("http://localhost:4200")
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+        }
+    );
+});
+
 
 builder.Services.AddAuthorization();
 
@@ -114,6 +129,8 @@ app.UseHttpsRedirection();
 
 // Enable Authentication and Authorization middleware
 app.UseAuthentication();
+
+app.UseCors("AllowAngular"); 
 
 app.UseAuthorization();
 
