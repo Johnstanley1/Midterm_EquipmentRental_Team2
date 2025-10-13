@@ -19,7 +19,10 @@ namespace Midterm_EquipmentRental_Team2.Data
             modelBuilder.Entity<User>().HasData(
                     new User { Id = 1, Username = "admin", Password = "admin", Role = "Admin", IsActive = true }, // admin
                     new User { Id = 2, Username = "user1", Password = "user1", Role = "User1", IsActive = true },
-                    new User { Id = 3, Username = "user2", Password = "user2", Role = "User2", IsActive = true }
+                    new User { Id = 3, Username = "user2", Password = "user2", Role = "User2", IsActive = true },
+                    new User { Id = 4, Username = "user3", Password = "user3", Role = "User3", IsActive = true },
+                    new User { Id = 5, Username = "user4", Password = "user4", Role = "User4", IsActive = true },
+                    new User { Id = 6, Username = "user5", Password = "user5", Role = "User5", IsActive = true }
              );
 
             modelBuilder.Entity<Equipment>().HasData(
@@ -62,6 +65,16 @@ namespace Midterm_EquipmentRental_Team2.Data
                     Description = "Double Sided Roller",
                     IsAvailable = false,
                     Status = Equipment.EquipmentStatus.Rented
+                },
+                new Equipment
+                {
+                    Id = 5,
+                    Name = "Mechnical Gloves",
+                    Category = Equipment.EquipmentCategory.Safety,
+                    Condition = Equipment.EquipmentCondition.New,
+                    Description = "Rechargeable Gloves",
+                    IsAvailable = true,
+                    Status = Equipment.EquipmentStatus.Maintenance
                 }
             );
 
