@@ -15,7 +15,7 @@ It also includes:
 
 ## Tech Stack 
 - 🖥️ ASP.NET for API development
-- 🖥️ Frontend TBD
+- 🖥️ Angular for the frontend
 
 
 # Prerequisites
