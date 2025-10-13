@@ -7,6 +7,5 @@ export const routes: Routes = [
   {path: "login", component: LoginScreen},
   {path: "home", component: HomeScreen},
   {path: "error", component: ErrorScreen},
-  {path: "", redirectTo: "/home", pathMatch: "full"},
-  {path: "*", component: ErrorScreen}
+  {path: "", redirectTo: "/login", pathMatch: "full"}
 ];

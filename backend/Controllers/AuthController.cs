@@ -60,7 +60,12 @@ namespace Midterm_EquipmentRental_Team2.Controllers
                 return Unauthorized("Invalid username or password");
 
             var token = GenerateToken(user);
-            return Ok(new { token });
+            return Ok(new 
+            {
+                token,
+                user.Role,
+                user.Username
+            });
         }
 
         
