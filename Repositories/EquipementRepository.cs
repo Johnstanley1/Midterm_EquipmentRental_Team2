@@ -42,10 +42,17 @@ namespace Midterm_EquipmentRental_Team2.Repositories
             _appDbContext.Equipments.Update(equipment);
         }
 
-        public IEnumerable<Equipment> GetAvailable(EquipmentStatus equipmentStatus)
+        public IEnumerable<Equipment> GetAvailable()
         {
             return _appDbContext.Equipments
                 .Where(e => e.Status == EquipmentStatus.Available)
+                .ToList();
+        }
+
+        public IEnumerable<Equipment> GetRented()
+        {
+            return _appDbContext.Equipments
+                .Where(e => e.Status == EquipmentStatus.Rented)
                 .ToList();
         }
     }

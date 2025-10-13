@@ -1,5 +1,6 @@
 ﻿using Midterm_EquipmentRental_Team2.Models;
 using Midterm_EquipmentRental_Team2.Repositories;
+using static Midterm_EquipmentRental_Team2.Models.Equipment;
 
 /// <summary>
 /// Equipment service class implementing the Equipment service interface crud operations
@@ -43,14 +44,12 @@ namespace Midterm_EquipmentRental_Team2.Services
 
         public IEnumerable<Equipment> GetAvailableEquipments()
         {
-            return _repository.GetAll().ToList();
+            return _repository.GetAvailable();
         }
 
-        public IEnumerable<Equipment> GetAvailableEquipments(Equipment.EquipmentStatus equipmentStatus)
+        public IEnumerable<Equipment> GetRentedEquipments()
         {
-            return _repository.GetAvailable(equipmentStatus)
-                .Where(e => e.Status == Equipment.EquipmentStatus.Available)
-                .ToList();
+            return _repository.GetRented();
         }
     }
 }

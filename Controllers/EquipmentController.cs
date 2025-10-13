@@ -35,7 +35,7 @@ namespace Midterm_EquipmentRental_Team2.Controllers
 
 
         [Authorize(Roles = "Admin, User1, User2")]
-        [HttpGet("{id}")]
+        [HttpGet("{Id}")]
         public ActionResult<Equipment> GetEquipmentById(int id)
         {
             var equipment = _unitOfWork.Equipements.GetEquipmentById(id);
@@ -48,15 +48,22 @@ namespace Midterm_EquipmentRental_Team2.Controllers
 
 
         [Authorize(Roles = "Admin, User1, User2")]
-        [HttpGet("Status/{available}")]
-        public ActionResult<IEnumerable<Equipment>> GetAvailableEquipment(EquipmentStatus available)
+        [HttpGet("Available/{Available}")]
+        public ActionResult<IEnumerable<Equipment>> GetAvailableEquipment()
         { 
-            var equipment = _unitOfWork.Equipements.GetAvailableEquipments(available);
-            if (equipment == null || !equipment.Any())
-                return NotFound($"No equipment found with status {available}");
-
+            var equipment = _unitOfWork.Equipements.GetAvailableEquipments();
             return Ok(equipment);
             
+        }
+
+
+        [Authorize(Roles = "Admin")]
+        [HttpGet("Rented/{Rented}")]
+        public ActionResult<IEnumerable<Equipment>> GetRentedEquipments()
+        {
+            var equipment = _unitOfWork.Equipements.GetRentedEquipments();
+            return Ok(equipment);
+
         }
 
 
@@ -78,7 +85,7 @@ namespace Midterm_EquipmentRental_Team2.Controllers
 
 
         [Authorize(Roles = "Admin")]
-        [HttpPut("{id}")]
+        [HttpPut("{Id}")]
         public ActionResult<Equipment> UpdateEquipement([FromBody] Equipment equipment)
         {
             if (equipment == null)
@@ -104,7 +111,7 @@ namespace Midterm_EquipmentRental_Team2.Controllers
 
 
         [Authorize(Roles = "Admin")]
-        [HttpDelete("{id}")]
+        [HttpDelete("{Id}")]
         public ActionResult<Equipment> DeleteEquipement(int id)
         {
             var existingEquipment = _unitOfWork.Equipements.GetEquipmentById(id);

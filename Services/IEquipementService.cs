@@ -11,7 +11,8 @@ namespace Midterm_EquipmentRental_Team2.Services
     {
         Equipment GetEquipmentById(int id);
         IEnumerable<Equipment> GetAllEquipments();
-        IEnumerable<Equipment> GetAvailableEquipments(EquipmentStatus equipmentStatus);
+        IEnumerable<Equipment> GetAvailableEquipments();
+        IEnumerable<Equipment> GetRentedEquipments();
         void CreateEquipement (Equipment equipment);
         void UpdateEquipement (Equipment equipment);
         void DeleteEquipement (Equipment equipment);
