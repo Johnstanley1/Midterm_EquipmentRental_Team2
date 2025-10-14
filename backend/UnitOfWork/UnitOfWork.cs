@@ -1,4 +1,5 @@
 ﻿using Midterm_EquipmentRental_Team2.Data;
+using Midterm_EquipmentRental_Team2.Repositories;
 using Midterm_EquipmentRental_Team2.Services;
 
 /// <summary>
@@ -10,11 +11,15 @@ namespace Midterm_EquipmentRental_Team2.UnitOfWork
     {
         private AppDbContext _appDbContext;
         public IEquipementService Equipements { get; }
+        public ICustomerService Customers { get; }
 
-        public UnitOfWork(AppDbContext appDbContext, IEquipementService equipementService)
+        public UnitOfWork(AppDbContext appDbContext, IEquipementService equipementService,ICustomerService customerService)
         { 
             _appDbContext = appDbContext;
             Equipements = equipementService;
+            Customers = customerService;
+
+
         }
 
         public int complete()
