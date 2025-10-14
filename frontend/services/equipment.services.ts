@@ -6,10 +6,6 @@ import {Observable} from 'rxjs';
   providedIn: 'root'
 })
 
-export class EquipmentServices {
-  constructor() {}
-}
-
 export class Equipment {
   id: number;
   name: string
@@ -29,6 +25,12 @@ export class Equipment {
     this.category = category;
     this.condition = condition;
   }
+}
+
+
+export class EquipmentService {
+
+  constructor(private http: HttpClient ) {}
 
   private baseUrl = 'https://localhost:7024/api/Equipment'
 

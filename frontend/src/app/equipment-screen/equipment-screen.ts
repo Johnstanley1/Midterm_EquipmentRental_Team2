@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {Equipment, EquipmentService} from '../../../services/equipment.services';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-equipment-screen',
@@ -6,6 +8,13 @@ import { Component } from '@angular/core';
   templateUrl: './equipment-screen.html',
   styleUrl: './equipment-screen.css'
 })
-export class EquipmentScreen {
+export class EquipmentScreen implements OnInit{
+  equipments: Equipment[] = []
+
+  constructor(private router: Router, private equipmentService: EquipmentService) {}
+
+  ngOnInit(): void {
+        // this.equipmentService.
+  }
 
 }
