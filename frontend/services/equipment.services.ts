@@ -2,12 +2,8 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 
-@Injectable({
-  providedIn: 'root'
-})
-
 export class Equipment {
-  id: number;
+  id: number | undefined
   name: string
   description: string
   isAvailable: boolean
@@ -15,9 +11,8 @@ export class Equipment {
   category: string
   condition: string
 
-  constructor(id: number, name: string, description: string, isAvailable: boolean,
-              status: string, category: string, condition: string, private http: HttpClient) {
-    this.id = id;
+  constructor(name: string, description: string, isAvailable: boolean,
+              status: string, category: string, condition: string) {
     this.name = name;
     this.description = description;
     this.isAvailable = isAvailable;
@@ -28,11 +23,17 @@ export class Equipment {
 }
 
 
+@Injectable({
+  providedIn: 'root'
+})
+
 export class EquipmentService {
 
-  constructor(private http: HttpClient ) {}
+  constructor(private http: HttpClient) {}
 
   private baseUrl = 'https://localhost:7024/api/Equipment'
+  // private baseUrl = '/api/Equipment';
+
 
   // get all equipments
   getAllEquipments(): Observable<Equipment[]>{

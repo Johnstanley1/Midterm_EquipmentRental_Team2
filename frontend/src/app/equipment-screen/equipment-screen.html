@@ -4,30 +4,30 @@
       <thead>
         <tr>
           <th>Name</th>
-          <th>Category</th>
-          <th>Condition</th>
+          <th>Description</th>
+          <th>IsAvailable</th>
           <th>Status</th>
           <th>Category</th>
+          <th>Condition</th>
           <th>Manage</th>
         </tr>
       </thead>
       <tbody>
-      <tr>
-        <td> </td>
-        <td> </td>
-        <td></td>
-        <td> </td>
-        <td> </td>
-        <td></td>
-      </tr>
-      <tr>
-        <td> </td>
-        <td></td>
-        <td></td>
-        <td> </td>
-        <td> </td>
-        <td></td>
-      </tr>
+        @for (equipment of equipments; track equipment){
+          <tr>
+            <td>{{equipment.name}}</td>
+            <td>{{equipment.description}}</td>
+            <td>{{equipment.isAvailable}}</td>
+            <td>{{equipment.status}}</td>
+            <td>{{equipment.category}}</td>
+            <td>{{equipment.condition}}</td>
+            <td>
+              <a href="">Create</a>
+              <a href="">Edit</a>
+              <a href="">Delete</a>
+            </td>
+          </tr>
+        }
       </tbody>
     </table>
   </div>

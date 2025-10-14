@@ -14,7 +14,13 @@ export class EquipmentScreen implements OnInit{
   constructor(private router: Router, private equipmentService: EquipmentService) {}
 
   ngOnInit(): void {
-        // this.equipmentService.
+    this.equipmentService.getAllEquipments().subscribe({
+      next: (data)=>{
+        this.equipments = data;
+      },
+      error: (err) => {
+        console.log("Failed to load equipment", err);
+      }
+    })
   }
-
 }
