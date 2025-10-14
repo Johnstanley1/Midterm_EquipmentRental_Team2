@@ -38,5 +38,10 @@ namespace Midterm_EquipmentRental_Team2.Repositories
                 .Where(r => r.CustomerId == customerId && r.Status == "Active")
                 .FirstOrDefault();
         }
+
+        public IEnumerable<Customer> GetAllCustomers()
+        {
+            return _context.Customers.Include(c => c.Rentals).ToList();
+        }
     }
 }
