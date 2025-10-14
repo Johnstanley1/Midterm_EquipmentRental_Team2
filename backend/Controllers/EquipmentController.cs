@@ -120,7 +120,7 @@ namespace Midterm_EquipmentRental_Team2.Controllers
                 return NotFound($"No equipment found with id {id}");
 
             _unitOfWork.Equipements.DeleteEquipement(existingEquipment);
-            _unitOfWork.complete();
+            _unitOfWork.Complete();
             return Ok(existingEquipment);
         }
     }
