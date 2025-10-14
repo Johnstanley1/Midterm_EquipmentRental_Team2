@@ -28,6 +28,7 @@ builder.Services.AddScoped<IEquipementRepository, EquipementRepository>();
 builder.Services.AddScoped<IEquipementService, EquipementService>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<ICustomerService, CustomerService>();
+builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
 
 // Configure Authentication and Authorization
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
