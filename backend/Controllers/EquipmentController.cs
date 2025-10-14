@@ -75,7 +75,7 @@ namespace Midterm_EquipmentRental_Team2.Controllers
                 return BadRequest("Equipment data is required.");
 
             _unitOfWork.Equipements.CreateEquipement(equipment);
-            _unitOfWork.complete();
+            _unitOfWork.Complete();
             return CreatedAtAction(
                 nameof(GetAllEquipments),
                 new { Id=equipment.Id },
@@ -105,7 +105,7 @@ namespace Midterm_EquipmentRental_Team2.Controllers
             existingEquipment.Condition = equipment.Condition;
 
             _unitOfWork.Equipements.UpdateEquipement(existingEquipment);
-            _unitOfWork.complete();
+            _unitOfWork.Complete();
             return Ok(existingEquipment);
         }
 

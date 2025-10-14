@@ -7,6 +7,12 @@ namespace Midterm_EquipmentRental_Team2.Repositories
     public class CustomerRepository : ICustomerRepository
     {
         private readonly AppDbContext _context;
+
+        public CustomerRepository(AppDbContext context)
+        {
+            _context = context;
+        }
+
         public Customer GetCustomerById(int id)
         {
             return _context.Customers.Include(c => c.Rentals).FirstOrDefault(c => c.Id == id);
