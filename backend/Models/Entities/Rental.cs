@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Midterm_EquipmentRental_Team2.Models;
 
 namespace Midterm_EquipmentRental_Team2.Models
 {
