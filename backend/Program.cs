@@ -27,7 +27,7 @@ builder.Services.AddDbContext<AppDbContext>(options => options.UseInMemoryDataba
 builder.Services.AddScoped<IEquipementRepository, EquipementRepository>();
 builder.Services.AddScoped<IEquipementService, EquipementService>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-
+builder.Services.AddScoped<ICustomerService, CustomerService>();
 
 // Configure Authentication and Authorization
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
