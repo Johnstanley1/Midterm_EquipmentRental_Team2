@@ -128,8 +128,42 @@ namespace Midterm_EquipmentRental_Team2.Data
             );
 
 
+            // Seed data for Rental
+            modelBuilder.Entity<Rental>().HasData(
+                new Rental
+                {
+                    Id = 1,
+                    CustomerId = 1, // Admin User
+                    EquipmentId = 1, // Excavator
+                    IssuedAt = DateTime.UtcNow.AddDays(-10),
+                    DueDate = DateTime.UtcNow.AddDays(10),
+                    ReturnedAt = null,
+                    Status = "Active"
+                },
+                new Rental
+                {
+                    Id = 2,
+                    CustomerId = 2, // John Doe
+                    EquipmentId = 3, // Surveying Drone
+                    IssuedAt = DateTime.UtcNow.AddDays(-5),
+                    DueDate = DateTime.UtcNow.AddDays(5),
+                    ReturnedAt = null,
+                    Status = "Active"
+                },
+                new Rental
+                {
+                    Id = 3,
+                    CustomerId = 3, // Jane Smith
+                    EquipmentId = 4, // Paint Roller
+                    IssuedAt = DateTime.UtcNow.AddDays(-20),
+                    DueDate = DateTime.UtcNow.AddDays(-10),
+                    ReturnedAt = DateTime.UtcNow.AddDays(-9),
+                    Status = "Returned",
+                    ReturnNotes = "Returned in good condition",
+                    ReturnCondition = Equipment.EquipmentCondition.Good
+                }
 
-            // Rentals can be seeded if needed, but typically start empty
+
         }
 
     }
