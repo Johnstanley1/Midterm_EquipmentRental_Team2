@@ -10,6 +10,8 @@ namespace Midterm_EquipmentRental_Team2.Data
 
         public DbSet<Customer> Customers { get; set; }
 
+        public DbSet<Rental> Rentals { get; set; }
+
 
 
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
