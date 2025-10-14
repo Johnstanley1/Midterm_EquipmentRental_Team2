@@ -13,7 +13,15 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers()
+
+// to prevent circular reference issues during JSON serialization
+builder.Services.AddControllers().AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
+        options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+    })
+
+
 // show enums as strings and not numbers
 .AddJsonOptions(options =>
 {
