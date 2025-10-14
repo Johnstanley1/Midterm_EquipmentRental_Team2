@@ -56,16 +56,19 @@ export class Equipment {
   }
 
 
+  // create new equipment
   createEquipment(equipment: Equipment ): Observable<Equipment>{
     return this.http.post<Equipment>(this.baseUrl, equipment)
   }
 
 
+  // modify existing equipment
   updateEquipment(id: number, equipment: Equipment): Observable<void>{
     return this.http.put<void>(`${this.baseUrl}/${id}`, equipment)
   }
 
 
+  // delete existing equipment
   deleteEquipment(id: number): Observable<void>{
     return this.http.delete<void>(`${this.baseUrl}/${id}`)
   }
