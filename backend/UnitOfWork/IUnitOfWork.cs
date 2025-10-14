@@ -13,6 +13,8 @@ namespace Midterm_EquipmentRental_Team2.UnitOfWork
         IEquipementService Equipements { get; }
         ICustomerService Customers { get; }
 
+        IRentalService Rentals { get; }
+
         int Complete();
     }
 }

@@ -13,12 +13,14 @@ namespace Midterm_EquipmentRental_Team2.UnitOfWork
         public IEquipementService Equipements { get; }
         public ICustomerService Customers { get; }
 
-        public UnitOfWork(AppDbContext appDbContext, IEquipementService equipementService,ICustomerService customerService)
+        public IRentalService Rentals { get; }
+
+        public UnitOfWork(AppDbContext appDbContext, IEquipementService equipementService,ICustomerService customerService,IRentalService rentalService)
         { 
             _appDbContext = appDbContext;
             Equipements = equipementService;
             Customers = customerService;
-
+            Rentals = rentalService;
 
         }
 
