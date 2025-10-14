@@ -8,6 +8,10 @@ namespace Midterm_EquipmentRental_Team2.Data
         public DbSet<Equipment> Equipments { get; set; }
         public DbSet<User> Users { get; set; }
 
+        public DbSet<Customer> Customers { get; set; }
+
+
+
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
      
 
@@ -79,47 +83,47 @@ namespace Midterm_EquipmentRental_Team2.Data
             );
 
 
-            //// Relationships
-            //modelBuilder.Entity<Rental>()
-            //    .HasOne(r => r.Customer)
-            //    .WithMany(c => c.Rentals)
-            //    .HasForeignKey(r => r.CustomerId);
+            // Relationships
+            modelBuilder.Entity<Rental>()
+                .HasOne(r => r.Customer)
+                .WithMany(c => c.Rentals)
+                .HasForeignKey(r => r.CustomerId);
 
-            //modelBuilder.Entity<Rental>()
-            //    .HasOne(r => r.Equipment)
-            //    .WithMany(e => e.Rentals)
-            //    .HasForeignKey(r => r.EquipmentId);
+            modelBuilder.Entity<Rental>()
+                .HasOne(r => r.Equipment)
+                .WithMany()
+                .HasForeignKey(r => r.EquipmentId);
 
-            //// Seed data
-            //modelBuilder.Entity<Customer>().HasData(
-            //    new Customer
-            //    {
-            //        Id = 1,
-            //        Name = "Admin User",
-            //        Username = "admin",
-            //        Password = "admin123", // For demo only; use hashing in production
-            //        Role = "Admin",
-            //        IsActive = true
-            //    },
-            //    new Customer
-            //    {
-            //        Id = 2,
-            //        Name = "John Doe",
-            //        Username = "john",
-            //        Password = "john123",
-            //        Role = "User",
-            //        IsActive = true
-            //    },
-            //    new Customer
-            //    {
-            //        Id = 3,
-            //        Name = "Jane Smith",
-            //        Username = "jane",
-            //        Password = "jane123",
-            //        Role = "User",
-            //        IsActive = true
-            //    }
-            //);
+            // Seed data for Customer
+            modelBuilder.Entity<Customer>().HasData(
+                new Customer
+                {
+                    Id = 1,
+                    Name = "Admin User",
+                    Username = "admin",
+                    Password = "admin123", // For demo only; use hashing in production
+                    Role = "Admin",
+                    IsActive = true
+                },
+                new Customer
+                {
+                    Id = 2,
+                    Name = "John Doe",
+                    Username = "john",
+                    Password = "john123",
+                    Role = "User",
+                    IsActive = true
+                },
+                new Customer
+                {
+                    Id = 3,
+                    Name = "Jane Smith",
+                    Username = "jane",
+                    Password = "jane123",
+                    Role = "User",
+                    IsActive = true
+                }
+            );
 
 
 
