@@ -5,7 +5,6 @@ import {RouterLink} from '@angular/router';
 @Component({
   selector: 'app-home-screen',
   imports: [
-    NgOptimizedImage,
     RouterLink
   ],
   templateUrl: './home-screen.html',
