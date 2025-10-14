@@ -1,9 +1,10 @@
 ﻿using Midterm_EquipmentRental_Team2.Models;
 using Midterm_EquipmentRental_Team2.Repositories;
+using Midterm_EquipmentRental_Team2.Services;
 
 namespace Midterm_EquipmentRental_Team2.Services
 {
-    public class RentalService : IRentalService
+    public class RentalService: IRentalService
     {
         private readonly IRentalRepository _rentalRepo;
         private readonly ICustomerRepository _customerRepo;
@@ -45,10 +46,8 @@ namespace Midterm_EquipmentRental_Team2.Services
 
         public void IssueRental(Rental rental, int userId)
         {
-            // Only one active rental per user
             if (_rentalRepo.GetActiveByCustomerId(userId).Any())
                 throw new InvalidOperationException("User already has an active rental.");
-            // Equipment must be available
             var equipment = _equipmentRepo.GetById(rental.EquipmentId);
             if (equipment == null || !equipment.IsAvailable)
                 throw new InvalidOperationException("Equipment not available.");
@@ -69,7 +68,13 @@ namespace Midterm_EquipmentRental_Team2.Services
             rental.ReturnedAt = DateTime.UtcNow;
             rental.Status = "Returned";
             rental.ReturnNotes = notes;
-            rental.ReturnCondition = condition;
+
+            // Convert string to enum if not null
+            if (!string.IsNullOrEmpty(condition) && Enum.TryParse<Equipment.EquipmentCondition>(condition, out var condEnum))
+                rental.ReturnCondition = condEnum;
+            else
+                rental.ReturnCondition = null;
+
             var equipment = _equipmentRepo.GetById(rental.EquipmentId);
             if (equipment != null)
             {
@@ -86,7 +91,7 @@ namespace Midterm_EquipmentRental_Team2.Services
             if (rental == null || rental.CustomerId != userId) throw new InvalidOperationException("Rental not found or unauthorized.");
             if (rental.ReturnedAt != null) throw new InvalidOperationException("Cannot extend a returned rental.");
             rental.DueDate = newDueDate;
-            rental.ExtensionReason = reason;
+            rental.ReturnNotes = reason;
             _rentalRepo.Update(rental);
         }
 
