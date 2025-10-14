@@ -25,7 +25,7 @@ export class LoginScreen {
   constructor(private http: HttpClient, private router: Router) {}
 
 
-  // Inject builder and DAL
+  // Inject builder
   builder = inject(FormBuilder)
 
   // Validation
