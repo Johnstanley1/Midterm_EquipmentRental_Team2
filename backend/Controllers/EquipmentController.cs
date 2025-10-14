@@ -1,5 +1,6 @@
 ﻿using Asp.Versioning;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Midterm_EquipmentRental_Team2.Models;
@@ -14,6 +15,7 @@ using static Midterm_EquipmentRental_Team2.Models.Equipment;
 /// </summary>
 namespace Midterm_EquipmentRental_Team2.Controllers
 {
+    [EnableCors("AllowAngular")]
     [Route("api/[controller]")]
     [ApiController]
     public class EquipmentController : ControllerBase
@@ -25,7 +27,7 @@ namespace Midterm_EquipmentRental_Team2.Controllers
             _unitOfWork = unitOfWork;
         }
 
-
+        
         [Authorize(Roles = "Admin, User1, User2")]
         [HttpGet]
         public ActionResult<IEnumerable<Equipment>> GetAllEquipments()

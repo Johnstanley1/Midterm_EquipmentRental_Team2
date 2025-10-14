@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs';
 
 export class Equipment {
@@ -31,14 +31,22 @@ export class EquipmentService {
 
   constructor(private http: HttpClient) {}
 
-  private baseUrl = 'https://localhost:7024/api/Equipment'
-  // private baseUrl = '/api/Equipment';
+  private baseUrl = 'http://localhost:5027/api/Equipment'
 
 
   // get all equipments
-  getAllEquipments(): Observable<Equipment[]>{
-    return this.http.get<Equipment[]>(this.baseUrl);
+  getAllEquipments(): Observable<Equipment[]> {
+    let headers = new HttpHeaders();
+
+    if (typeof window !== 'undefined') {
+      const token = localStorage.getItem('token');
+      if (token) {
+        headers = headers.set('Authorization', `Bearer ${token}`);
+      }
+    }
+    return this.http.get<Equipment[]>(this.baseUrl, { headers });
   }
+
 
 
   // get equipment by id

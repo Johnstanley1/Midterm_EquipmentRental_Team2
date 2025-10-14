@@ -15,12 +15,13 @@ export class EquipmentScreen implements OnInit{
 
   ngOnInit(): void {
     this.equipmentService.getAllEquipments().subscribe({
-      next: (data)=>{
+      next: (data) => {
         this.equipments = data;
+        console.log('Loaded equipments:', data);
       },
       error: (err) => {
-        console.log("Failed to load equipment", err);
+        console.error('Failed to load equipment', err);
       }
-    })
+    });
   }
 }

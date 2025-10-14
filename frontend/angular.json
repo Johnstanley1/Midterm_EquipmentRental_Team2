@@ -63,10 +63,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "equipment-rental-frontend:build:production"
+              "buildTarget": "equipement-rental-frontend:build:production"
             },
             "development": {
-              "buildTarget": "equipment-rental-frontend:build:development"
+              "buildTarget": "equipement-rental-frontend:build:development"
             }
           },
           "defaultConfiguration": "development"

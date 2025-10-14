@@ -100,6 +100,7 @@ builder.Services.AddCors(options =>
         {
             policy.WithOrigins("http://localhost:4200")
             .AllowAnyHeader()
+            //.AllowCredentials()
             .AllowAnyMethod();
         }
     );
@@ -128,7 +129,7 @@ using (var scope = app.Services.CreateScope())
         app.UseSwaggerUI();
     }
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 
 // Enable Authentication and Authorization middleware
 app.UseAuthentication();
