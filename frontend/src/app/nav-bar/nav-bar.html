@@ -2,13 +2,29 @@
 <ul class="nav nav-tabs justify-content-between align-items-center">
   <div class="d-flex">
     <li class="nav-item active" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
-      <a class="nav-link" routerLink="/manage-equipments" aria-current="page">Manage Equipments</a>
+      <strong>
+        <a class="nav-link" routerLink="/manage-equipments" aria-current="page">Manage Equipment</a>
+      </strong>
     </li>
     <li class="nav-item" routerLinkActive="active">
-      <a class="nav-link" routerLink="/view-customers">View Customers</a>
+      <strong>
+        <a class="nav-link" routerLink="/view-customers">Manage Customers</a>
+      </strong>
     </li>
     <li class="nav-item" routerLinkActive="active">
-      <a class="nav-link" routerLink="/all-rentals">All Rentals</a>
+      <strong>
+        <a class="nav-link" routerLink="/all-rentals">Manage Rentals</a>
+      </strong>
+    </li>
+    <li class="nav-item" routerLinkActive="active">
+      <strong>
+        <a class="nav-link" routerLink="/over-due">Overdue Rentals</a>
+      </strong>
+    </li>
+    <li class="nav-item" routerLinkActive="active">
+      <strong>
+        <a class="nav-link" routerLink="/available">Rent Equipment</a>
+      </strong>
     </li>
   </div>
 
