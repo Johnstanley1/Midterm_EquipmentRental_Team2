@@ -13,6 +13,6 @@ namespace Midterm_EquipmentRental_Team2.UnitOfWork
         IEquipementService Equipements { get; }
         ICustomerService Customers { get; }
 
-        int complete();
+        int Complete();
     }
 }
