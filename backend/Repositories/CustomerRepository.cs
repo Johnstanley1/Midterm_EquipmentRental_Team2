@@ -6,11 +6,16 @@ namespace Midterm_EquipmentRental_Team2.Repositories
 {
     public class CustomerRepository : ICustomerRepository
     {
-        private readonly AppDbContext _context;
+        private  AppDbContext _context;
 
         public CustomerRepository(AppDbContext context)
         {
             _context = context;
+        }
+
+        public IEnumerable<Customer> GetAllCustomers()
+        {
+            return _context.Customers.Include(c => c.Rentals).ToList();
         }
 
         public Customer GetCustomerById(int id)
@@ -43,11 +48,6 @@ namespace Midterm_EquipmentRental_Team2.Repositories
             return _context.Rentals
                 .Where(r => r.CustomerId == customerId && r.Status == "Active")
                 .FirstOrDefault();
-        }
-
-        public IEnumerable<Customer> GetAllCustomers()
-        {
-            return _context.Customers.Include(c => c.Rentals).ToList();
         }
     }
 }
