@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Midterm_EquipmentRental_Team2.Data
 {
-    public class AppDbContext: DbContext
+    public class AppDbContext : DbContext
     {
         public DbSet<Equipment> Equipments { get; set; }
         public DbSet<User> Users { get; set; }
@@ -14,8 +14,10 @@ namespace Midterm_EquipmentRental_Team2.Data
 
 
 
-        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
-     
+        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
+        {
+        }
+
 
         // seed data into database
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -23,13 +25,13 @@ namespace Midterm_EquipmentRental_Team2.Data
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<User>().HasData(
-                    new User { Id = 1, Username = "admin", Password = "admin", Role = "Admin", IsActive = true }, // admin
-                    new User { Id = 2, Username = "user1", Password = "user1", Role = "User1", IsActive = true },
-                    new User { Id = 3, Username = "user2", Password = "user2", Role = "User2", IsActive = true },
-                    new User { Id = 4, Username = "user3", Password = "user3", Role = "User3", IsActive = true },
-                    new User { Id = 5, Username = "user4", Password = "user4", Role = "User4", IsActive = true },
-                    new User { Id = 6, Username = "user5", Password = "user5", Role = "User5", IsActive = true }
-             );
+                new User { Id = 1, Username = "admin", Password = "admin", Role = "Admin", IsActive = true }, // admin
+                new User { Id = 2, Username = "user1", Password = "user1", Role = "User1", IsActive = true },
+                new User { Id = 3, Username = "user2", Password = "user2", Role = "User2", IsActive = true },
+                new User { Id = 4, Username = "user3", Password = "user3", Role = "User3", IsActive = true },
+                new User { Id = 5, Username = "user4", Password = "user4", Role = "User4", IsActive = true },
+                new User { Id = 6, Username = "user5", Password = "user5", Role = "User5", IsActive = true }
+            );
 
             modelBuilder.Entity<Equipment>().HasData(
                 new Equipment
@@ -161,10 +163,12 @@ namespace Midterm_EquipmentRental_Team2.Data
                     Status = "Returned",
                     ReturnNotes = "Returned in good condition",
                     ReturnCondition = Equipment.EquipmentCondition.Good
-                }
 
+                }
+            );
 
         }
+    }
 
     }
-}
+
