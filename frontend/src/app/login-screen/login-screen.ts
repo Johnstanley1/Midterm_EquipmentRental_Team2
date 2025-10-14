@@ -1,39 +1,72 @@
-import { Component } from '@angular/core';
-import {FormsModule} from '@angular/forms';
+import {Component, inject} from '@angular/core';
+import {FormBuilder, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {HttpClient} from '@angular/common/http';
 import {Router} from '@angular/router';
-import {NgOptimizedImage} from '@angular/common';
 
+
+/*
+* login logic for the login screen
+* this stores the token generated in the local storage then navigates to the home page after successful login
+*/
 @Component({
   selector: 'app-login-screen',
   standalone: true,
   imports: [
     FormsModule,
-    NgOptimizedImage,
+    ReactiveFormsModule,
   ],
   templateUrl: './login-screen.html',
   styleUrl: './login-screen.css'
 })
 export class LoginScreen {
-  username: string = "";
-  password: string = "";
+  min_Length = 4;
+  max_length = 20;
 
   constructor(private http: HttpClient, private router: Router) {}
 
-  /*
-  * login logic for the login screen
-  * this stores the token generated in the local storage then navigates to the home page after successful login
-  */
+
+  // Inject builder and DAL
+  builder = inject(FormBuilder)
+
+  // Validation
+  loginForm = this.builder.group({
+    _username: ["",
+      [Validators.required,
+        Validators.minLength(this.min_Length),
+        Validators.maxLength(this.max_length)]
+    ],
+
+    _password: ["",
+      [Validators.required,
+        Validators.minLength(this.min_Length),
+        Validators.maxLength(this.max_length)]
+
+    ]
+  })
+
+  // Get data:
+  refName = this.loginForm.controls['_username']
+  refPassword = this.loginForm.controls['_password']
+
+  // on login
   login(){
-    const credentials = {
-      username: this.username,
-      password: this.password
+
+    if(this.loginForm.invalid){
+      console.log(this.refName, this.refPassword)
+      this.loginForm.markAllAsTouched();
     }
 
+// Get data:
+    const username = this.loginForm.value._username;
+    const password = this.loginForm.value._password;
+
+// Create credentials object
+    const credentials = { username, password };
+
+    // create credentials object and pass data
     this.http.post<any>('https://localhost:7024/api/Auth/login', credentials)
       .subscribe({
         next: (res) => {
-          console.log('Login successful', res)
 
           localStorage.setItem('token', res.token) // save token to local storage
 
@@ -46,8 +79,7 @@ export class LoginScreen {
           }
         },
         error: (err) => {
-          console.log('Login failed', err)
-          alert('Invalid credentials')
+          console.log('Invalid credentials')
         }
       })
   }
