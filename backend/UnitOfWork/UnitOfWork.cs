@@ -22,7 +22,7 @@ namespace Midterm_EquipmentRental_Team2.UnitOfWork
 
         }
 
-        public int complete()
+        public int Complete()
         {
             return _appDbContext.SaveChanges();
         }
