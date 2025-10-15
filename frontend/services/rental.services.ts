@@ -66,6 +66,12 @@ export class RentalService {
     return this.http.put(`${this.baseUrl}/${id}/extend`, payload);
   }
 
+  // Cancel a rental (Admin only). Optionally force cancel
+  cancelRental(id: number, force: boolean = false): Observable<any> {
+    const q = force ? '?force=true' : '';
+    return this.http.delete(`${this.baseUrl}/${id}${q}`);
+  }
+
   // Get overdue rentals (admin sees all, user sees own)
   getOverdue(): Observable<Rental[]> {
     return this.http.get<Rental[]>(`${this.baseUrl}/overdue`);
