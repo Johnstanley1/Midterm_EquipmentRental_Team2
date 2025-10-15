@@ -98,10 +98,11 @@ namespace Midterm_EquipmentRental_Team2.Services
             _rentalRepo.Update(rental);
         }
 
-        public void ExtendRental(int rentalId, DateTime newDueDate, string reason, int userId)
+        public void ExtendRental(int rentalId, DateTime newDueDate, string reason, int userId, bool isAdmin = false)
         {
             var rental = _rentalRepo.GetById(rentalId);
-            if (rental == null || rental.CustomerId != userId) throw new InvalidOperationException("Rental not found or unauthorized.");
+            if (rental == null) throw new InvalidOperationException("Rental not found.");
+            if (!isAdmin && rental.CustomerId != userId) throw new InvalidOperationException("Unauthorized to extend this rental.");
             if (rental.ReturnedAt != null) throw new InvalidOperationException("Cannot extend a returned rental.");
             rental.DueDate = newDueDate;
             rental.ReturnNotes = reason;

@@ -59,7 +59,9 @@
           <button class="btn btn-warning" (click)="extend(r)">Edit/Extend Rental</button>
           <button class="btn btn-danger" (click)="cancel(false)">Cancel Rental</button>
           <button class="btn btn-success" (click)="markReturned()">Mark as Returned</button>
-          <a class="btn btn-outline-secondary" [routerLink]="['/customer-detail', r.customerId]">View Customer Details</a>
+          <a class="btn btn-outline-secondary" [routerLink]="['/customer-detail', r.customerId]"
+            >View Customer Details</a
+          >
           <button class="btn btn-secondary" (click)="backToList()">Back to Rentals</button>
         </div>
       </div>

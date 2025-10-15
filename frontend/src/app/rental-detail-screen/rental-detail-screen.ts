@@ -42,12 +42,18 @@ export class RentalDetailScreen {
     if (!newDue) return;
     const reason = prompt('Reason for extension:', 'Customer requested extension');
     if (reason === null) return;
-    this.rentals.extendRental(this.rentalId, newDue, reason).subscribe({
+    let iso: string;
+    try {
+      iso = new Date(newDue).toISOString();
+    } catch {
+      iso = newDue; // fallback to what user entered
+    }
+    this.rentals.extendRental(this.rentalId, iso, reason).subscribe({
       next: () => {
         // refresh
         this.rental$ = this.rentals.getById(this.rentalId);
       },
-      error: (err) => alert('Failed to extend: ' + (err?.error || err?.message || err))
+      error: (err) => alert('Failed to extend: ' + (err?.error || err?.message || err)),
     });
   }
 
@@ -56,7 +62,7 @@ export class RentalDetailScreen {
     if (!confirm(force ? 'Force cancel this rental?' : 'Cancel this rental?')) return;
     this.rentals.cancelRental(this.rentalId, force).subscribe({
       next: () => this.backToList(),
-      error: (err) => alert('Failed to cancel: ' + (err?.error || err?.message || err))
+      error: (err) => alert('Failed to cancel: ' + (err?.error || err?.message || err)),
     });
   }
 
@@ -66,7 +72,19 @@ export class RentalDetailScreen {
     const condition = prompt('Return condition:', 'Good') || 'Good';
     this.rentals.returnRental(this.rentalId, notes, condition).subscribe({
       next: () => this.backToList(),
-      error: (err) => alert('Failed to return: ' + (err?.error || err?.message || err))
+      error: (err) => {
+        const status = err?.status ?? 0;
+        if (status === 401 || status === 403) {
+          if (confirm('Unauthorized to return. Force return as admin?')) {
+            this.rentals.forceReturn(this.rentalId, notes, condition).subscribe({
+              next: () => this.backToList(),
+              error: (e2) => alert('Failed to force return: ' + (e2?.error || e2?.message || e2)),
+            });
+            return;
+          }
+        }
+        alert('Failed to return: ' + (err?.error || err?.message || err));
+      },
     });
   }
 }

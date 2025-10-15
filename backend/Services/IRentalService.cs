@@ -15,7 +15,7 @@ namespace Midterm_EquipmentRental_Team2.Services
         IEnumerable<Rental> GetOverdueRentals();
         void IssueRental(Rental rental, int userId);
         void ReturnRental(int rentalId, int userId, string? notes, string? condition, bool force = false);
-        void ExtendRental(int rentalId, DateTime newDueDate, string reason, int userId);
+    void ExtendRental(int rentalId, DateTime newDueDate, string reason, int userId, bool isAdmin = false);
         void CancelRental(int rentalId, int userId, bool force = false);
     }
 }

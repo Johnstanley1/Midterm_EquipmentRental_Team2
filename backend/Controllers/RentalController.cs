@@ -176,9 +176,10 @@ namespace Midterm_EquipmentRental_Team2.Controllers
         public IActionResult ExtendRental(int id, [FromBody] Rental rental)
         {
             var userId = GetUserId();
+            var isAdmin = User.IsInRole("Admin");
             try
             {
-                _unitOfWork.Rentals.ExtendRental(id, rental.DueDate ?? DateTime.UtcNow, rental.ReturnNotes ?? string.Empty, userId);
+                _unitOfWork.Rentals.ExtendRental(id, rental.DueDate ?? DateTime.UtcNow, rental.ReturnNotes ?? string.Empty, userId, isAdmin);
                 _unitOfWork.Complete();
                 return Ok();
             }
