@@ -1,0 +1,40 @@
+<div class="container mt-5">
+  <h2 class="p-3">All Customers</h2>
+
+  @if (errorMessage) {
+  <div class="alert alert-warning">{{ errorMessage }}</div>
+  }
+
+  <div class="row text-primary text-center">
+    <table class="table table-hover table-striped-columns table-bordered">
+      <thead>
+        <tr>
+          <th>Id</th>
+          <th>Name</th>
+          <th>Username</th>
+          <th>Role</th>
+          <th>Active</th>
+        </tr>
+      </thead>
+      <tbody>
+        @if (customers$ | async; as customers) { @if (customers.length === 0) {
+        <tr>
+          <td colspan="5" class="text-center">No customers found</td>
+        </tr>
+        } @else { @for (c of customers; track c) {
+        <tr>
+          <td>{{ c.id }}</td>
+          <td>{{ c.name }}</td>
+          <td>{{ c.username }}</td>
+          <td>{{ c.role }}</td>
+          <td>{{ c.isActive }}</td>
+        </tr>
+        } } } @else {
+        <tr>
+          <td colspan="5" class="text-center">Loading...</td>
+        </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>

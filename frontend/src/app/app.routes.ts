@@ -1,15 +1,23 @@
 import { Routes } from '@angular/router';
-import {LoginScreen} from './login-screen/login-screen';
-import {ErrorScreen} from './error-screen/error-screen';
-import {HomeScreen} from './home-screen/home-screen';
-import {EquipmentScreen} from './equipment-screen/equipment-screen';
-import {CreateEquipmentScreen} from './create-equipment-screen/create-equipment-screen';
+import { LoginScreen } from './login-screen/login-screen';
+import { ErrorScreen } from './error-screen/error-screen';
+import { HomeScreen } from './home-screen/home-screen';
+import { EquipmentScreen } from './equipment-screen/equipment-screen';
+import { CreateEquipmentScreen } from './create-equipment-screen/create-equipment-screen';
+import { CustomerScreen } from './customer-screen/customer-screen';
+import { RentalsScreen } from './rentals-screen/rentals-screen';
+import { OverdueScreen } from './overdue-screen/overdue-screen';
+import { AvailableScreen } from './available-screen/available-screen';
 
 export const routes: Routes = [
-  {path: "login", component: LoginScreen},
-  {path: "home", component: HomeScreen},
-  {path: "manage-equipment", component: EquipmentScreen},
-  {path: "add-equipment", component: CreateEquipmentScreen},
-  {path: "error", component: ErrorScreen},
-  {path: "", redirectTo: "/login", pathMatch: "full"}
+  { path: 'login', component: LoginScreen },
+  { path: 'home', component: HomeScreen },
+  { path: 'manage-equipment', component: EquipmentScreen },
+  { path: 'add-equipment', component: CreateEquipmentScreen },
+  { path: 'view-customers', component: CustomerScreen },
+  { path: 'all-rentals', component: RentalsScreen },
+  { path: 'over-due', component: OverdueScreen },
+  { path: 'available', component: AvailableScreen },
+  { path: 'error', component: ErrorScreen },
+  { path: '', redirectTo: '/login', pathMatch: 'full' },
 ];
