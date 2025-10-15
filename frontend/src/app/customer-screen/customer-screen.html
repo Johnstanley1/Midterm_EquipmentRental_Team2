@@ -1,5 +1,8 @@
 <div class="container mt-5">
-  <h2 class="p-3">All Customers</h2>
+  <div class="d-flex justify-content-between align-items-center p-3">
+    <h2 class="m-0">All Customers</h2>
+    <a routerLink="/add-customer" class="btn btn-success">Create</a>
+  </div>
 
   @if (errorMessage) {
   <div class="alert alert-warning">{{ errorMessage }}</div>
@@ -30,8 +33,10 @@
           <td>{{ c.role }}</td>
           <td>{{ c.isActive }}</td>
           <td class="col">
-            <a routerLink="/add-customer" class="me-2 text-decoration-none btn btn-success"
-              >Create</a
+            <a
+              [routerLink]="['/customer-detail', c.id]"
+              class="me-2 text-decoration-none btn btn-info"
+              >View Detail</a
             >
             <a
               [routerLink]="['/edit-customer', c.id]"
