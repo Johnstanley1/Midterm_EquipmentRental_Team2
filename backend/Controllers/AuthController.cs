@@ -29,10 +29,15 @@ namespace Midterm_EquipmentRental_Team2.Controllers
         // generate login tokens by user
         private string GenerateToken(User user)
         {
-            var claims = new[]
+            // map the logged-in User to a Customer (by same username) to embed CustomerId in claims
+            var customer = _context.Customers.FirstOrDefault(c => c.Username == user.Username);
+            var customerId = customer?.Id ?? 0;
+
+            var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Name, user.Username),
-                new Claim(ClaimTypes.Role, user.Role)
+                new Claim(ClaimTypes.Role, user.Role),
+                new Claim("UserId", customerId.ToString()) // used by rental endpoints as CustomerId
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(JwtSecret));

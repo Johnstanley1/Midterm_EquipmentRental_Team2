@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Midterm_EquipmentRental_Team2.Models;
 using Midterm_EquipmentRental_Team2.Models.DTOs;
@@ -17,7 +18,8 @@ namespace Midterm_EquipmentRental_Team2.Controllers
             _unitOfWork = unitOfWork;
         }
 
-        [HttpGet]
+    [Authorize(Roles = "Admin,User")]
+    [HttpGet]
         public ActionResult<IEnumerable<RentalDto>> GetAllRentals()
         {
             var isAdmin = User.IsInRole("Admin");
@@ -26,7 +28,8 @@ namespace Midterm_EquipmentRental_Team2.Controllers
             return Ok(rentals);
         }
 
-        [HttpGet("{id}")]
+    [Authorize(Roles = "Admin,User")]
+    [HttpGet("{id}")]
         public ActionResult<RentalDto> GetRental(int id)
         {
             var isAdmin = User.IsInRole("Admin");
@@ -36,45 +39,111 @@ namespace Midterm_EquipmentRental_Team2.Controllers
             return Ok(rental);
         }
 
+    [Authorize(Roles = "Admin,User")]
         [HttpGet("equipment/{equipmentId}")]
-        public IActionResult GetRentalsByEquipment(int equipmentId)
+        public ActionResult<IEnumerable<RentalDto>> GetRentalsByEquipment(int equipmentId)
         {
-            var rentals = _unitOfWork.Rentals.GetRentalsByEquipment(equipmentId);
+            var rentals = _unitOfWork.Rentals.GetRentalsByEquipment(equipmentId)
+                .Select(r => new RentalDto
+                {
+                    Id = r.Id,
+                    EquipmentId = r.EquipmentId,
+                    EquipmentName = r.Equipment?.Name ?? string.Empty,
+                    EquipmentStatus = r.Equipment?.Status.ToString() ?? string.Empty,
+                    CustomerId = r.CustomerId,
+                    CustomerName = r.Customer?.Name ?? string.Empty,
+                    IssuedAt = r.IssuedAt,
+                    DueDate = r.DueDate,
+                    ReturnedAt = r.ReturnedAt,
+                    Status = r.Status
+                });
             return Ok(rentals);
         }
 
-        [HttpGet("active")]
-        public IActionResult GetActiveRentals()
+    [Authorize(Roles = "Admin,User")]
+    [HttpGet("active")]
+        public ActionResult<IEnumerable<RentalDto>> GetActiveRentals()
         {
             var isAdmin = User.IsInRole("Admin");
             int? userId = isAdmin ? (int?)null : GetUserId();
-            var rentals = _unitOfWork.Rentals.GetActiveRentals(userId, isAdmin);
+            var rentals = _unitOfWork.Rentals.GetActiveRentals(userId, isAdmin)
+                .Select(r => new RentalDto
+                {
+                    Id = r.Id,
+                    EquipmentId = r.EquipmentId,
+                    EquipmentName = r.Equipment?.Name ?? string.Empty,
+                    EquipmentStatus = r.Equipment?.Status.ToString() ?? string.Empty,
+                    CustomerId = r.CustomerId,
+                    CustomerName = r.Customer?.Name ?? string.Empty,
+                    IssuedAt = r.IssuedAt,
+                    DueDate = r.DueDate,
+                    ReturnedAt = r.ReturnedAt,
+                    Status = r.Status
+                });
             return Ok(rentals);
         }
 
-        [HttpGet("completed")]
-        public IActionResult GetCompletedRentals()
+    [Authorize(Roles = "Admin,User")]
+    [HttpGet("completed")]
+        public ActionResult<IEnumerable<RentalDto>> GetCompletedRentals()
         {
             var isAdmin = User.IsInRole("Admin");
             int? userId = isAdmin ? (int?)null : GetUserId();
-            var rentals = _unitOfWork.Rentals.GetCompletedRentals(userId, isAdmin);
+            var rentals = _unitOfWork.Rentals.GetCompletedRentals(userId, isAdmin)
+                .Select(r => new RentalDto
+                {
+                    Id = r.Id,
+                    EquipmentId = r.EquipmentId,
+                    EquipmentName = r.Equipment?.Name ?? string.Empty,
+                    EquipmentStatus = r.Equipment?.Status.ToString() ?? string.Empty,
+                    CustomerId = r.CustomerId,
+                    CustomerName = r.Customer?.Name ?? string.Empty,
+                    IssuedAt = r.IssuedAt,
+                    DueDate = r.DueDate,
+                    ReturnedAt = r.ReturnedAt,
+                    Status = r.Status
+                });
             return Ok(rentals);
         }
 
+        [Authorize(Roles = "Admin,User")]
         [HttpGet("overdue")]
-        public IActionResult GetOverdueRentals()
+        public ActionResult<IEnumerable<RentalDto>> GetOverdueRentals()
         {
+            var isAdmin = User.IsInRole("Admin");
+            var userId = isAdmin ? (int?)null : GetUserId();
             var rentals = _unitOfWork.Rentals.GetOverdueRentals();
-            return Ok(rentals);
+            if (!isAdmin && userId.HasValue)
+            {
+                rentals = rentals.Where(r => r.CustomerId == userId.Value);
+            }
+            var dtos = rentals.Select(r => new RentalDto
+            {
+                Id = r.Id,
+                EquipmentId = r.EquipmentId,
+                EquipmentName = r.Equipment?.Name ?? string.Empty,
+                EquipmentStatus = r.Equipment?.Status.ToString() ?? string.Empty,
+                CustomerId = r.CustomerId,
+                CustomerName = r.Customer?.Name ?? string.Empty,
+                IssuedAt = r.IssuedAt,
+                DueDate = r.DueDate,
+                ReturnedAt = r.ReturnedAt,
+                Status = r.Status
+            });
+            return Ok(dtos);
         }
 
-        [HttpPost("issue")]
+    [Authorize(Roles = "Admin,User")]
+    [HttpPost("issue")]
         public IActionResult IssueRental([FromBody] Rental rental)
         {
+            var isAdmin = User.IsInRole("Admin");
             var userId = GetUserId();
             try
             {
-                _unitOfWork.Rentals.IssueRental(rental, userId);
+                var targetCustomerId = isAdmin && rental.CustomerId != 0 ? rental.CustomerId : userId;
+                rental.CustomerId = targetCustomerId;
+                _unitOfWork.Rentals.IssueRental(rental, targetCustomerId);
                 _unitOfWork.Complete();
                 return Ok();
             }
@@ -84,13 +153,15 @@ namespace Midterm_EquipmentRental_Team2.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin,User")]
         [HttpPost("return")]
-        public IActionResult ReturnRental([FromBody] Rental rental)
+        public IActionResult ReturnRental([FromBody] Rental rental, [FromQuery] bool force = false)
         {
             var userId = GetUserId();
             try
             {
-                _unitOfWork.Rentals.ReturnRental(rental.Id, userId, rental.ReturnNotes, rental.ReturnCondition.ToString(), false);
+                var canForce = force && User.IsInRole("Admin");
+                _unitOfWork.Rentals.ReturnRental(rental.Id, userId, rental.ReturnNotes, rental.ReturnCondition?.ToString(), canForce);
                 _unitOfWork.Complete();
                 return Ok();
             }
@@ -100,7 +171,8 @@ namespace Midterm_EquipmentRental_Team2.Controllers
             }
         }
 
-        [HttpPut("{id}/extend")]
+    [Authorize(Roles = "Admin,User")]
+    [HttpPut("{id}/extend")]
         public IActionResult ExtendRental(int id, [FromBody] Rental rental)
         {
             var userId = GetUserId();
@@ -116,13 +188,15 @@ namespace Midterm_EquipmentRental_Team2.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public IActionResult CancelRental(int id, [FromQuery] bool force = false)
         {
             var userId = GetUserId();
             try
             {
-                _unitOfWork.Rentals.CancelRental(id, userId, force);
+                var canForce = force && User.IsInRole("Admin");
+                _unitOfWork.Rentals.CancelRental(id, userId, canForce);
                 _unitOfWork.Complete();
                 return Ok();
             }
