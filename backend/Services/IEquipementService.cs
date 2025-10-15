@@ -1,4 +1,5 @@
 ﻿using Midterm_EquipmentRental_Team2.Models;
+using Midterm_EquipmentRental_Team2.Models.DTOs;
 using static Midterm_EquipmentRental_Team2.Models.Equipment;
 
 namespace Midterm_EquipmentRental_Team2.Services
@@ -11,8 +12,9 @@ namespace Midterm_EquipmentRental_Team2.Services
     {
         Equipment GetEquipmentById(int id);
         IEnumerable<Equipment> GetAllEquipments();
-        IEnumerable<Equipment> GetAvailableEquipments();
-        IEnumerable<Equipment> GetRentedEquipments();
+        IEnumerable<Enums> GetEquipmentStatus();
+        IEnumerable<Enums> GetEquipmentCategory();
+        IEnumerable<Enums> GetEquipmentCondition();
         void CreateEquipement (Equipment equipment);
         void UpdateEquipement (Equipment equipment);
         void DeleteEquipement (Equipment equipment);

@@ -1,16 +1,16 @@
 <div class="container mt-5">
-  <h2 class="p-3">Add Equipments</h2>
+  <h3 class="p-3">Add Equipments</h3>
   <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-7">
       <div class="card shadow">
         <div class="card-header text-black text-center">
-          Add Form
+          Equipment
         </div>
         <div class="card-body">
           <form [formGroup]="createForm">
             <div class="mb-3">
-              <label for="username" class="form-label">Username</label>
-              <input type="text" class="form-control" formControlName="_username" name="Enter username">
+              <label for="equipment_name" class="form-label">name</label>
+              <input type="text" class="form-control" formControlName="_equipment_name" name="Enter equipment name">
 
               @if (refName.invalid && (refName.touched || refName.dirty)) {
                 @if (refName.errors?.['required']) {
@@ -26,21 +26,68 @@
 
             </div>
             <div class="mb-3">
-              <label for="password" class="form-label">Password</label>
-              <input type="password" class="form-control" formControlName="_password" name="Enter password">
+              <label for="description" class="form-label">Description</label>
+              <input type="text" class="form-control" formControlName="_description" name="Enter description">
 
-              @if (refPassword.invalid && (refPassword.touched || refPassword.dirty)) {
-                @if (refPassword.errors?.['required']) {
-                  <small class="text-danger">Password is required</small>
+              @if (refDescription.invalid && (refDescription.touched || refDescription.dirty)) {
+                @if (refDescription.errors?.['required']) {
+                  <small class="text-danger">Description is required</small>
                 }
-                @if (refPassword.errors?.['minlength']) {
-                  <small class="text-danger">Password must be at least {{min_Length}} char long</small>
+                @if (refDescription.errors?.['minlength']) {
+                  <small class="text-danger">Description must be at least {{min_Length}} char long</small>
                 }
-                @if (refPassword.errors?.['maxlength']) {
-                  <small class="text-danger">Password must be at least {{max_length}} char long</small>
+                @if (refDescription.errors?.['maxlength']) {
+                  <small class="text-danger">Description must be at least {{max_length}} char long</small>
                 }
               }
-
+            </div>
+            <div class="mb-3">
+              <div class="form-check form-switch form-check-reverse">
+                <input class="form-check-input" type="checkbox" id="isAvailable"  formControlName="_isAvailable">
+                <label class="form-check-label" for="isAvailable">IsAvailable</label>
+                @if (refAvailable.defaultValue) {
+                  @if (refAvailable.errors?.['required']) {
+                    <small class="text-danger">Availability is required</small>
+                  }
+                }
+              </div>
+            </div>
+            <div class="mb-3">
+              <label for="status" class="form-label">Status</label>
+              <select class="form-select" formControlName="_status" id="status">
+               @for (e of equipments; track e.id) {
+                 <option>{{ e.status }}</option>
+               }
+                @if (refStatus.touched || refStatus.dirty) {
+                  @if (refAvailable.errors?.['required']) {
+                    <small class="text-danger">Availability is required</small>
+                  }
+                }
+              </select>
+            </div>
+            <div class="mb-3">
+              <label for="category" class="form-label">Category</label>
+              <input type="text" class="form-control" formControlName="_category" name="Enter description">
+              @for (e of equipments; track e.id) {
+                <option>{{ e.category }}</option>
+              }
+              @if (refCategory.touched || refCategory.dirty) {
+                @if (refCategory.errors?.['required']) {
+                  <small class="text-danger">Availability is required</small>
+                }
+              }
+            </div>
+            <div class="mb-3">
+              <label for="condition" class="form-label">Condition</label>
+              <input type="text" class="form-control" formControlName="_condition" name="Enter description">
+              @for (e of equipments; track e.id) {
+                <option>{{ e.condition }}</option>
+              }
+              @if (refCondition.touched || refCondition.dirty) {
+                @if (refCondition.errors?.['required']) {
+                  <small class="text-danger">Availability is required</small>
+                }
+              }
             </div>
             <button type="submit" class="btn btn-primary w-100" (click)="add()">Add Equipment</button>
           </form>

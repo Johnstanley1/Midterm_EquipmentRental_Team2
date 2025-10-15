@@ -1,10 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Midterm_EquipmentRental_Team2.Models.DTOs;
+using System.ComponentModel.DataAnnotations;
 
 namespace Midterm_EquipmentRental_Team2.Models
 {
     public class Equipment
     {
-        // equipment category enums
         public enum EquipmentCategory
         {
             HeavyMachinery,
@@ -14,10 +14,8 @@ namespace Midterm_EquipmentRental_Team2.Models
             Surveying
         }
 
-
-        // equipment conditon enums
-        public enum EquipmentCondition
-        {
+        public enum EquipmentCondition 
+        {   
             New,
             Excellent,
             Good,
@@ -25,8 +23,6 @@ namespace Midterm_EquipmentRental_Team2.Models
             Poor
         }
 
-
-        // equipment status enums
         public enum EquipmentStatus
         {
             Available,
@@ -35,7 +31,6 @@ namespace Midterm_EquipmentRental_Team2.Models
         }
 
 
-        [Key]
         public int Id { get; set; }
 
         [Required(ErrorMessage = "Equipment name is required")]

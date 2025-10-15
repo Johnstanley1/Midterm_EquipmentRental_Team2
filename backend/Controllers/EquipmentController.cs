@@ -50,23 +50,34 @@ namespace Midterm_EquipmentRental_Team2.Controllers
 
 
         [Authorize(Roles = "Admin, User1, User2")]
-        [HttpGet("Available/{Available}")]
-        public ActionResult<IEnumerable<Equipment>> GetAvailableEquipment()
+        [HttpGet("Available/{Status}")]
+        public ActionResult<IEnumerable<Equipment>> GetEquipmentStatus()
         { 
-            var equipment = _unitOfWork.Equipements.GetAvailableEquipments();
+            var equipment = _unitOfWork.Equipements.GetEquipmentStatus();
             return Ok(equipment);
             
         }
 
 
         [Authorize(Roles = "Admin")]
-        [HttpGet("Rented/{Rented}")]
-        public ActionResult<IEnumerable<Equipment>> GetRentedEquipments()
+        [HttpGet("Category/{Category}")]
+        public ActionResult<IEnumerable<Equipment>> GetEquipmentCategory()
         {
-            var equipment = _unitOfWork.Equipements.GetRentedEquipments();
+            var equipment = _unitOfWork.Equipements.GetEquipmentCategory();
             return Ok(equipment);
 
         }
+
+
+        [Authorize(Roles = "Admin")]
+        [HttpGet("Condition/{Condition}")]
+        public ActionResult<IEnumerable<Equipment>> GetEquipmentCondition()
+        {
+            var equipment = _unitOfWork.Equipements.GetEquipmentCondition();
+            return Ok(equipment);
+
+        }
+
 
 
         [Authorize(Roles = "Admin")]

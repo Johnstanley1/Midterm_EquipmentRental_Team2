@@ -1,4 +1,5 @@
 ﻿using Midterm_EquipmentRental_Team2.Models;
+using Midterm_EquipmentRental_Team2.Models.DTOs;
 using Midterm_EquipmentRental_Team2.Repositories;
 using static Midterm_EquipmentRental_Team2.Models.Equipment;
 
@@ -42,14 +43,19 @@ namespace Midterm_EquipmentRental_Team2.Services
             _repository.Update(equipment);
         }
 
-        public IEnumerable<Equipment> GetAvailableEquipments()
+        public IEnumerable<Enums> GetEquipmentStatus()
         {
-            return _repository.GetAvailable();
+            return _repository.GetStatus().ToList();
         }
 
-        public IEnumerable<Equipment> GetRentedEquipments()
+        public IEnumerable<Enums> GetEquipmentCategory()
         {
-            return _repository.GetRented();
+            return _repository.GetCategory().ToList();
+        }
+
+        public IEnumerable<Enums> GetEquipmentCondition()
+        {
+            return _repository.GetCondition().ToList();
         }
     }
 }

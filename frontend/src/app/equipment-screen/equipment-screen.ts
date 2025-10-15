@@ -18,7 +18,8 @@ export class EquipmentScreen implements OnInit{
 
   ngOnInit(): void {
     this.equipmentService.getAllEquipments().subscribe(data => {
-      this.equipments = data; // bind to the table
+      this.equipments.push(...data); // bind to the table
+      console.log(this.equipments)
     });
   }
 }

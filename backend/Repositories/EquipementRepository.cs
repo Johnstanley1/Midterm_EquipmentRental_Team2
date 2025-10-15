@@ -1,5 +1,6 @@
 ﻿using Midterm_EquipmentRental_Team2.Data;
 using Midterm_EquipmentRental_Team2.Models;
+using Midterm_EquipmentRental_Team2.Models.DTOs;
 using static Midterm_EquipmentRental_Team2.Models.Equipment;
 
 /// <summary>
@@ -42,18 +43,28 @@ namespace Midterm_EquipmentRental_Team2.Repositories
             _appDbContext.Equipments.Update(equipment);
         }
 
-        public IEnumerable<Equipment> GetAvailable()
+        public IEnumerable<Enums> GetStatus()
         {
-            return _appDbContext.Equipments
-                .Where(e => e.Status == EquipmentStatus.Available)
-                .ToList();
+            return Enum.GetValues(typeof(EquipmentStatus))
+                .Cast<EquipmentCategory>().
+                Select(c => new Enums { Id = (int)c, Name = c.ToString() })
+               .ToList();
         }
 
-        public IEnumerable<Equipment> GetRented()
+        public IEnumerable<Enums> GetCondition()
         {
-            return _appDbContext.Equipments
-                .Where(e => e.Status == EquipmentStatus.Rented)
-                .ToList();
+            return Enum.GetValues(typeof(EquipmentCondition))
+                .Cast<EquipmentCondition>().
+                Select(c => new Enums { Id = (int)c, Name = c.ToString() })
+               .ToList();
+        }
+
+        public IEnumerable<Enums> GetCategory()
+        {
+            return Enum.GetValues(typeof(EquipmentCategory))
+                .Cast<EquipmentCategory>().
+                Select(c => new Enums { Id = (int)c, Name = c.ToString() })
+               .ToList();
         }
     }
 }
