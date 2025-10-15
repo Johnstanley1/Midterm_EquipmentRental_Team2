@@ -1,5 +1,13 @@
 <div class="container mt-5">
-  <h2 class="p-3">All Equipments</h2>
+  <div class="d-flex justify-content-between align-items-center p-3">
+    <h2 class="m-0">All Equipments</h2>
+    <a routerLink="/add-equipment" class="btn btn-success">Create</a>
+  </div>
+
+  @if (errorMessage) {
+    <div class="alert alert-warning">{{ errorMessage }}</div>
+  }
+
   <div class="row text-primary text-center">
     <table class="table table-hover table-striped-columns table-bordered">
       <thead>
@@ -29,11 +37,9 @@
           <td>{{ equipment.category }}</td>
           <td>{{ equipment.condition }}</td>
           <td class="col">
-            <a routerLink="/add-equipment" class="me-2 text-decoration-none btn btn-success"
-              >Create</a
-            >
-            <a routerLink="" class="me-2 text-decoration-none btn btn-primary">Edit</a>
-            <a routerLink="" class="text-decoration-none btn btn-danger">Delete</a>
+            <a routerLink="/view-equipment" class="me-2 text-decoration-none btn btn-info">View Details</a>
+            <a routerLink="/edit-equipment" class="me-2 text-decoration-none btn btn-primary">Edit</a>
+            <a routerLink="/delete-equipment" class="text-decoration-none btn btn-danger">Delete</a>
           </td>
         </tr>
         } } } @else {
