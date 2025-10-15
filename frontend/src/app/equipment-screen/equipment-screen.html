@@ -15,25 +15,31 @@
         </tr>
       </thead>
       <tbody>
-        @for (equipment of equipments; track equipment){
-          @if (equipment != null) {
-            <tr>
-              <td>{{equipment.id}}</td>
-              <td>{{equipment.name}}</td>
-              <td>{{equipment.description}}</td>
-              <td>{{equipment.isAvailable}}</td>
-              <td>{{equipment.status}}</td>
-              <td>{{equipment.category}}</td>
-              <td>{{equipment.condition}}</td>
-              <td class="col">
-                <a routerLink="/add-equipment" class="me-2 text-decoration-none btn btn-success">Create</a>
-                <a routerLink="" class="me-2 text-decoration-none btn btn-primary">Edit</a>
-                <a routerLink="" class="text-decoration-none btn btn-danger">Delete</a>
-              </td>
-            </tr>
-          }@else{
-            <p>Equipments not available</p>
-          }
+        @if (equipments$ | async; as equipments) { @if (equipments.length === 0) {
+        <tr>
+          <td colspan="8" class="text-center">No equipment available</td>
+        </tr>
+        } @else { @for (equipment of equipments; track equipment) {
+        <tr>
+          <td>{{ equipment.id }}</td>
+          <td>{{ equipment.name }}</td>
+          <td>{{ equipment.description }}</td>
+          <td>{{ equipment.isAvailable }}</td>
+          <td>{{ equipment.status }}</td>
+          <td>{{ equipment.category }}</td>
+          <td>{{ equipment.condition }}</td>
+          <td class="col">
+            <a routerLink="/add-equipment" class="me-2 text-decoration-none btn btn-success"
+              >Create</a
+            >
+            <a routerLink="" class="me-2 text-decoration-none btn btn-primary">Edit</a>
+            <a routerLink="" class="text-decoration-none btn btn-danger">Delete</a>
+          </td>
+        </tr>
+        } } } @else {
+        <tr>
+          <td colspan="8" class="text-center">Loading...</td>
+        </tr>
         }
       </tbody>
     </table>
