@@ -50,7 +50,7 @@ namespace Midterm_EquipmentRental_Team2.Controllers
 
 
         [Authorize(Roles = "Admin, User1, User2")]
-        [HttpGet("Available/{Status}")]
+        [HttpGet("Status")]
         public ActionResult<IEnumerable<Equipment>> GetEquipmentStatus()
         { 
             var equipment = _unitOfWork.Equipements.GetEquipmentStatus();
@@ -60,7 +60,7 @@ namespace Midterm_EquipmentRental_Team2.Controllers
 
 
         [Authorize(Roles = "Admin")]
-        [HttpGet("Category/{Category}")]
+        [HttpGet("Category")]
         public ActionResult<IEnumerable<Equipment>> GetEquipmentCategory()
         {
             var equipment = _unitOfWork.Equipements.GetEquipmentCategory();
@@ -70,7 +70,7 @@ namespace Midterm_EquipmentRental_Team2.Controllers
 
 
         [Authorize(Roles = "Admin")]
-        [HttpGet("Condition/{Condition}")]
+        [HttpGet("Condition")]
         public ActionResult<IEnumerable<Equipment>> GetEquipmentCondition()
         {
             var equipment = _unitOfWork.Equipements.GetEquipmentCondition();
