@@ -1,0 +1,51 @@
+<div class="container mt-5">
+  <h2 class="p-3">Add Equipments</h2>
+  <div class="row">
+    <div class="col-md-4">
+      <div class="card shadow">
+        <div class="card-header text-black text-center">
+          Add Form
+        </div>
+        <div class="card-body">
+          <form [formGroup]="createForm">
+            <div class="mb-3">
+              <label for="username" class="form-label">Username</label>
+              <input type="text" class="form-control" formControlName="_username" name="Enter username">
+
+              @if (refName.invalid && (refName.touched || refName.dirty)) {
+                @if (refName.errors?.['required']) {
+                  <small class="text-danger">User name is required</small>
+                }
+                @if (refName.errors?.['minlength']) {
+                  <small class="text-danger">Name must be at least {{min_Length}} char long</small>
+                }
+                @if (refName.errors?.['maxlength']) {
+                  <small class="text-danger">Name must be at least {{max_length}} char long</small>
+                }
+              }
+
+            </div>
+            <div class="mb-3">
+              <label for="password" class="form-label">Password</label>
+              <input type="password" class="form-control" formControlName="_password" name="Enter password">
+
+              @if (refPassword.invalid && (refPassword.touched || refPassword.dirty)) {
+                @if (refPassword.errors?.['required']) {
+                  <small class="text-danger">Password is required</small>
+                }
+                @if (refPassword.errors?.['minlength']) {
+                  <small class="text-danger">Password must be at least {{min_Length}} char long</small>
+                }
+                @if (refPassword.errors?.['maxlength']) {
+                  <small class="text-danger">Password must be at least {{max_length}} char long</small>
+                }
+              }
+
+            </div>
+            <button type="submit" class="btn btn-primary w-100" (click)="add()">Add Equipment</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

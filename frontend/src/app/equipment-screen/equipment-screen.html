@@ -1,8 +1,10 @@
-<div class="container mt-4">
-  <div class="row text-primary">
+<div class="container mt-5">
+  <h2 class="p-3">All Equipments</h2>
+  <div class="row text-primary text-center">
     <table class="table table-hover table-striped-columns table-bordered">
       <thead>
         <tr>
+          <th>Id</th>
           <th>Name</th>
           <th>Description</th>
           <th>IsAvailable</th>
@@ -14,19 +16,24 @@
       </thead>
       <tbody>
         @for (equipment of equipments; track equipment){
-          <tr>
-            <td>{{equipment.name}}</td>
-            <td>{{equipment.description}}</td>
-            <td>{{equipment.isAvailable}}</td>
-            <td>{{equipment.status}}</td>
-            <td>{{equipment.category}}</td>
-            <td>{{equipment.condition}}</td>
-            <td>
-              <a href="">Create</a>
-              <a href="">Edit</a>
-              <a href="">Delete</a>
-            </td>
-          </tr>
+          @if (equipment != null) {
+            <tr>
+              <td>{{equipment.id}}</td>
+              <td>{{equipment.name}}</td>
+              <td>{{equipment.description}}</td>
+              <td>{{equipment.isAvailable}}</td>
+              <td>{{equipment.status}}</td>
+              <td>{{equipment.category}}</td>
+              <td>{{equipment.condition}}</td>
+              <td class="col">
+                <a routerLink="/add-equipment" class="me-2 text-decoration-none btn btn-success">Create</a>
+                <a routerLink="" class="me-2 text-decoration-none btn btn-primary">Edit</a>
+                <a routerLink="" class="text-decoration-none btn btn-danger">Delete</a>
+              </td>
+            </tr>
+          }@else{
+            <p>Equipments not available</p>
+          }
         }
       </tbody>
     </table>

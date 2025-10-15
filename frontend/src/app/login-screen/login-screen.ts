@@ -56,11 +56,11 @@ export class LoginScreen {
       this.loginForm.markAllAsTouched();
     }
 
-// Get data:
+    // Get data:
     const username = this.loginForm.value._username;
     const password = this.loginForm.value._password;
 
-// Create credentials object
+    // Create credentials object
     const credentials = { username, password };
 
     // create credentials object and pass data
