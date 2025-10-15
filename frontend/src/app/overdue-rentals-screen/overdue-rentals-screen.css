@@ -7,3 +7,22 @@
 .card-header {
   font-weight: 600;
 }
+
+/* Overdue emphasis colors */
+.alert.alert-warning {
+  background-color: #fff3cd;
+  border-color: #ffe69c;
+}
+
+thead.table-danger {
+  background-color: #dc3545;
+  color: #fff;
+}
+
+tbody tr td .badge.bg-danger {
+  background-color: #b02a37; /* deeper red for overdue */
+}
+
+tbody tr:hover {
+  background-color: #fff5f5;
+}
