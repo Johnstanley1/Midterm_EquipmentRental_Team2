@@ -1,0 +1,9 @@
+.table thead th {
+  white-space: nowrap;
+}
+.badge {
+  font-size: 0.85rem;
+}
+.card-header {
+  font-weight: 600;
+}

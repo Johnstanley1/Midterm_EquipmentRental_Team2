@@ -30,6 +30,12 @@ export class RentalService {
     return this.http.post(`${this.baseUrl}/return`, payload);
   }
 
+  // Force return (admin only)
+  forceReturn(rentalId: number, notes: string = '', condition: string = 'Good'): Observable<any> {
+    const payload = { id: rentalId, returnNotes: notes, returnCondition: condition } as any;
+    return this.http.post(`${this.baseUrl}/return?force=true`, payload);
+  }
+
   // Get all rentals (Admin: all, User: own)
   getAll(): Observable<Rental[]> {
     return this.http.get<Rental[]>(this.baseUrl);
@@ -52,5 +58,16 @@ export class RentalService {
       dueDate: data.dueDate ?? null,
     };
     return this.http.post(`${this.baseUrl}/issue`, payload);
+  }
+
+  // Extend rental due date by sending a new due date and reason
+  extendRental(id: number, newDueDate: string, reason: string): Observable<any> {
+    const payload: any = { dueDate: newDueDate, returnNotes: reason };
+    return this.http.put(`${this.baseUrl}/${id}/extend`, payload);
+  }
+
+  // Get overdue rentals (admin sees all, user sees own)
+  getOverdue(): Observable<Rental[]> {
+    return this.http.get<Rental[]>(`${this.baseUrl}/overdue`);
   }
 }
