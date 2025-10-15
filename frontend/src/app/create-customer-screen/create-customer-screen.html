@@ -8,42 +8,41 @@
           <form [formGroup]="form" (ngSubmit)="onSubmit()">
             <div class="mb-3">
               <label class="form-label">Name</label>
-              <input type="text" class="form-control" formControlName="name" />
+              <input type="text" class="form-control" formControlName="_name" />
               @if (refName.invalid && (refName.touched || refName.dirty)) {
-              <small class="text-danger"
-                >Name is required ({{ min_Length }}-{{ max_length }} chars)</small
-              >
+              <small class="text-danger">Name is required ({{ min_Length }}-{{ max_length }} chars)</small>
               }
             </div>
             <div class="mb-3">
               <label class="form-label">Username</label>
-              <input type="text" class="form-control" formControlName="username" />
+              <input type="text" class="form-control" formControlName="_username" />
               @if (refUsername.invalid && (refUsername.touched || refUsername.dirty)) {
               <small class="text-danger">Username is required</small>
               }
             </div>
             <div class="mb-3">
               <label class="form-label">Password</label>
-              <input type="password" class="form-control" formControlName="password" />
+              <input type="password" class="form-control" formControlName="_password" />
               @if (refPassword.invalid && (refPassword.touched || refPassword.dirty)) {
               <small class="text-danger">Password is required</small>
               }
             </div>
             <div class="mb-3">
               <label class="form-label">Role</label>
-              <select class="form-select" formControlName="role">
+              <select class="form-select" formControlName="_role">
                 <option value="Admin">Admin</option>
                 <option value="User">User</option>
+                @if (refRole.invalid && (refRole.touched || refRole.dirty)) {
+                  <small class="text-danger">Role is required</small>
+                }
               </select>
             </div>
             <div class="mb-3 form-check">
-              <input
-                type="checkbox"
-                class="form-check-input"
-                id="isActive"
-                formControlName="isActive"
-              />
+              <input type="checkbox" class="form-check-input" formControlName="_isActive"/>
               <label class="form-check-label" for="isActive">Active</label>
+              @if (refIsActive.invalid && (refIsActive.touched || refIsActive.dirty)) {
+                <small class="text-danger">IsActive is required</small>
+              }
             </div>
             <button class="btn btn-primary w-100" type="submit">Create</button>
           </form>

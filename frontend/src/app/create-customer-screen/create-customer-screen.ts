@@ -21,28 +21,38 @@ export class CreateCustomerScreen {
   max_length = 100;
 
   form = this.fb.group({
-    name: [
-      '',
+    _name: [
+    "",
       [
         Validators.required,
         Validators.minLength(this.min_Length),
         Validators.maxLength(this.max_length),
       ],
     ],
-    username: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
-    password: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(100)]],
-    role: ['User', [Validators.required]],
-    isActive: [true],
+    _username: ["", [Validators.required, Validators.minLength(this.min_Length), Validators.maxLength(this.max_length)]],
+    _password: ["", [Validators.required, Validators.minLength(this.min_Length), Validators.maxLength(this.max_length)]],
+    _role: ["", [Validators.required]],
+    _isActive: [false],
   });
 
   get refName() {
-    return this.form.controls['name'];
+    return this.form.controls['_name'];
   }
+
   get refUsername() {
-    return this.form.controls['username'];
+    return this.form.controls['_username'];
   }
+
   get refPassword() {
-    return this.form.controls['password'];
+    return this.form.controls['_password'];
+  }
+
+  get refRole() {
+    return this.form.controls['_role'];
+  }
+
+  get refIsActive() {
+    return this.form.controls['_isActive'];
   }
 
   onSubmit() {
