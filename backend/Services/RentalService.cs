@@ -1,4 +1,5 @@
 ﻿using Midterm_EquipmentRental_Team2.Models;
+using Midterm_EquipmentRental_Team2.Models.DTOs;
 using Midterm_EquipmentRental_Team2.Repositories;
 using Midterm_EquipmentRental_Team2.Services;
 
@@ -22,12 +23,24 @@ namespace Midterm_EquipmentRental_Team2.Services
             return isAdmin ? _rentalRepo.GetAll() : _rentalRepo.GetByCustomerId(userId ?? 0);
         }
 
+        public IEnumerable<RentalDto> GetAllRentalsDto(int? userId = null, bool isAdmin = false)
+        {
+            var list = GetAllRentals(userId, isAdmin);
+            return list.Select(MapToDto).ToList();
+        }
+
         public Rental? GetRental(int id, int? userId = null, bool isAdmin = false)
         {
             var rental = _rentalRepo.GetById(id);
             if (rental == null) return null;
             if (!isAdmin && rental.CustomerId != userId) return null;
             return rental;
+        }
+
+        public RentalDto? GetRentalDto(int id, int? userId = null, bool isAdmin = false)
+        {
+            var r = GetRental(id, userId, isAdmin);
+            return r == null ? null : MapToDto(r);
         }
 
         public IEnumerable<Rental> GetRentalsByEquipment(int equipmentId) => _rentalRepo.GetByEquipmentId(equipmentId);
@@ -109,5 +122,19 @@ namespace Midterm_EquipmentRental_Team2.Services
             }
             _rentalRepo.Delete(rental);
         }
+
+        private static RentalDto MapToDto(Rental r) => new RentalDto
+        {
+            Id = r.Id,
+            EquipmentId = r.EquipmentId,
+            EquipmentName = r.Equipment?.Name ?? string.Empty,
+            EquipmentStatus = r.Equipment?.Status.ToString() ?? string.Empty,
+            CustomerId = r.CustomerId,
+            CustomerName = r.Customer?.Name ?? string.Empty,
+            IssuedAt = r.IssuedAt,
+            DueDate = r.DueDate,
+            ReturnedAt = r.ReturnedAt,
+            Status = r.Status
+        };
     }
 }
