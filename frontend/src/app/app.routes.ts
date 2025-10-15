@@ -14,12 +14,14 @@ import { AvailableScreen } from './available-screen/available-screen';
 import { CreateCustomerScreen } from './create-customer-screen/create-customer-screen';
 import { EditCustomerScreen } from './edit-customer-screen/edit-customer-screen';
 import { CustomerDetailScreen } from './customer-detail-screen/customer-detail-screen';
+import {EditEquipmentScreen} from './edit-equipment-screen/edit-equipment-screen';
 
 export const routes: Routes = [
   { path: 'login', component: LoginScreen },
   { path: 'home', component: HomeScreen },
   { path: 'manage-equipment', component: EquipmentScreen },
   { path: 'add-equipment', component: CreateEquipmentScreen },
+  { path: 'edit-equipment', component: EditEquipmentScreen },
   { path: 'view-customers', component: CustomerScreen },
   { path: 'add-customer', component: CreateCustomerScreen },
   { path: 'edit-customer/:id', component: EditCustomerScreen },
