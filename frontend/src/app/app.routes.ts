@@ -8,6 +8,8 @@ import { CustomerScreen } from './customer-screen/customer-screen';
 import { RentalsScreen } from './rentals-screen/rentals-screen';
 import { OverdueScreen } from './overdue-screen/overdue-screen';
 import { AvailableScreen } from './available-screen/available-screen';
+import { CreateCustomerScreen } from './create-customer-screen/create-customer-screen';
+import { EditCustomerScreen } from './edit-customer-screen/edit-customer-screen';
 
 export const routes: Routes = [
   { path: 'login', component: LoginScreen },
@@ -15,6 +17,8 @@ export const routes: Routes = [
   { path: 'manage-equipment', component: EquipmentScreen },
   { path: 'add-equipment', component: CreateEquipmentScreen },
   { path: 'view-customers', component: CustomerScreen },
+  { path: 'add-customer', component: CreateCustomerScreen },
+  { path: 'edit-customer/:id', component: EditCustomerScreen },
   { path: 'all-rentals', component: RentalsScreen },
   { path: 'over-due', component: OverdueScreen },
   { path: 'available', component: AvailableScreen },

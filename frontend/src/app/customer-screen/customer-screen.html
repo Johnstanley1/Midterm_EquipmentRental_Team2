@@ -14,6 +14,7 @@
           <th>Username</th>
           <th>Role</th>
           <th>Active</th>
+          <th>Manage</th>
         </tr>
       </thead>
       <tbody>
@@ -28,6 +29,19 @@
           <td>{{ c.username }}</td>
           <td>{{ c.role }}</td>
           <td>{{ c.isActive }}</td>
+          <td class="col">
+            <a routerLink="/add-customer" class="me-2 text-decoration-none btn btn-success"
+              >Create</a
+            >
+            <a
+              [routerLink]="['/edit-customer', c.id]"
+              class="me-2 text-decoration-none btn btn-primary"
+              >Edit</a
+            >
+            <button class="text-decoration-none btn btn-danger" (click)="onDelete(c.id)">
+              Delete
+            </button>
+          </td>
         </tr>
         } } } @else {
         <tr>
