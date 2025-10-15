@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Customer } from './model.services';
+import { Customer, CustomerDto } from './model.services';
 
 @Injectable({ providedIn: 'root' })
 export class CustomerService {
@@ -9,12 +9,12 @@ export class CustomerService {
 
   constructor(private http: HttpClient) {}
 
-  getAll(): Observable<Customer[]> {
-    return this.http.get<Customer[]>(this.baseUrl);
+  getAll(): Observable<CustomerDto[]> {
+    return this.http.get<CustomerDto[]>(this.baseUrl);
   }
 
-  getById(id: number): Observable<Customer> {
-    return this.http.get<Customer>(`${this.baseUrl}/${id}`);
+  getById(id: number): Observable<CustomerDto> {
+    return this.http.get<CustomerDto>(`${this.baseUrl}/${id}`);
   }
 
   create(customer: Customer): Observable<Customer> {

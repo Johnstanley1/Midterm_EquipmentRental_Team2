@@ -1,5 +1,5 @@
 import { Component, Inject, PLATFORM_ID } from '@angular/core';
-import { Customer } from '../../../services/model.services';
+import { CustomerDto } from '../../../services/model.services';
 import { CustomerService } from '../../../services/customer.services';
 import { AsyncPipe, CommonModule, isPlatformBrowser } from '@angular/common';
 import { Observable, of } from 'rxjs';
@@ -9,12 +9,12 @@ import { RouterLink } from '@angular/router';
 @Component({
   selector: 'app-customer-screen',
   standalone: true,
-  imports: [CommonModule, AsyncPipe],
+  imports: [CommonModule, AsyncPipe, RouterLink],
   templateUrl: './customer-screen.html',
   styleUrls: ['./customer-screen.css'],
 })
 export class CustomerScreen {
-  customers$: Observable<Customer[]>;
+  customers$: Observable<CustomerDto[]>;
   errorMessage: string | null = null;
 
   constructor(private customers: CustomerService, @Inject(PLATFORM_ID) platformId: Object) {
@@ -30,10 +30,10 @@ export class CustomerScreen {
             } else {
               this.errorMessage = 'Failed to load customers. Please try again.';
             }
-            return of([]);
+            return of([] as CustomerDto[]);
           })
         )
-      : of([]);
+      : of([] as CustomerDto[]);
   }
 
   onDelete(id: number) {

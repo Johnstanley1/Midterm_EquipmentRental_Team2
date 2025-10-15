@@ -1,0 +1,54 @@
+<div class="container mt-5">
+  <h3 class="p-3">Add Customer</h3>
+  <div class="row">
+    <div class="col-md-7">
+      <div class="card shadow">
+        <div class="card-header text-black text-center">Customer</div>
+        <div class="card-body">
+          <form [formGroup]="form" (ngSubmit)="onSubmit()">
+            <div class="mb-3">
+              <label class="form-label">Name</label>
+              <input type="text" class="form-control" formControlName="name" />
+              @if (refName.invalid && (refName.touched || refName.dirty)) {
+              <small class="text-danger"
+                >Name is required ({{ min_Length }}-{{ max_length }} chars)</small
+              >
+              }
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Username</label>
+              <input type="text" class="form-control" formControlName="username" />
+              @if (refUsername.invalid && (refUsername.touched || refUsername.dirty)) {
+              <small class="text-danger">Username is required</small>
+              }
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Password</label>
+              <input type="password" class="form-control" formControlName="password" />
+              @if (refPassword.invalid && (refPassword.touched || refPassword.dirty)) {
+              <small class="text-danger">Password is required</small>
+              }
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Role</label>
+              <select class="form-select" formControlName="role">
+                <option value="Admin">Admin</option>
+                <option value="User">User</option>
+              </select>
+            </div>
+            <div class="mb-3 form-check">
+              <input
+                type="checkbox"
+                class="form-check-input"
+                id="isActive"
+                formControlName="isActive"
+              />
+              <label class="form-check-label" for="isActive">Active</label>
+            </div>
+            <button class="btn btn-primary w-100" type="submit">Create</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

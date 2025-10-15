@@ -41,3 +41,21 @@ export interface Customer {
   role: string; // "Admin" or "User"
   isActive: boolean;
 }
+
+export interface CustomerDto {
+  id: number;
+  name: string;
+  username: string;
+  role: string;
+  isActive: boolean;
+  rentals?: Array<{
+    id: number;
+    equipmentId: number;
+    equipmentName: string;
+    equipmentStatus: string;
+    issuedAt: string;
+    dueDate: string;
+    returnedAt?: string | null;
+    status: string;
+  }>; // optional in list view
+}

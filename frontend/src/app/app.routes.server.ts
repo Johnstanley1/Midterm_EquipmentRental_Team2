@@ -1,3 +1,6 @@
 import { RenderMode, ServerRoute } from '@angular/ssr';
 
-export const serverRoutes: ServerRoute[] = [{ path: '**', renderMode: RenderMode.Prerender }];
+export const serverRoutes: ServerRoute[] = [
+  { path: 'edit-customer/:id', renderMode: RenderMode.Client },
+  { path: '**', renderMode: RenderMode.Prerender },
+];
