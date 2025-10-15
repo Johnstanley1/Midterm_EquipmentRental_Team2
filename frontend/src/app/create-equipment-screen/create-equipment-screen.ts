@@ -1,23 +1,34 @@
-import {Component, inject} from '@angular/core';
+import {Component, Inject, inject, PLATFORM_ID} from '@angular/core';
 import {FormBuilder, ReactiveFormsModule, Validators} from "@angular/forms";
 import {HttpClient} from '@angular/common/http';
 import {Router} from '@angular/router';
 import {EquipmentService} from '../../../services/equipment.services';
 import {Equipment} from '../../../services/model.services';
+import {Observable, of} from 'rxjs';
+import {AsyncPipe, isPlatformBrowser} from '@angular/common';
 
 @Component({
   selector: 'app-create-equipment-screen',
-    imports: [
-        ReactiveFormsModule
-    ],
+  imports: [
+    ReactiveFormsModule,
+    AsyncPipe
+  ],
   templateUrl: './create-equipment-screen.html',
   styleUrl: './create-equipment-screen.css'
 })
 export class CreateEquipmentScreen {
   min_Length = 4;
   max_length = 50;
+  statusOptions$: Observable<Equipment[]>;
+  conditionOptions$: Observable<Equipment[]>;
+  categoryOptions$: Observable<Equipment[]>;
 
-  constructor(private router: Router, private equipmentService: EquipmentService) {}
+  constructor(private router: Router, private equipmentService: EquipmentService, @Inject(PLATFORM_ID) platformId: Object) {
+    const isBrowser = isPlatformBrowser(platformId);
+    this.statusOptions$ = isBrowser ? this.equipmentService.getEquipmentStatus() : of([]);
+    this.conditionOptions$ = isBrowser ? this.equipmentService.getEquipmentCondition() : of([]);
+    this.categoryOptions$ = isBrowser ? this.equipmentService.getEquipmentCategory() : of([]);
+  }
 
   // Inject builder
   builder = inject(FormBuilder)
@@ -39,23 +50,10 @@ export class CreateEquipmentScreen {
 
     _isAvailable: [false],
 
-    _status: ["",
-      [Validators.required,
-        Validators.minLength(this.min_Length),
-        Validators.maxLength(this.max_length)]
-    ],
+    _status: ["", [Validators.required]],
+    _category: ["", [Validators.required]],
+    _condition: ["", [Validators.required]],
 
-    _category: ["",
-      [Validators.required,
-        Validators.minLength(this.min_Length),
-        Validators.maxLength(this.max_length)]
-    ],
-
-    _condition: ["",
-      [Validators.required,
-        Validators.minLength(this.min_Length),
-        Validators.maxLength(this.max_length)]
-    ]
   })
 
   // Get data:
@@ -70,7 +68,7 @@ export class CreateEquipmentScreen {
   add() {
     // Check Validation
     if (this.createForm.valid) {
-      console.log("Add photo form valid")
+      console.log("Add equipment form valid")
 
       // Get data:
       const equipment_name = this.createForm.value._equipment_name!
@@ -87,7 +85,7 @@ export class CreateEquipmentScreen {
       this.equipmentService.createEquipment(equipment).subscribe(() => {
         alert("Equipment added successfully");
         // Route:
-        this.router.navigate(["/manage-equipments"]);
+        this.router.navigate(["/manage-equipment"]);
       })
     }else {
       alert("Add equipment form is invalid")

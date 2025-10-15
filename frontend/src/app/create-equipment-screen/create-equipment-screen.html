@@ -7,14 +7,8 @@
         <div class="card-body">
           <form [formGroup]="createForm">
             <div class="mb-3">
-              <label for="equipment_name" class="form-label">name</label>
-              <input
-                type="text"
-                class="form-control"
-                formControlName="_equipment_name"
-                name="Enter equipment name"
-              />
-
+              <label for="equipment_name" class="form-label">Name</label>
+              <input type="text" class="form-control" formControlName="_equipment_name" name="Enter equipment name"/>
               @if (refName.invalid && (refName.touched || refName.dirty)) { @if
               (refName.errors?.['required']) {
               <small class="text-danger">User name is required</small>
@@ -26,12 +20,7 @@
             </div>
             <div class="mb-3">
               <label for="description" class="form-label">Description</label>
-              <input
-                type="text"
-                class="form-control"
-                formControlName="_description"
-                name="Enter description"
-              />
+              <input type="text" class="form-control" formControlName="_description" name="Enter description" />
 
               @if (refDescription.invalid && (refDescription.touched || refDescription.dirty)) { @if
               (refDescription.errors?.['required']) {
@@ -48,12 +37,7 @@
             </div>
             <div class="mb-3">
               <div class="form-check form-switch form-check-reverse">
-                <input
-                  class="form-check-input"
-                  type="checkbox"
-                  id="isAvailable"
-                  formControlName="_isAvailable"
-                />
+                <input class="form-check-input" type="checkbox" d="isAvailable" formControlName="_isAvailable" />
                 <label class="form-check-label" for="isAvailable">IsAvailable</label>
                 @if (refAvailable.defaultValue) { @if (refAvailable.errors?.['required']) {
                 <small class="text-danger">Availability is required</small>
@@ -63,30 +47,53 @@
             <div class="mb-3">
               <label for="status" class="form-label">Status</label>
               <select class="form-select" formControlName="_status" id="status">
-                <option value="Available">Available</option>
-                <option value="Rented">Rented</option>
-                <option value="Maintenance">Maintenance</option>
+                @if (statusOptions$ | async; as statusOptions) {
+                  @for (s of statusOptions; track s.id) {
+                    <option [value]="s.id">{{ s.name }}</option>
+                  }
+                } @else {
+                  <option disabled>Loading...</option>
+                }
               </select>
+              @if (refStatus.invalid && (refStatus.touched || refStatus.dirty)) {
+                @if (refStatus.errors?.['required']) {
+                  <small class="text-danger">Status is required</small>
+                }
+              }
             </div>
             <div class="mb-3">
               <label for="category" class="form-label">Category</label>
               <select class="form-select" formControlName="_category" id="category">
-                <option value="HeavyMachinery">HeavyMachinery</option>
-                <option value="PowerTools">PowerTools</option>
-                <option value="Vehicles">Vehicles</option>
-                <option value="Safety">Safety</option>
-                <option value="Surveying">Surveying</option>
+                @if (categoryOptions$ | async; as categoryOptions) {
+                  @for (s of categoryOptions; track s.id) {
+                    <option [value]="s.id">{{ s.name }}</option>
+                  }
+                } @else {
+                  <option disabled>Loading...</option>
+                }
               </select>
+              @if (refCategory.invalid && (refCategory.touched || refCategory.dirty)) {
+                @if (refCategory.errors?.['required']) {
+                  <small class="text-danger">Category is required</small>
+                }
+              }
             </div>
             <div class="mb-3">
               <label for="condition" class="form-label">Condition</label>
               <select class="form-select" formControlName="_condition" id="condition">
-                <option value="New">New</option>
-                <option value="Excellent">Excellent</option>
-                <option value="Good">Good</option>
-                <option value="Fair">Fair</option>
-                <option value="Poor">Poor</option>
+                @if (conditionOptions$ | async; as conditionOptions) {
+                  @for (s of conditionOptions; track s.id) {
+                    <option [value]="s.id">{{ s.name }}</option>
+                  }
+                } @else {
+                  <option disabled>Loading...</option>
+                }
               </select>
+              @if (refCondition.invalid && (refCondition.touched || refCondition.dirty)) {
+                @if (refCondition.errors?.['required']) {
+                  <small class="text-danger">Condition is required</small>
+                }
+              }
             </div>
             <button type="submit" class="btn btn-primary w-100" (click)="add()">
               Add Equipment

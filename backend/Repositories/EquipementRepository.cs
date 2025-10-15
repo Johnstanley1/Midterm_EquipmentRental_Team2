@@ -46,7 +46,7 @@ namespace Midterm_EquipmentRental_Team2.Repositories
         public IEnumerable<Enums> GetStatus()
         {
             return Enum.GetValues(typeof(EquipmentStatus))
-                .Cast<EquipmentCategory>().
+                .Cast<EquipmentStatus>().
                 Select(c => new Enums { Id = (int)c, Name = c.ToString() })
                .ToList();
         }
