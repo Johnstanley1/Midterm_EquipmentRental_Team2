@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Midterm_EquipmentRental_Team2.Models;
 using Midterm_EquipmentRental_Team2.UnitOfWork;
+using Midterm_EquipmentRental_Team2.Models.DTOs;
 
 namespace Midterm_EquipmentRental_Team2.Controllers
 {
@@ -19,15 +20,16 @@ namespace Midterm_EquipmentRental_Team2.Controllers
         // GET: /api/customers
         [Authorize(Roles = "Admin")]
         [HttpGet]
-        public ActionResult<IEnumerable<Customer>> GetAllCustomers()
+        public ActionResult<IEnumerable<CustomerDto>> GetAllCustomers()
         {
-            return Ok(_unitOfWork.Customers.GetAllCustomers());
+            var customers = _unitOfWork.Customers.GetAllCustomersDto();
+            return Ok(customers);
         }
 
         // GET: /api/customers/{id}
         [Authorize(Roles = "Admin,User")]
         [HttpGet("{id}")]
-        public ActionResult<Customer> GetCustomerById(int id)
+        public ActionResult<CustomerDto> GetCustomerById(int id)
         {
             var customer = _unitOfWork.Customers.GetCustomerById(id);
             if (customer == null)
@@ -37,7 +39,8 @@ namespace Midterm_EquipmentRental_Team2.Controllers
             if (User.IsInRole("User") && customer.Username != User.Identity?.Name)
                 return Forbid();
 
-            return Ok(customer);
+            var dto = _unitOfWork.Customers.GetCustomerDtoById(id);
+            return Ok(dto);
         }
 
         // POST: /api/customers

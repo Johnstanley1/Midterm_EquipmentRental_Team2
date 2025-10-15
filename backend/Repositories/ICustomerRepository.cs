@@ -11,5 +11,7 @@ namespace Midterm_EquipmentRental_Team2.Repositories
         void DeleteCustomer(Customer customer);
         IEnumerable<Rental> GetCustomerRentals(int customerId);
         Rental? GetActiveRental(int customerId);
+        IEnumerable<Customer> GetAllWithGraph();
+        Customer? GetByIdWithGraph(int id);
     }
 }
