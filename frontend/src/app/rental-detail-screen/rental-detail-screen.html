@@ -9,8 +9,8 @@
       <div class="card shadow-sm">
         <div class="card-header">Equipment</div>
         <div class="card-body">
-          <p><strong>ID:</strong> {{ r.equipment?.id || r.equipmentId }}</p>
-          <p><strong>Name:</strong> {{ r.equipment?.name || '—' }}</p>
+          <p><strong>ID:</strong> {{ r.equipmentId }}</p>
+          <p><strong>Name:</strong> {{ r.equipmentName || '—' }}</p>
         </div>
       </div>
     </div>
@@ -19,8 +19,8 @@
       <div class="card shadow-sm">
         <div class="card-header">Member</div>
         <div class="card-body">
-          <p><strong>ID:</strong> {{ r.customer?.id || r.customerId }}</p>
-          <p><strong>Name:</strong> {{ r.customer?.name || '—' }}</p>
+          <p><strong>ID:</strong> {{ r.customerId }}</p>
+          <p><strong>Name:</strong> {{ r.customerName || '—' }}</p>
         </div>
       </div>
     </div>

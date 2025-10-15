@@ -1,4 +1,5 @@
 ﻿using Midterm_EquipmentRental_Team2.Models;
+using Midterm_EquipmentRental_Team2.Models.DTOs;
 
 namespace Midterm_EquipmentRental_Team2.Services
 {
@@ -6,6 +7,8 @@ namespace Midterm_EquipmentRental_Team2.Services
     {
         IEnumerable<Rental> GetAllRentals(int? userId = null, bool isAdmin = false);
         Rental? GetRental(int id, int? userId = null, bool isAdmin = false);
+        IEnumerable<RentalDto> GetAllRentalsDto(int? userId = null, bool isAdmin = false);
+        RentalDto? GetRentalDto(int id, int? userId = null, bool isAdmin = false);
         IEnumerable<Rental> GetRentalsByEquipment(int equipmentId);
         IEnumerable<Rental> GetActiveRentals(int? userId = null, bool isAdmin = false);
         IEnumerable<Rental> GetCompletedRentals(int? userId = null, bool isAdmin = false);

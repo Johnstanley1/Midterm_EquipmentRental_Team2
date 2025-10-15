@@ -31,8 +31,8 @@ import { Rental, RentalService } from '../../../services/rental.services';
                 <td colspan="5" class="text-center">No rentals found</td>
               </tr>
               <tr *ngFor="let r of rentals; trackBy: trackId">
-                <td>{{ r.equipment?.name || r.equipmentId }}</td>
-                <td>{{ r.customer?.name || r.customerId }}</td>
+                <td>{{ r.equipmentName || r.equipmentId }}</td>
+                <td>{{ r.customerName || r.customerId }}</td>
                 <td>{{ r.issuedAt | date : 'mediumDate' }}</td>
                 <td>
                   <span

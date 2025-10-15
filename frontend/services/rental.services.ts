@@ -12,9 +12,10 @@ export interface Rental {
   status: string;
   returnNotes?: string | null;
   returnCondition?: string | null;
-  // optional navigation props when included by API
-  customer?: { id: number; name: string; username: string };
-  equipment?: { id: number; name: string };
+  // flattened names from DTO
+  customerName?: string;
+  equipmentName?: string;
+  equipmentStatus?: string;
 }
 
 @Injectable({ providedIn: 'root' })

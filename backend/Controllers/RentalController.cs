@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Midterm_EquipmentRental_Team2.Models;
+using Midterm_EquipmentRental_Team2.Models.DTOs;
 using Midterm_EquipmentRental_Team2.UnitOfWork;
 
 namespace Midterm_EquipmentRental_Team2.Controllers
@@ -17,20 +18,20 @@ namespace Midterm_EquipmentRental_Team2.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAllRentals()
+        public ActionResult<IEnumerable<RentalDto>> GetAllRentals()
         {
             var isAdmin = User.IsInRole("Admin");
             int? userId = isAdmin ? (int?)null : GetUserId();
-            var rentals = _unitOfWork.Rentals.GetAllRentals(userId, isAdmin);
+            var rentals = _unitOfWork.Rentals.GetAllRentalsDto(userId, isAdmin);
             return Ok(rentals);
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetRental(int id)
+        public ActionResult<RentalDto> GetRental(int id)
         {
             var isAdmin = User.IsInRole("Admin");
             int? userId = isAdmin ? (int?)null : GetUserId();
-            var rental = _unitOfWork.Rentals.GetRental(id, userId, isAdmin);
+            var rental = _unitOfWork.Rentals.GetRentalDto(id, userId, isAdmin);
             if (rental == null) return NotFound();
             return Ok(rental);
         }
@@ -105,7 +106,7 @@ namespace Midterm_EquipmentRental_Team2.Controllers
             var userId = GetUserId();
             try
             {
-                _unitOfWork.Rentals.ExtendRental(id, rental.DueDate ?? DateTime.UtcNow, rental.ReturnNotes, userId);
+                _unitOfWork.Rentals.ExtendRental(id, rental.DueDate ?? DateTime.UtcNow, rental.ReturnNotes ?? string.Empty, userId);
                 _unitOfWork.Complete();
                 return Ok();
             }
