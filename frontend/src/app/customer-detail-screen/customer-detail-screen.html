@@ -30,7 +30,7 @@
                 <p class="mb-1"><strong>Due:</strong> {{ ar.dueDate | date : 'mediumDate' }}</p>
               </div>
               <div class="col-auto">
-                <button class="btn btn-warning" (click)="onReturn(ar)">Return</button>
+                <a [routerLink]="['/rental-return', ar.id]" class="btn btn-warning">Return</a>
               </div>
             </div>
           </ng-container>

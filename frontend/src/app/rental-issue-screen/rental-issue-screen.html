@@ -1,0 +1,31 @@
+<div class="container mt-4">
+  <h3 class="mb-3">Issue Rental</h3>
+  <form [formGroup]="form" (ngSubmit)="submit()" class="row g-3">
+    <div class="col-md-6">
+      <label class="form-label">Equipment</label>
+      <select class="form-select" formControlName="equipmentId">
+        <option [ngValue]="null">Select equipment</option>
+        <option *ngFor="let e of equipments" [ngValue]="e.id">{{ e.name }}</option>
+      </select>
+    </div>
+
+    <div class="col-md-6" *ngIf="isAdmin">
+      <label class="form-label">Customer ID</label>
+      <input
+        class="form-control"
+        type="number"
+        formControlName="customerId"
+        placeholder="Enter customer id"
+      />
+    </div>
+
+    <div class="col-md-6">
+      <label class="form-label">Due Date</label>
+      <input class="form-control" type="date" formControlName="dueDate" />
+    </div>
+
+    <div class="col-12">
+      <button class="btn btn-primary" type="submit">Issue</button>
+    </div>
+  </form>
+</div>

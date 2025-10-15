@@ -6,6 +6,9 @@ import { EquipmentScreen } from './equipment-screen/equipment-screen';
 import { CreateEquipmentScreen } from './create-equipment-screen/create-equipment-screen';
 import { CustomerScreen } from './customer-screen/customer-screen';
 import { RentalsScreen } from './rentals-screen/rentals-screen';
+import { RentalDetailScreen } from './rental-detail-screen/rental-detail-screen';
+import { RentalIssueScreen } from './rental-issue-screen/rental-issue-screen';
+import { RentalReturnScreen } from './rental-return-screen/rental-return-screen';
 import { OverdueScreen } from './overdue-screen/overdue-screen';
 import { AvailableScreen } from './available-screen/available-screen';
 import { CreateCustomerScreen } from './create-customer-screen/create-customer-screen';
@@ -22,6 +25,9 @@ export const routes: Routes = [
   { path: 'edit-customer/:id', component: EditCustomerScreen },
   { path: 'customer-detail/:id', component: CustomerDetailScreen },
   { path: 'all-rentals', component: RentalsScreen },
+  { path: 'rental-detail/:id', component: RentalDetailScreen },
+  { path: 'rental-issue', component: RentalIssueScreen },
+  { path: 'rental-return/:id', component: RentalReturnScreen },
   { path: 'over-due', component: OverdueScreen },
   { path: 'available', component: AvailableScreen },
   { path: 'error', component: ErrorScreen },
