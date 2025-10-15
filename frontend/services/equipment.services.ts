@@ -29,14 +29,43 @@ export class EquipmentService {
     return this.http.get<Equipment>(`${this.baseUrl}/${id}`);
   }
 
-  // get all available equipment
-  GetAvailableEquipment(): Observable<Equipment[]> {
-    return this.http.get<Equipment[]>(`${this.baseUrl}/available`);
+  // get all equipment status
+  getEquipmentStatus() {
+    let headers = new HttpHeaders();
+
+    if (typeof window !== 'undefined') {
+      const token = localStorage.getItem('token');
+      if (token) {
+        headers = headers.set('Authorization', `Bearer ${token}`);
+      }
+    }
+    return this.http.get<Equipment[]>(`${this.baseUrl}/status`, { headers });
   }
 
-  // get all rented equipment
-  getRentedEquipments(): Observable<Equipment[]> {
-    return this.http.get<Equipment[]>(`${this.baseUrl}/rented`);
+  // get all equipment condition
+  getEquipmentCondition() {
+    let headers = new HttpHeaders();
+
+    if (typeof window !== 'undefined') {
+      const token = localStorage.getItem('token');
+      if (token) {
+        headers = headers.set('Authorization', `Bearer ${token}`);
+      }
+    }
+    return this.http.get<Equipment[]>(`${this.baseUrl}/condition`, { headers });
+  }
+
+  // get all equipment category
+  getEquipmentCategory() {
+    let headers = new HttpHeaders();
+
+    if (typeof window !== 'undefined') {
+      const token = localStorage.getItem('token');
+      if (token) {
+        headers = headers.set('Authorization', `Bearer ${token}`);
+      }
+    }
+    return this.http.get<Equipment[]>(`${this.baseUrl}/category`, { headers });
   }
 
   // create new equipment
