@@ -9,14 +9,17 @@
       </select>
     </div>
 
-    <div class="col-md-6" *ngIf="isAdmin">
-      <label class="form-label">Customer ID</label>
-      <input
-        class="form-control"
-        type="number"
-        formControlName="customerId"
-        placeholder="Enter customer id"
-      />
+    <div class="col-md-6">
+      <label class="form-label">Customer</label>
+      <select class="form-select" formControlName="customerId">
+        <option [ngValue]="null">Select customer</option>
+        <option *ngFor="let c of customers" [ngValue]="c.id">{{ c.name }}</option>
+      </select>
+    </div>
+
+    <div class="col-md-6">
+      <label class="form-label">Issue Date</label>
+      <input class="form-control" type="datetime-local" formControlName="issuedAt" />
     </div>
 
     <div class="col-md-6">

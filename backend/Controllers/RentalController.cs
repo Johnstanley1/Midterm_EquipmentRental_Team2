@@ -135,14 +135,21 @@ namespace Midterm_EquipmentRental_Team2.Controllers
 
     [Authorize(Roles = "Admin,User")]
     [HttpPost("issue")]
-        public IActionResult IssueRental([FromBody] Rental rental)
+        public IActionResult IssueRental([FromBody] IssueRentalRequest request)
         {
             var isAdmin = User.IsInRole("Admin");
             var userId = GetUserId();
             try
             {
-                var targetCustomerId = isAdmin && rental.CustomerId != 0 ? rental.CustomerId : userId;
-                rental.CustomerId = targetCustomerId;
+                var targetCustomerId = isAdmin && (request.CustomerId ?? 0) != 0 ? request.CustomerId!.Value : userId;
+                var rental = new Rental
+                {
+                    EquipmentId = request.EquipmentId,
+                    CustomerId = targetCustomerId,
+                    DueDate = request.DueDate,
+                    IssuedAt = request.IssuedAt ?? default(DateTime),
+                    Status = "Active"
+                };
                 _unitOfWork.Rentals.IssueRental(rental, targetCustomerId);
                 _unitOfWork.Complete();
                 return Ok();

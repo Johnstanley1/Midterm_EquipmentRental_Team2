@@ -51,11 +51,13 @@ export class RentalService {
     equipmentId: number;
     customerId?: number;
     dueDate?: string | null;
+    issuedAt?: string | null;
   }): Observable<any> {
     const payload: any = {
       equipmentId: data.equipmentId,
       customerId: data.customerId,
       dueDate: data.dueDate ?? null,
+      issuedAt: data.issuedAt ?? undefined,
     };
     return this.http.post(`${this.baseUrl}/issue`, payload);
   }

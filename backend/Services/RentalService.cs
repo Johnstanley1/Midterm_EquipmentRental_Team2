@@ -68,7 +68,7 @@ namespace Midterm_EquipmentRental_Team2.Services
             equipment.Status = Equipment.EquipmentStatus.Rented;
             _equipmentRepo.Update(equipment);
             rental.CustomerId = userId;
-            rental.IssuedAt = DateTime.UtcNow;
+            rental.IssuedAt = rental.IssuedAt == default(DateTime) ? DateTime.UtcNow : rental.IssuedAt;
             rental.Status = "Active";
             _rentalRepo.Add(rental);
         }
