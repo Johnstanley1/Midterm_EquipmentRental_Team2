@@ -7,8 +7,8 @@
         <div class="card-body">
           <form [formGroup]="modifyForm">
             <div class="mb-3">
-              <label for="equipment_name" class="form-label">Name</label>
-              <input type="text" class="form-control" formControlName="equipment_name" name="Enter equipment name"/>
+              <label for="name" class="form-label">Name</label>
+              <input type="text" class="form-control" formControlName="name" name="Enter equipment name"/>
               @if (refName.invalid && (refName.touched || refName.dirty)) { @if
               (refName.errors?.['required']) {
                 <small class="text-danger">User name is required</small>

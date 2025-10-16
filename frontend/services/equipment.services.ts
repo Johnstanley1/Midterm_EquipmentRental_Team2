@@ -91,6 +91,7 @@ export class EquipmentService {
         headers = headers.set('Authorization', `Bearer ${token}`);
       }
     }
+
     return this.http.put<void>(`${this.baseUrl}/${id}`, equipment, { headers });
   }
 

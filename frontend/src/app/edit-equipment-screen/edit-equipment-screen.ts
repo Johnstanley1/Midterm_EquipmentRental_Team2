@@ -17,7 +17,7 @@ import {EquipmentService} from '../../../services/equipment.services';
   styleUrl: './edit-equipment-screen.css'
 })
 export class EditEquipmentScreen {
-  id!: number
+  equipmentId!: number
   min_Length = 4;
   max_length = 50;
   _statusOptions$: Observable<Equipment[]>;
@@ -37,7 +37,7 @@ export class EditEquipmentScreen {
 
   // Validation
   modifyForm = this.builder.group({
-    equipment_name: ["",
+    name: ["",
       [Validators.required,
         Validators.minLength(this.min_Length),
         Validators.maxLength(this.max_length)]
@@ -59,7 +59,7 @@ export class EditEquipmentScreen {
   });
 
   // Get data:
-  refName = this.modifyForm.controls['equipment_name']
+  refName = this.modifyForm.controls['name']
   refDescription = this.modifyForm.controls['description']
   refAvailable = this.modifyForm.controls['isAvailable']
   refStatus = this.modifyForm.controls['status']
@@ -67,27 +67,12 @@ export class EditEquipmentScreen {
   refCondition = this.modifyForm.controls['condition']
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe(params => {
-      const id = params.get('id');
-      if (id) {
-        this.id = +id;
-        this.loadEquipment(this.id);
-      }
-    });
-  }
-
-  loadEquipment(id: number) {
-    this.equipmentService.getEquipmentById(this.id).subscribe(equipment => {
+    this.equipmentId = this.route.snapshot.params['id'];
+    this.equipmentService.getEquipmentById(this.equipmentId).subscribe(equipment => {
       if (equipment) {
-        this.modifyForm.patchValue({
-          equipment_name: equipment.name,
-          description: equipment.description,
-          isAvailable: equipment.isAvailable,
-          status: equipment.status,
-          category: equipment.category,
-          condition: equipment.condition,
-        });
+        this.modifyForm.patchValue(equipment);
       }
+      console.log(equipment);
     });
   }
 
@@ -99,7 +84,7 @@ export class EditEquipmentScreen {
 
       // get new entries
       const updatedEquipment = new Equipment(
-        this.modifyForm.value.equipment_name!,
+        this.modifyForm.value.name!,
         this.modifyForm.value.description!,
         this.modifyForm.value.isAvailable!,
         this.modifyForm.value.status!,
@@ -107,10 +92,13 @@ export class EditEquipmentScreen {
         this.modifyForm.value.condition!
       );
 
+      updatedEquipment.id = this.equipmentId;
+
       console.log('Form Value:', this.modifyForm.value);
       console.log('Form Value:', updatedEquipment);
+      console.log("id: ", this.equipmentId)
 
-      this.equipmentService.updateEquipment(this.id, updatedEquipment).subscribe(() => {
+      this.equipmentService.updateEquipment(this.equipmentId, updatedEquipment).subscribe(() => {
         alert("Equipment modified successfully");
         this.router.navigate(["/manage-equipment"]);
       });
