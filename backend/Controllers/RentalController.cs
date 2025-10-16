@@ -196,10 +196,22 @@ namespace Midterm_EquipmentRental_Team2.Controllers
             var userId = GetUserId();
             try
             {
-                var canForce = force && User.IsInRole("Admin");
+                var canForce = User.IsInRole("Admin") || force;
                 _unitOfWork.Rentals.CancelRental(id, userId, canForce);
                 _unitOfWork.Complete();
                 return Ok();
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return StatusCode(StatusCodes.Status403Forbidden, ex.Message);
+            }
+            catch (InvalidOperationException ex)
+            {
+                if (ex.Message.Contains("not found", StringComparison.OrdinalIgnoreCase))
+                {
+                    return NotFound(ex.Message);
+                }
+                return BadRequest(ex.Message);
             }
             catch (Exception ex)
             {

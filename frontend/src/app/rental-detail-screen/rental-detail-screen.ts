@@ -62,7 +62,16 @@ export class RentalDetailScreen {
     if (!confirm(force ? 'Force cancel this rental?' : 'Cancel this rental?')) return;
     this.rentals.cancelRental(this.rentalId, force).subscribe({
       next: () => this.backToList(),
-      error: (err) => alert('Failed to cancel: ' + (err?.error || err?.message || err)),
+      error: (err) => {
+        const status = err?.status ?? 0;
+        if (!force && (status === 401 || status === 403 || status === 400)) {
+          if (confirm('Unauthorized or blocked to cancel. Force cancel as admin?')) {
+            this.cancel(true);
+            return;
+          }
+        }
+        alert('Failed to cancel: ' + (err?.error || err?.message || err));
+      },
     });
   }
 
