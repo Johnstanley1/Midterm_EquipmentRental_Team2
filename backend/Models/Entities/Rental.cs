@@ -5,7 +5,6 @@ namespace Midterm_EquipmentRental_Team2.Models
 {
     public class Rental
     {
-        [Key]
         public int Id { get; set; }
 
         [Required]

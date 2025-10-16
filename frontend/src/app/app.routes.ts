@@ -21,7 +21,7 @@ export const routes: Routes = [
   { path: 'home', component: HomeScreen },
   { path: 'manage-equipment', component: EquipmentScreen },
   { path: 'add-equipment', component: CreateEquipmentScreen },
-  { path: 'edit-equipment', component: EditEquipmentScreen },
+  { path: 'edit-equipment/:id', component: EditEquipmentScreen },
   { path: 'view-customers', component: CustomerScreen },
   { path: 'add-customer', component: CreateCustomerScreen },
   { path: 'edit-customer/:id', component: EditCustomerScreen },

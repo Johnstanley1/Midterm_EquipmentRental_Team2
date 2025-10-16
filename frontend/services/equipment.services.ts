@@ -26,7 +26,15 @@ export class EquipmentService {
 
   // get equipment by id
   getEquipmentById(id: number): Observable<Equipment> {
-    return this.http.get<Equipment>(`${this.baseUrl}/${id}`);
+    let headers = new HttpHeaders();
+
+    if (typeof window !== 'undefined') {
+      const token = localStorage.getItem('token');
+      if (token) {
+        headers = headers.set('Authorization', `Bearer ${token}`);
+      }
+    }
+    return this.http.get<Equipment>(`${this.baseUrl}/${id}`, { headers });
   }
 
   // get all equipment status
@@ -75,7 +83,15 @@ export class EquipmentService {
 
   // modify existing equipment
   updateEquipment(id: number, equipment: Equipment): Observable<void> {
-    return this.http.put<void>(`${this.baseUrl}/${id}`, equipment);
+    let headers = new HttpHeaders();
+
+    if (typeof window !== 'undefined') {
+      const token = localStorage.getItem('token');
+      if (token) {
+        headers = headers.set('Authorization', `Bearer ${token}`);
+      }
+    }
+    return this.http.put<void>(`${this.baseUrl}/${id}`, equipment, { headers });
   }
 
   // delete existing equipment
