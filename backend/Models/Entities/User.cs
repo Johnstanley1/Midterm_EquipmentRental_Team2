@@ -5,7 +5,6 @@ namespace Midterm_EquipmentRental_Team2.Models
     // user model
     public class User
     {
-        [Key]
         public int Id { get; set; }
 
         [Required(ErrorMessage = "Username is required to login")]
