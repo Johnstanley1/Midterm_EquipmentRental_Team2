@@ -41,6 +41,11 @@ export class EquipmentScreen {
 
   btnDelete_click(id: number){
     if (confirm('Are you sure you want to delete this equipment?')){
+
+      this.equipments$ = this.equipments$.pipe(
+        map((equipments) => equipments.filter((e) => e.id !== id))
+      );
+      
       this.equipmentService.deleteEquipment(id).subscribe({
         // Refresh the list after deletion
         next:(data) =>{
