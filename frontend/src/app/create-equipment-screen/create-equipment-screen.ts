@@ -2,8 +2,8 @@ import {Component, Inject, inject, PLATFORM_ID} from '@angular/core';
 import {FormBuilder, ReactiveFormsModule, Validators} from "@angular/forms";
 import {HttpClient} from '@angular/common/http';
 import {Router, RouterLink} from '@angular/router';
-import {EquipmentService} from '../../../services/equipment.services';
-import {Equipment} from '../../../services/model.services';
+import {EquipmentService} from '../../../services/equipment-services';
+import {Equipment} from '../../../services/model-services';
 import {Observable, of} from 'rxjs';
 import {AsyncPipe, isPlatformBrowser, NgOptimizedImage} from '@angular/common';
 

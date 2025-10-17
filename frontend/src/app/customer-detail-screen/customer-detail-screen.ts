@@ -2,11 +2,11 @@ import { Component, Inject, PLATFORM_ID } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { AsyncPipe } from '@angular/common';
-import { CustomerDto } from '../../../services/model.services';
-import { CustomerService } from '../../../services/customer.services';
+import { CustomerDto } from '../../../services/model-services';
+import { CustomerService } from '../../../services/customer-services';
 import { Observable, of, switchMap, map } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { RentalService, Rental } from '../../../services/rental.services';
+import { RentalService, Rental } from '../../../services/rental-services';
 
 @Component({
   selector: 'app-customer-detail-screen',

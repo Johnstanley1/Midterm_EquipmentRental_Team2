@@ -1,6 +1,6 @@
 import { Component, Inject, PLATFORM_ID } from '@angular/core';
-import { CustomerDto } from '../../../services/model.services';
-import { CustomerService } from '../../../services/customer.services';
+import { CustomerDto } from '../../../services/model-services';
+import { CustomerService } from '../../../services/customer-services';
 import { AsyncPipe, CommonModule, isPlatformBrowser } from '@angular/common';
 import { Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';

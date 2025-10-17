@@ -14,7 +14,7 @@ import {
   withFetch,
   withInterceptorsFromDi,
 } from '@angular/common/http';
-import { TokenInterceptorService } from '../../services/token-interceptor.services';
+import { TokenInterceptorService } from '../../services/token-interceptor-services';
 
 export const appConfig: ApplicationConfig = {
   providers: [

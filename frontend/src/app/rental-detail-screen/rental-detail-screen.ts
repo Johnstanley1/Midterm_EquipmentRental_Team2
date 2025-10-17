@@ -2,7 +2,7 @@ import { Component, Inject, PLATFORM_ID } from '@angular/core';
 import { CommonModule, AsyncPipe, isPlatformBrowser } from '@angular/common';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Observable, of } from 'rxjs';
-import { Rental, RentalService } from '../../../services/rental.services';
+import { Rental, RentalService } from '../../../services/rental-services';
 
 @Component({
   selector: 'app-rental-detail-screen',

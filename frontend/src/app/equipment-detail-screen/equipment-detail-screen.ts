@@ -1,7 +1,7 @@
 import {Component, Inject, PLATFORM_ID} from '@angular/core';
-import {EquipmentService} from '../../../services/equipment.services';
+import {EquipmentService} from '../../../services/equipment-services';
 import {ActivatedRoute, RouterLink} from '@angular/router';
-import {Equipment} from '../../../services/model.services';
+import {Equipment} from '../../../services/model-services';
 import {of} from 'rxjs';
 import {AsyncPipe, isPlatformBrowser, NgOptimizedImage} from '@angular/common';
 import {catchError} from 'rxjs/operators';

@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { RentalService } from '../../../services/rental.services';
+import { RentalService } from '../../../services/rental-services';
 
 @Component({
   selector: 'app-rental-return-screen',

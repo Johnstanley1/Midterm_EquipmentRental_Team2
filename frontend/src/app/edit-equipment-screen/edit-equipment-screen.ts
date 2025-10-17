@@ -2,9 +2,9 @@ import {Component, inject, Inject, PLATFORM_ID} from '@angular/core';
 import {AsyncPipe, isPlatformBrowser, NgOptimizedImage} from "@angular/common";
 import {FormBuilder, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {Observable, of} from 'rxjs';
-import {Equipment} from '../../../services/model.services';
+import {Equipment} from '../../../services/model-services';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
-import {EquipmentService} from '../../../services/equipment.services';
+import {EquipmentService} from '../../../services/equipment-services';
 
 @Component({
   selector: 'app-edit-equipment-screen',

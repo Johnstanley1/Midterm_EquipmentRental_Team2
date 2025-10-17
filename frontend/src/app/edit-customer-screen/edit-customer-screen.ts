@@ -2,8 +2,8 @@ import { Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Customer, CustomerDto } from '../../../services/model.services';
-import { CustomerService } from '../../../services/customer.services';
+import { Customer, CustomerDto } from '../../../services/model-services';
+import { CustomerService } from '../../../services/customer-services';
 
 @Component({
   selector: 'app-edit-customer-screen',

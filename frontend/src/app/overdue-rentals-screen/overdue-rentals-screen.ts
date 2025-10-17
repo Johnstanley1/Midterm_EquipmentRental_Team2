@@ -3,7 +3,7 @@ import { CommonModule, AsyncPipe, isPlatformBrowser } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Rental, RentalService } from '../../../services/rental.services';
+import { Rental, RentalService } from '../../../services/rental-services';
 
 type OverdueRental = Rental & { daysOverdue: number };
 

@@ -3,9 +3,9 @@ import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-import { EquipmentService } from '../../../services/equipment.services';
-import { RentalService } from '../../../services/rental.services';
-import { CustomerService } from '../../../services/customer.services';
+import { EquipmentService } from '../../../services/equipment-services';
+import { RentalService } from '../../../services/rental-services';
+import { CustomerService } from '../../../services/customer-services';
 
 @Component({
   selector: 'app-rental-issue-screen',
