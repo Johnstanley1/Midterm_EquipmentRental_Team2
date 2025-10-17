@@ -19,10 +19,10 @@ import {EditEquipmentScreen} from './edit-equipment-screen/edit-equipment-screen
 export const routes: Routes = [
   { path: 'login', component: LoginScreen },
   { path: 'home', component: HomeScreen },
-  { path: 'manage-equipment', component: EquipmentScreen },
+  { path: 'all-equipments', component: EquipmentScreen },
   { path: 'add-equipment', component: CreateEquipmentScreen },
   { path: 'edit-equipment/:id', component: EditEquipmentScreen },
-  { path: 'view-customers', component: CustomerScreen },
+  { path: 'all-customers', component: CustomerScreen },
   { path: 'add-customer', component: CreateCustomerScreen },
   { path: 'edit-customer/:id', component: EditCustomerScreen },
   { path: 'customer-detail/:id', component: CustomerDetailScreen },
