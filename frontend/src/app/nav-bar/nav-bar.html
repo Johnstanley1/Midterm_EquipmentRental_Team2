@@ -33,8 +33,15 @@
       </li>
     </div>
 
-    <li class="nav-item ms-auto">
-      <button class="btn btn-close-white" (click)="logout()">Logout</button>
-    </li>
+    <div class="d-flex align-items-center ms-auto gap-3">
+      <li class="nav-item" *ngIf="username as u">
+        <span class="navbar-text"
+          >Signed in as: <strong>{{ u }}</strong></span
+        >
+      </li>
+      <li class="nav-item">
+        <button class="btn btn-close-white" (click)="logout()">Logout</button>
+      </li>
+    </div>
   </ul>
 </div>
