@@ -28,7 +28,7 @@ namespace Midterm_EquipmentRental_Team2.Controllers
         }
 
         
-        [Authorize(Roles = "Admin, User1, User2, User3, User4, User5")]
+        [Authorize(Roles = "Admin, User")]
         [HttpGet]
         public ActionResult<IEnumerable<Equipment>> GetAllEquipments()
         {
@@ -36,7 +36,7 @@ namespace Midterm_EquipmentRental_Team2.Controllers
         }
 
 
-        [Authorize(Roles = "Admin, User1, User2, User3, User4, User5")]
+        [Authorize(Roles = "Admin, User")]
         [HttpGet("{Id}")]
         public ActionResult<Equipment> GetEquipmentById(int id)
         {
@@ -49,7 +49,7 @@ namespace Midterm_EquipmentRental_Team2.Controllers
         }
 
 
-        [Authorize(Roles = "Admin, User1, User2, User3, User4, User5")]
+        [Authorize(Roles = "Admin, User")]
         [HttpGet("Status")]
         public ActionResult<IEnumerable<Equipment>> GetEquipmentStatus()
         { 
@@ -59,7 +59,7 @@ namespace Midterm_EquipmentRental_Team2.Controllers
         }
 
 
-        [Authorize(Roles = "Admin, User1, User2, User3, User4, User5")]
+        [Authorize(Roles = "Admin, User")]
         [HttpGet("Category")]
         public ActionResult<IEnumerable<Equipment>> GetEquipmentCategory()
         {
@@ -69,7 +69,7 @@ namespace Midterm_EquipmentRental_Team2.Controllers
         }
 
 
-        [Authorize(Roles = "Admin, User1, User2, User3, User4, User5")]
+        [Authorize(Roles = "Admin, User")]
         [HttpGet("Condition")]
         public ActionResult<IEnumerable<Equipment>> GetEquipmentCondition()
         {
@@ -79,7 +79,7 @@ namespace Midterm_EquipmentRental_Team2.Controllers
         }
 
 
-        [Authorize(Roles = "Admin, User1, User2, User3, User4, User5")]
+        [Authorize(Roles = "Admin, User")]
         [HttpGet("Available")]
         public ActionResult<IEnumerable<Equipment>> GetAvailableEquipments() 
         {
@@ -88,7 +88,7 @@ namespace Midterm_EquipmentRental_Team2.Controllers
         }
 
 
-        [Authorize(Roles = "Admin, User1, User2, User3, User4, User5")]
+        [Authorize(Roles = "Admin, User")]
         [HttpGet("Rented")]
         public ActionResult<IEnumerable<Equipment>> GetRentedEquipments()
         {
