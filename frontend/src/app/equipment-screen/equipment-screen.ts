@@ -15,11 +15,12 @@ import {catchError} from 'rxjs/operators';
 export class EquipmentScreen {
   // Use observable + async pipe to ensure updates render in zoneless mode
   equipments$: Observable<Equipment[]>;
+  rentedEquipments$: Observable<Equipment[]>;
   errorMessage: string | null = null;
 
   constructor(private equipmentService: EquipmentService, @Inject(PLATFORM_ID) platformId: Object) {
     const isBrowser = isPlatformBrowser(platformId);
-    this.equipments$ = isBrowser ? this.equipmentService.getAllEquipments() : of([]);
+    this.rentedEquipments$ = isBrowser ? this.equipmentService.getRentedEquipment() : of([]); // get rented equipments
 
     this.equipments$ = isBrowser
       ? this.equipmentService.getAllEquipments().pipe(
