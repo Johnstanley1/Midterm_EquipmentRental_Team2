@@ -1,9 +1,9 @@
 import {Component, inject, Inject, PLATFORM_ID} from '@angular/core';
-import {AsyncPipe, isPlatformBrowser} from "@angular/common";
+import {AsyncPipe, isPlatformBrowser, NgOptimizedImage} from "@angular/common";
 import {FormBuilder, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {Observable, of} from 'rxjs';
 import {Equipment} from '../../../services/model.services';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {EquipmentService} from '../../../services/equipment.services';
 
 @Component({
@@ -11,7 +11,9 @@ import {EquipmentService} from '../../../services/equipment.services';
   imports: [
     FormsModule,
     ReactiveFormsModule,
-    AsyncPipe
+    AsyncPipe,
+    NgOptimizedImage,
+    RouterLink
   ],
   templateUrl: './edit-equipment-screen.html',
   styleUrl: './edit-equipment-screen.css'
@@ -100,12 +102,14 @@ export class EditEquipmentScreen {
 
       this.equipmentService.updateEquipment(this.equipmentId, updatedEquipment).subscribe(() => {
         alert("Equipment modified successfully");
-        this.router.navigate(["/manage-equipment"]);
+        this.router.navigate(["/all-equipments"]);
       });
     }else {
       alert("Modify equipment form is invalid")
     }
   }
+
+  protected readonly name = name;
 }
 
 
