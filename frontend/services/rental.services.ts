@@ -64,7 +64,7 @@ export class RentalService {
 
   // Extend rental due date by sending a new due date and reason
   extendRental(id: number, newDueDate: string, reason: string): Observable<any> {
-    const payload: any = { dueDate: newDueDate, returnNotes: reason };
+    const payload: any = { dueDate: newDueDate, reason };
     return this.http.put(`${this.baseUrl}/${id}/extend`, payload);
   }
 

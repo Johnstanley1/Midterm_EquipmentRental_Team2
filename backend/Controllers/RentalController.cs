@@ -162,13 +162,13 @@ namespace Midterm_EquipmentRental_Team2.Controllers
 
         [Authorize(Roles = "Admin,User")]
         [HttpPost("return")]
-        public IActionResult ReturnRental([FromBody] Rental rental, [FromQuery] bool force = false)
+        public IActionResult ReturnRental([FromBody] ReturnRentalRequest request, [FromQuery] bool force = false)
         {
             var userId = GetUserId();
             try
             {
                 var canForce = force && User.IsInRole("Admin");
-                _unitOfWork.Rentals.ReturnRental(rental.Id, userId, rental.ReturnNotes, rental.ReturnCondition?.ToString(), canForce);
+                _unitOfWork.Rentals.ReturnRental(request.Id, userId, request.ReturnNotes, request.ReturnCondition, canForce);
                 _unitOfWork.Complete();
                 return Ok();
             }
@@ -180,13 +180,13 @@ namespace Midterm_EquipmentRental_Team2.Controllers
 
     [Authorize(Roles = "Admin,User")]
     [HttpPut("{id}/extend")]
-        public IActionResult ExtendRental(int id, [FromBody] Rental rental)
+        public IActionResult ExtendRental(int id, [FromBody] ExtendRentalRequest request)
         {
             var userId = GetUserId();
             var isAdmin = User.IsInRole("Admin");
             try
             {
-                _unitOfWork.Rentals.ExtendRental(id, rental.DueDate ?? DateTime.UtcNow, rental.ReturnNotes ?? string.Empty, userId, isAdmin);
+                _unitOfWork.Rentals.ExtendRental(id, request.DueDate == default(DateTime) ? DateTime.UtcNow : request.DueDate, request.Reason ?? string.Empty, userId, isAdmin);
                 _unitOfWork.Complete();
                 return Ok();
             }

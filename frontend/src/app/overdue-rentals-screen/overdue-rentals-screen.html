@@ -35,7 +35,11 @@
               <button class="btn btn-sm btn-warning me-2" (click)="onExtend(r)">
                 Extend Return
               </button>
-              <button class="btn btn-sm btn-outline-danger" (click)="onForceReturn(r)">
+              <button
+                *ngIf="isAdmin"
+                class="btn btn-sm btn-outline-danger"
+                (click)="onForceReturn(r)"
+              >
                 Force Return
               </button>
             </td>

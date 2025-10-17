@@ -17,10 +17,12 @@ type OverdueRental = Rental & { daysOverdue: number };
 export class OverdueRentalsScreen {
   overdue$: Observable<OverdueRental[]> = of([]);
   stats$!: Observable<{ total: number; avgDays: number; maxDays: number }>;
+  isAdmin = false;
 
   constructor(private rentals: RentalService, @Inject(PLATFORM_ID) platformId: Object) {
     const isBrowser = isPlatformBrowser(platformId);
     if (isBrowser) {
+      this.isAdmin = (localStorage.getItem('role') || '').toLowerCase() === 'admin';
       this.load();
     }
   }
@@ -47,10 +49,18 @@ export class OverdueRentalsScreen {
 
   onForceReturn(r: Rental) {
     if (!confirm('Force return this equipment now?')) return;
-    this.rentals.forceReturn(r.id, 'Force returned by admin', 'Good').subscribe({
-      next: () => this.load(),
-      error: (err) => alert('Failed to force return: ' + (err?.error || err?.message || err)),
-    });
+    if (this.isAdmin) {
+      this.rentals.forceReturn(r.id, 'Force returned by admin', 'Good').subscribe({
+        next: () => this.load(),
+        error: (err) => alert('Failed to force return: ' + (err?.error || err?.message || err)),
+      });
+    } else {
+      // Non-admins cannot force; attempt normal return (allowed if it's their own rental)
+      this.rentals.returnRental(r.id, 'Returned by user').subscribe({
+        next: () => this.load(),
+        error: (err) => alert('Failed to return: ' + (err?.error || err?.message || err)),
+      });
+    }
   }
 
   private load() {
