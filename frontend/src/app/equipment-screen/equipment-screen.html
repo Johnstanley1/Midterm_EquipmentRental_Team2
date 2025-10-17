@@ -39,7 +39,7 @@
           <td class="col">
             <a [routerLink]="['/equipment-detail', equipment.id]" class="me-2 text-decoration-none btn btn-info">View Details</a>
             <a [routerLink]="['/edit-equipment', equipment.id]" class="me-2 text-decoration-none btn btn-primary">Edit</a>
-            <a [routerLink]="['/delete-equipment']" class="text-decoration-none btn btn-danger">Delete</a>
+            <button class="btn btn-outline-danger" (click)="btnDelete_click(equipment.id!)">Delete</button>
           </td>
         </tr>
         } } } @else {

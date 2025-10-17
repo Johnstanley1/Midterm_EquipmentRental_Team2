@@ -97,6 +97,14 @@ export class EquipmentService {
 
   // delete existing equipment
   deleteEquipment(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.baseUrl}/${id}`);
+    let headers = new HttpHeaders();
+
+    if (typeof window !== 'undefined') {
+      const token = localStorage.getItem('token');
+      if (token) {
+        headers = headers.set('Authorization', `Bearer ${token}`);
+      }
+    }
+    return this.http.delete<void>(`${this.baseUrl}/${id}`, { headers });
   }
 }
