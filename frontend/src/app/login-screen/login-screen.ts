@@ -71,7 +71,7 @@ export class LoginScreen {
 
         if (res.role === 'Admin') {
           this.router.navigate(['/home']);
-        } else if (['User1', 'User2', 'User3', 'User4', 'User5'].includes(res.role)) {
+        } else if (res.role === "User") {
           this.router.navigate(['/home']);
         } else {
           this.router.navigate(['/login']);
