@@ -1,0 +1,48 @@
+<div class="container mt-4" *ngIf="!loading; else loadingTpl">
+  <div *ngIf="errorMsg" class="alert alert-danger" role="alert">
+    {{ errorMsg }}
+  </div>
+  <ng-container *ngIf="!errorMsg">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h3 class="mb-0">Update Rental #{{ rentalId }}</h3>
+      <a [routerLink]="['/rental-detail', rentalId]" class="btn btn-outline-secondary">Back</a>
+    </div>
+
+    <div class="card shadow-sm">
+      <div class="card-header">Edit/Extend</div>
+      <div class="card-body">
+        <form [formGroup]="form" (ngSubmit)="save()" class="row g-3">
+          <div class="col-md-6">
+            <label class="form-label">New Due Date</label>
+            <input type="datetime-local" class="form-control" formControlName="dueDate" />
+            <div
+              class="text-danger small"
+              *ngIf="form.get('dueDate')?.touched && form.get('dueDate')?.invalid"
+            >
+              Due date is required.
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <label class="form-label">Reason (optional)</label>
+            <input
+              type="text"
+              class="form-control"
+              formControlName="reason"
+              placeholder="Reason for extension"
+            />
+          </div>
+
+          <div class="col-12 d-flex gap-2 mt-2">
+            <button type="submit" class="btn btn-primary">Save</button>
+            <button type="button" class="btn btn-secondary" (click)="back()">Cancel</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </ng-container>
+</div>
+
+<ng-template #loadingTpl>
+  <div class="container mt-4">Loading...</div>
+</ng-template>

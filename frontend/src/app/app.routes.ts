@@ -9,13 +9,14 @@ import { RentalsScreen } from './rentals-screen/rentals-screen';
 import { RentalDetailScreen } from './rental-detail-screen/rental-detail-screen';
 import { RentalIssueScreen } from './rental-issue-screen/rental-issue-screen';
 import { RentalReturnScreen } from './rental-return-screen/rental-return-screen';
+import { RentalEditScreen } from './rental-edit-screen/rental-edit-screen';
 import { OverdueRentalsScreen } from './overdue-rentals-screen/overdue-rentals-screen';
 import { AvailableScreen } from './available-screen/available-screen';
 import { CreateCustomerScreen } from './create-customer-screen/create-customer-screen';
 import { EditCustomerScreen } from './edit-customer-screen/edit-customer-screen';
 import { CustomerDetailScreen } from './customer-detail-screen/customer-detail-screen';
-import {EditEquipmentScreen} from './edit-equipment-screen/edit-equipment-screen';
-import {EquipmentDetailScreen} from './equipment-detail-screen/equipment-detail-screen';
+import { EditEquipmentScreen } from './edit-equipment-screen/edit-equipment-screen';
+import { EquipmentDetailScreen } from './equipment-detail-screen/equipment-detail-screen';
 
 export const routes: Routes = [
   { path: 'login', component: LoginScreen },
@@ -32,6 +33,7 @@ export const routes: Routes = [
   { path: 'rental-detail/:id', component: RentalDetailScreen },
   { path: 'rental-issue', component: RentalIssueScreen },
   { path: 'rental-return/:id', component: RentalReturnScreen },
+  { path: 'rental-edit/:id', component: RentalEditScreen },
   { path: 'overdue-rentals', component: OverdueRentalsScreen },
   { path: 'available', component: AvailableScreen },
   { path: 'error', component: ErrorScreen },

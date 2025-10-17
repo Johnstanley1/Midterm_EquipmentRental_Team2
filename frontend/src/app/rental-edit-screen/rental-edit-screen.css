@@ -1,0 +1,7 @@
+.card-header {
+  font-weight: 600;
+}
+
+input[type='datetime-local'] {
+  max-width: 320px;
+}

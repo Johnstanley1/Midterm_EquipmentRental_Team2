@@ -32,29 +32,9 @@ export class RentalDetailScreen {
     this.router.navigate(['/all-rentals']);
   }
 
-  // Open extend flow: simple prompt-based for now
-  extend(r: Rental) {
-    const current = r.dueDate ? new Date(r.dueDate) : new Date();
-    const next = new Date(current.getTime());
-    next.setDate(current.getDate() + 7);
-    const suggested = next.toISOString().slice(0, 16);
-    const newDue = prompt('New Due Date (ISO, e.g., 2025-10-31T12:00):', suggested);
-    if (!newDue) return;
-    const reason = prompt('Reason for extension:', 'Customer requested extension');
-    if (reason === null) return;
-    let iso: string;
-    try {
-      iso = new Date(newDue).toISOString();
-    } catch {
-      iso = newDue; // fallback to what user entered
-    }
-    this.rentals.extendRental(this.rentalId, iso, reason).subscribe({
-      next: () => {
-        // refresh
-        this.rental$ = this.rentals.getById(this.rentalId);
-      },
-      error: (err) => alert('Failed to extend: ' + (err?.error || err?.message || err)),
-    });
+  // Navigate to new edit screen
+  extend(_r: Rental) {
+    this.router.navigate(['/rental-edit', this.rentalId]);
   }
 
   // Cancel rental (admin)
