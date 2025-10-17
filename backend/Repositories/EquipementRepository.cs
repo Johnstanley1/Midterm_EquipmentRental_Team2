@@ -66,5 +66,19 @@ namespace Midterm_EquipmentRental_Team2.Repositories
                 Select(c => new Enums { Id = (int)c, Name = c.ToString() })
                .ToList();
         }
+
+        public IEnumerable<Equipment> GetAvailable()
+        {
+            return _appDbContext.Equipments
+                .Where(e => e.Status == EquipmentStatus.Rented)
+                .ToList();
+        }
+
+        public IEnumerable<Equipment> GetRented()
+        {
+            return _appDbContext.Equipments
+                .Where(e => e.Status == EquipmentStatus.Rented)
+                .ToList();
+        }
     }
 }

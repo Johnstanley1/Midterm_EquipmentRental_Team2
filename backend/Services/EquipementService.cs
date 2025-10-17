@@ -57,5 +57,15 @@ namespace Midterm_EquipmentRental_Team2.Services
         {
             return _repository.GetCondition().ToList();
         }
+
+        public IEnumerable<Equipment> GetAvailableEquipments()
+        {
+            return _repository.GetAvailable().ToList();
+        }
+
+        public IEnumerable<Equipment> GetRentedEquipments()
+        {
+            return _repository.GetRented().ToList();
+        }
     }
 }

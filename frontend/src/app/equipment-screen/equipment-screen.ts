@@ -45,7 +45,7 @@ export class EquipmentScreen {
       this.equipments$ = this.equipments$.pipe(
         map((equipments) => equipments.filter((e) => e.id !== id))
       );
-      
+
       this.equipmentService.deleteEquipment(id).subscribe({
         // Refresh the list after deletion
         next:(data) =>{

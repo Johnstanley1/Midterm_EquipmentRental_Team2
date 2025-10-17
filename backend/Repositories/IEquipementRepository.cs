@@ -15,6 +15,8 @@ namespace Midterm_EquipmentRental_Team2.Repositories
         IEnumerable<Enums> GetStatus();
         IEnumerable<Enums> GetCondition();
         IEnumerable<Enums> GetCategory();
+        IEnumerable<Equipment> GetAvailable();
+        IEnumerable<Equipment> GetRented();
         void Add(Equipment equipment);
         void Update(Equipment equipment);
         void Delete(Equipment equipment);
