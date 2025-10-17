@@ -1,5 +1,5 @@
 <div class="container mt-5">
-  <div class="d-flex justify-content-between align-items-center p-3">
+  <div class="d-flex justify-content-between align-items-center p-4">
     <h3 class="m-0">All Equipments</h3>
     <a routerLink="/add-equipment" class="btn btn-success">Create</a>
   </div>
@@ -8,9 +8,11 @@
     <div class="alert alert-warning">{{ errorMessage }}</div>
   }
 
-  <div class="row text-primary text-center">
-    <table class="table table-hover table-striped-columns table-bordered">
-      <thead>
+  <div class="row g-3 align-items-start">
+    <!-- Equipment form -->
+    <div class="row text-primary text-center" style="font-size: 0.9rem;">
+      <table class="table table-hover table-striped-columns table-bordered table-sm">
+        <thead>
         <tr>
           <th>Id</th>
           <th>Name</th>
@@ -21,33 +23,77 @@
           <th>Condition</th>
           <th>Manage</th>
         </tr>
-      </thead>
-      <tbody>
-        @if (equipments$ | async; as equipments) { @if (equipments.length === 0) {
-        <tr>
-          <td colspan="8" class="text-center">No equipment available</td>
-        </tr>
-        } @else { @for (equipment of equipments; track equipment) {
-        <tr>
-          <td>{{ equipment.id }}</td>
-          <td>{{ equipment.name }}</td>
-          <td>{{ equipment.description }}</td>
-          <td>{{ equipment.isAvailable }}</td>
-          <td>{{ equipment.status }}</td>
-          <td>{{ equipment.category }}</td>
-          <td>{{ equipment.condition }}</td>
-          <td class="col">
-            <a [routerLink]="['/equipment-detail', equipment.id]" class="me-2 text-decoration-none btn btn-info">View Details</a>
-            <a [routerLink]="['/edit-equipment', equipment.id]" class="me-2 text-decoration-none btn btn-primary">Edit</a>
-            <button class="btn btn-outline-danger" (click)="btnDelete_click(equipment.id!)">Delete</button>
-          </td>
-        </tr>
-        } } } @else {
-        <tr>
-          <td colspan="8" class="text-center">Loading...</td>
-        </tr>
-        }
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          @if (equipments$ | async; as equipments) { @if (equipments.length === 0) {
+            <tr>
+              <td colspan="8" class="text-center">No equipment available</td>
+            </tr>
+          } @else { @for (equipment of equipments; track equipment) {
+            <tr>
+              <td>{{ equipment.id }}</td>
+              <td>{{ equipment.name }}</td>
+              <td>{{ equipment.description }}</td>
+              <td>{{ equipment.isAvailable }}</td>
+              <td>{{ equipment.status }}</td>
+              <td>{{ equipment.category }}</td>
+              <td>{{ equipment.condition }}</td>
+              <td class="col">
+                <a [routerLink]="['/equipment-detail', equipment.id]" class="me-2 text-decoration-none btn btn-info btn-sm">View Details</a>
+                <a [routerLink]="['/edit-equipment', equipment.id]" class="me-2 text-decoration-none btn btn-primary btn-sm">Edit</a>
+                <button class="btn btn-outline-danger btn-sm" (click)="btnDelete_click(equipment.id!)">Delete</button>
+              </td>
+            </tr>
+          } } } @else {
+            <tr>
+              <td colspan="8" class="text-center">Loading...</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Image Card -->
+    <div class="col-md-6 d-flex justify-content-center">
+      <div class="dropdown">
+        <button class="btn btn-outline-dark dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+          Availability
+        </button>
+        <ul class="dropdown-menu">
+          @if (equipments$ | async; as equipments) {
+            @if (equipments.length === 0) {
+              <li><span class="dropdown-item-text text-muted">No equipment available</span></li>
+            } @else {
+              @for (equipment of equipments; track equipment) {
+                <li>
+                  <div class="dropdown-item d-flex justify-content-between align-items-center gap-4">
+                    <span>{{ equipment.name }}</span>
+                    @if (equipment.isAvailable) {
+                      <span class="text-success fw-semibold">Available</span>
+                    } @else {
+                      <span class="text-danger fw-semibold">Not Available</span>
+                    }
+                  </div>
+
+                </li>
+              }
+            }
+          } @else {
+            <li><span class="dropdown-item-text text-muted">Loading...</span></li>
+          }
+        </ul>
+      </div>
+    </div>
+
+    <!-- Image Card -->
+    <div class="col-md-6 d-flex justify-content-center">
+      <div class="card shadow-sm" style="width: 18rem;">
+        <img ngSrc="/images/Rented.jpg" class="card-img-top" alt="hammer logo" height="200" width="200">
+        <div class="card-body text-center">
+          <div class="btn btn-outline-dark">Rented Equipments</div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
+

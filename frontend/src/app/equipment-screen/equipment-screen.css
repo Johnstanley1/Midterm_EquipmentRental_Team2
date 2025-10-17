@@ -1,0 +1,5 @@
+.dropdown-menu {
+  transform: none !important;
+  top: 100% !important;
+  bottom: auto !important;
+}

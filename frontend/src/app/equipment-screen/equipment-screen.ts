@@ -2,13 +2,13 @@ import { Component, Inject, PLATFORM_ID } from '@angular/core';
 import { EquipmentService } from '../../../services/equipment-services';
 import {CustomerDto, Equipment} from '../../../services/model-services';
 import { RouterLink } from '@angular/router';
-import { AsyncPipe, isPlatformBrowser } from '@angular/common';
+import {AsyncPipe, isPlatformBrowser, NgOptimizedImage} from '@angular/common';
 import {map, Observable, of} from 'rxjs';
 import {catchError} from 'rxjs/operators';
 
 @Component({
   selector: 'app-equipment-screen',
-  imports: [RouterLink, AsyncPipe],
+  imports: [RouterLink, AsyncPipe, NgOptimizedImage],
   templateUrl: './equipment-screen.html',
   styleUrl: './equipment-screen.css',
 })
