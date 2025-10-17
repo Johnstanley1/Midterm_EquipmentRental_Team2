@@ -67,7 +67,7 @@ namespace Midterm_EquipmentRental_Team2.Services
             _equipmentRepo.Update(equipment);
             rental.CustomerId = userId;
             rental.IssuedAt = rental.IssuedAt == default(DateTime) ? DateTime.UtcNow : rental.IssuedAt;
-            rental.Status = "Active";
+            rental.Status = ComputeStatus(rental);
             _rentalRepo.Add(rental);
         }
 
@@ -104,6 +104,7 @@ namespace Midterm_EquipmentRental_Team2.Services
             if (rental.ReturnedAt != null) throw new InvalidOperationException("Cannot extend a returned rental.");
             rental.DueDate = newDueDate;
             rental.ReturnNotes = reason;
+            rental.Status = ComputeStatus(rental);
             _rentalRepo.Update(rental);
         }
 
@@ -135,5 +136,12 @@ namespace Midterm_EquipmentRental_Team2.Services
             ReturnedAt = r.ReturnedAt,
             Status = r.Status
         };
+
+        private static string ComputeStatus(Rental r)
+        {
+            if (r.ReturnedAt != null) return "Returned";
+            if (r.DueDate.HasValue && r.DueDate.Value < DateTime.UtcNow) return "Overdue";
+            return "Active";
+        }
     }
 }
