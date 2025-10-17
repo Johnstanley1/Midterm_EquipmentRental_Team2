@@ -24,10 +24,16 @@ export class RentalService {
 
   constructor(private http: HttpClient) {}
 
-  // Return a rental by id
-  returnRental(rentalId: number, notes: string = '', condition: string = 'Good'): Observable<any> {
+  // Return a rental by id (optionally force)
+  returnRental(
+    rentalId: number,
+    notes: string = '',
+    condition: string = 'Good',
+    force: boolean = false
+  ): Observable<any> {
     const payload = { id: rentalId, returnNotes: notes, returnCondition: condition } as any;
-    return this.http.post(`${this.baseUrl}/return`, payload);
+    const q = force ? '?force=true' : '';
+    return this.http.post(`${this.baseUrl}/return${q}`, payload);
   }
 
   // Force return (admin only)

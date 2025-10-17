@@ -50,7 +50,7 @@ export class OverdueRentalsScreen {
   onForceReturn(r: Rental) {
     if (!confirm('Force return this equipment now?')) return;
     if (this.isAdmin) {
-      this.rentals.forceReturn(r.id, 'Force returned by admin', 'Good').subscribe({
+      this.rentals.returnRental(r.id, 'Force returned by admin', 'Good', true).subscribe({
         next: () => this.load(),
         error: (err) => alert('Failed to force return: ' + (err?.error || err?.message || err)),
       });

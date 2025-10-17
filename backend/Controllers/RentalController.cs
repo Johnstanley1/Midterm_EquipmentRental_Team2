@@ -167,10 +167,15 @@ namespace Midterm_EquipmentRental_Team2.Controllers
             var userId = GetUserId();
             try
             {
-                var canForce = force && User.IsInRole("Admin");
+                // Admins can always force-return without requiring the query flag
+                var canForce = User.IsInRole("Admin") || force;
                 _unitOfWork.Rentals.ReturnRental(request.Id, userId, request.ReturnNotes, request.ReturnCondition, canForce);
                 _unitOfWork.Complete();
                 return Ok();
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return StatusCode(StatusCodes.Status403Forbidden, ex.Message);
             }
             catch (Exception ex)
             {
