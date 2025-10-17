@@ -1,10 +1,15 @@
 <div class="container mt-5">
-  <h3 class="p-3">Add Equipments</h3>
+  <div class="d-flex justify-content-between align-items-center p-3">
+    <h3 class="m-0">Add Equipments</h3>
+    <a routerLink="/all-equipments" class="btn btn-success">Home</a>
+  </div>
   <div class="row">
-    <div class="col-md-7">
+    <div class="col-md-12">
       <div class="card shadow">
         <div class="card-header text-black text-center">Equipment</div>
-        <div class="card-body">
+        <div class="row g-4 p-4 align-items-start">
+          <!-- Equipment creation form -->
+        <div class="col-md-7">
           <form [formGroup]="createForm">
             <div class="mb-3">
               <label for="equipment_name" class="form-label">Name</label>
@@ -100,7 +105,17 @@
             </button>
           </form>
         </div>
+
+        <!-- Image Card -->
+        <div class="col-md-5 d-flex justify-content-center">
+          <div class="card shadow-sm" style="width: 18rem;">
+            <img ngSrc="/images/chainsaw.jpg" class="card-img-top" alt="hammer logo" height="200" width="200">
+            <div class="card-body text-center">
+            </div>
+          </div>
+        </div>
       </div>
     </div>
+  </div>
   </div>
 </div>

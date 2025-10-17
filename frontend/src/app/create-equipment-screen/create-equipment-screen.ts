@@ -1,17 +1,19 @@
 import {Component, Inject, inject, PLATFORM_ID} from '@angular/core';
 import {FormBuilder, ReactiveFormsModule, Validators} from "@angular/forms";
 import {HttpClient} from '@angular/common/http';
-import {Router} from '@angular/router';
+import {Router, RouterLink} from '@angular/router';
 import {EquipmentService} from '../../../services/equipment.services';
 import {Equipment} from '../../../services/model.services';
 import {Observable, of} from 'rxjs';
-import {AsyncPipe, isPlatformBrowser} from '@angular/common';
+import {AsyncPipe, isPlatformBrowser, NgOptimizedImage} from '@angular/common';
 
 @Component({
   selector: 'app-create-equipment-screen',
   imports: [
     ReactiveFormsModule,
-    AsyncPipe
+    AsyncPipe,
+    RouterLink,
+    NgOptimizedImage
   ],
   templateUrl: './create-equipment-screen.html',
   styleUrl: './create-equipment-screen.css'
