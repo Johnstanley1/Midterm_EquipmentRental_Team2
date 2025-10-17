@@ -59,8 +59,6 @@ namespace Midterm_EquipmentRental_Team2.Services
 
         public void IssueRental(Rental rental, int userId)
         {
-            if (_rentalRepo.GetActiveByCustomerId(userId).Any())
-                throw new InvalidOperationException("User already has an active rental.");
             var equipment = _equipmentRepo.GetById(rental.EquipmentId);
             if (equipment == null || !equipment.IsAvailable)
                 throw new InvalidOperationException("Equipment not available.");

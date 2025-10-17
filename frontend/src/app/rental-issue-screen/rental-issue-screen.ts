@@ -103,22 +103,7 @@ export class RentalIssueScreen {
         });
     };
 
-    if (v.customerId) {
-      const cid = Number(v.customerId);
-      this.http.get<any>(`/api/Customer/${cid}/active-rental`).subscribe({
-        next: (ar) => {
-          if (ar && ar.id && !ar.returnedAt) {
-            alert(
-              'Selected customer already has an active rental. Please return it before issuing a new one.'
-            );
-          } else {
-            proceedIssue();
-          }
-        },
-        error: () => proceedIssue(), // if endpoint not found or error, attempt issue and let server validate
-      });
-    } else {
-      proceedIssue();
-    }
+    // Multiple active rentals allowed; no pre-check needed
+    proceedIssue();
   }
 }
