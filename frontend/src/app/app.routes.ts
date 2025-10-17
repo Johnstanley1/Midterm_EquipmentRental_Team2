@@ -15,6 +15,7 @@ import { CreateCustomerScreen } from './create-customer-screen/create-customer-s
 import { EditCustomerScreen } from './edit-customer-screen/edit-customer-screen';
 import { CustomerDetailScreen } from './customer-detail-screen/customer-detail-screen';
 import {EditEquipmentScreen} from './edit-equipment-screen/edit-equipment-screen';
+import {EquipmentDetailScreen} from './equipment-detail-screen/equipment-detail-screen';
 
 export const routes: Routes = [
   { path: 'login', component: LoginScreen },
@@ -22,6 +23,7 @@ export const routes: Routes = [
   { path: 'all-equipments', component: EquipmentScreen },
   { path: 'add-equipment', component: CreateEquipmentScreen },
   { path: 'edit-equipment/:id', component: EditEquipmentScreen },
+  { path: 'equipment-detail/:id', component: EquipmentDetailScreen },
   { path: 'all-customers', component: CustomerScreen },
   { path: 'add-customer', component: CreateCustomerScreen },
   { path: 'edit-customer/:id', component: EditCustomerScreen },

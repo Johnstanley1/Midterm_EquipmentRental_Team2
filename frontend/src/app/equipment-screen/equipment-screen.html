@@ -37,7 +37,7 @@
           <td>{{ equipment.category }}</td>
           <td>{{ equipment.condition }}</td>
           <td class="col">
-            <a [routerLink]="['/view-equipment']" class="me-2 text-decoration-none btn btn-info">View Details</a>
+            <a [routerLink]="['/equipment-detail', equipment.id]" class="me-2 text-decoration-none btn btn-info">View Details</a>
             <a [routerLink]="['/edit-equipment', equipment.id]" class="me-2 text-decoration-none btn btn-primary">Edit</a>
             <a [routerLink]="['/delete-equipment']" class="text-decoration-none btn btn-danger">Delete</a>
           </td>

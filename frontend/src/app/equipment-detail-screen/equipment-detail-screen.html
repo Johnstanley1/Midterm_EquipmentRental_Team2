@@ -1,1 +1,42 @@
-<p>equipment-detail-screen works!</p>
+<div class="container mt-5">
+  <div class="d-flex justify-content-between align-items-center p-3">
+    <h2 class="m-0">All Equipments</h2>
+    <a routerLink="/all-equipments" class="btn btn-success">Home</a>
+  </div>
+  @if (equipment$ | async; as equipment) {
+    <div class="row g-3 align-items-start">
+      <!-- Equipment Details Card -->
+      <div class="col-md-6">
+        <div class="card shadow-sm h-100">
+          <div class="card-header">
+            <h5>Equipment Details</h5>
+          </div>
+          <div class="card-body">
+            <p><strong>ID:</strong> {{ equipment.id }}</p>
+            <p><strong>Name:</strong> {{ equipment.name }}</p>
+            <p><strong>Description:</strong> {{ equipment.description }}</p>
+            <p><strong>Available:</strong> {{ equipment.isAvailable ? 'Yes' : 'No' }}</p>
+            <p><strong>Status:</strong> {{ equipment.status }}</p>
+            <p><strong>Category:</strong> {{ equipment.category }}</p>
+            <p><strong>Condition:</strong> {{ equipment.condition }}</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Image Card -->
+      <div class="col-md-6 d-flex justify-content-center">
+        <div class="card shadow-sm" style="width: 18rem;">
+          <img ngSrc="/images/hammer.jpg" class="card-img-top" alt="hammer logo" height="200" width="200">
+          <div class="card-body text-center">
+            <strong><p class="card-text">{{ equipment.name }}</p></strong>
+            <p><strong>Status:</strong> {{ equipment.status }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  } @else {
+    <div class="container mt-4">
+      <p>Loading equipment details...</p>
+    </div>
+  }
+</div>
