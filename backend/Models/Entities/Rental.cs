@@ -8,7 +8,7 @@ namespace Midterm_EquipmentRental_Team2.Models
         public enum RentalStatus 
         {
             Active, 
-            Completed, 
+            Returned, 
             Overdue, 
             Cancelled
         }
@@ -31,9 +31,11 @@ namespace Midterm_EquipmentRental_Team2.Models
         [MaxLength(255)]
         public string? ReturnNotes { get; set; }
 
-        public Equipment.EquipmentCondition? ReturnCondition { get; set; }
+        public int CustomerId { get; set; }
+        public Customer Customer { get; set; }
         public IEnumerable<Equipment> Equipments { get; set; }
-        public IEnumerable<Customer> Customers { get; set; }
+        public Equipment.EquipmentCondition? EquipmentCondition { get; set; }
+        public Equipment.EquipmentStatus? EquipmentStatus { get; set; }
         public RentalStatus Status { get; set; }
     }
 }

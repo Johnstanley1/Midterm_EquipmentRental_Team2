@@ -57,7 +57,7 @@ namespace Midterm_EquipmentRental_Team2.Repositories
         {
             var customer = _context.Customers
                 .Include(r => r.Rentals)
-                .ThenInclude(e => e.Equipment)
+                .ThenInclude(e => e.Equipments)
                 .FirstOrDefault(r => r.Id == id);
 
             if (customer == null) return null;

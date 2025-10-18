@@ -137,17 +137,6 @@ namespace Midterm_EquipmentRental_Team2.Data
             );
 
 
-            // Relationships
-            modelBuilder.Entity<Rental>()
-                .HasOne(r => r.Customer)
-                .WithMany(c => c.Rentals)
-                .HasForeignKey(r => r.CustomerId);
-
-            modelBuilder.Entity<Rental>()
-                .HasOne(r => r.Equipment)
-                .WithMany()
-                .HasForeignKey(r => r.EquipmentId);
-
             // Seed data for Customer
             modelBuilder.Entity<Customer>().HasData(
                 new Customer
@@ -223,86 +212,91 @@ namespace Midterm_EquipmentRental_Team2.Data
                     IsActive = true
                 }
             );
-            
 
-                // Seed data for Rental
-                //modelBuilder.Entity<Rental>().HasData(
-                //    new Rental
-                //    {
-                //        Id = 1,
-                //        CustomerId = 1, 
-                //        EquipmentId = 1, 
-                //        IssuedAt = DateTime.UtcNow.AddDays(-10),
-                //        DueDate = DateTime.UtcNow.AddDays(10),
-                //        ReturnedAt = null,
-                //        Status = "Active"
-                //    },
-                //    new Rental
-                //    {
-                //        Id = 2,
-                //        CustomerId = 2, // John Doe
-                //        EquipmentId = 3, // Surveying Drone
-                //        IssuedAt = DateTime.UtcNow.AddDays(-5),
-                //        DueDate = DateTime.UtcNow.AddDays(5),
-                //        ReturnedAt = null,
-                //        Status = "Active"
-                //    },
-                //    new Rental
-                //    {
-                //        Id = 3,
-                //        CustomerId = 3, // Jane Smith
-                //        EquipmentId = 4, // Paint Roller
-                //        IssuedAt = DateTime.UtcNow.AddDays(-20),
-                //        DueDate = DateTime.UtcNow.AddDays(-10),
-                //        ReturnedAt = DateTime.UtcNow.AddDays(-9),
-                //        Status = "Returned",
-                //        ReturnNotes = "Returned in good condition",
-                //        ReturnCondition = Equipment.EquipmentCondition.Good
 
-                //    },
-                //    new Rental
-                //    {
-                //        Id = 4,
-                //        CustomerId = 4, // Alex Johnson
-                //        EquipmentId = 8, // Laser Level
-                //        IssuedAt = DateTime.UtcNow.AddDays(-2),
-                //        DueDate = DateTime.UtcNow.AddDays(12),
-                //        ReturnedAt = null,
-                //        Status = "Active"
-                //    },
-                //    new Rental
-                //    {
-                //        Id = 5,
-                //        CustomerId = 5, // Maria Garcia
-                //        EquipmentId = 6, // Concrete Mixer
-                //        IssuedAt = DateTime.UtcNow.AddDays(-30),
-                //        DueDate = DateTime.UtcNow.AddDays(-5),
-                //        ReturnedAt = null,
-                //        Status = "Overdue"
-                //    },
-                //    new Rental
-                //    {
-                //        Id = 6,
-                //        CustomerId = 6, // user1
-                //        EquipmentId = 7, // Safety Helmet
-                //        IssuedAt = DateTime.UtcNow.AddDays(-1),
-                //        DueDate = DateTime.UtcNow.AddDays(6),
-                //        ReturnedAt = null,
-                //        Status = "Active"
-                //    },
-                //    new Rental
-                //    {
-                //        Id = 7,
-                //        CustomerId = 7, // user2
-                //        EquipmentId = 10, // Chainsaw
-                //        IssuedAt = DateTime.UtcNow.AddDays(-15),
-                //        DueDate = DateTime.UtcNow.AddDays(-1),
-                //        ReturnedAt = DateTime.UtcNow.AddDays(-1),
-                //        Status = "Returned",
-                //        ReturnNotes = "Chain replaced",
-                //        ReturnCondition = Equipment.EquipmentCondition.Fair
-                //    }
-                //);
+            // Relationships
+            modelBuilder.Entity<Rental>()
+                .HasOne(r => r.Customer)
+                .WithMany(r => r.Rentals)
+                .HasForeignKey(r => r.CustomerId);
+
+
+            //Seed data for Rental
+            modelBuilder.Entity<Rental>().HasData(
+               new Rental
+               {
+                   Id = 1,
+                   CustomerId = 1,
+                   IssuedAt = DateTime.UtcNow.AddDays(-10),
+                   DueDate = DateTime.UtcNow.AddDays(10),
+                   Status = Rental.RentalStatus.Active,
+                   ReturnNotes = "",
+                   EquipmentCondition = Equipment.EquipmentCondition.New
+               },
+               new Rental
+               {
+                   Id = 2,
+                   CustomerId = 2,
+                   IssuedAt = DateTime.UtcNow.AddDays(-5),
+                   DueDate = DateTime.UtcNow.AddDays(5),
+                   Status = Rental.RentalStatus.Active,
+                   ReturnNotes = "",
+                   EquipmentCondition = Equipment.EquipmentCondition.New
+               },
+               new Rental
+               {
+                   Id = 3,
+                   CustomerId = 3, 
+                   IssuedAt = DateTime.UtcNow.AddDays(-20),
+                   DueDate = DateTime.UtcNow.AddDays(-10),
+                   ReturnedAt = DateTime.UtcNow.AddDays(-9),
+                   Status = Rental.RentalStatus.Returned,
+                   ReturnNotes = "Returned in good condition",
+                   EquipmentCondition = Equipment.EquipmentCondition.Good
+
+               },
+               new Rental
+               {
+                   Id = 4,
+                   CustomerId = 4,
+                   IssuedAt = DateTime.UtcNow.AddDays(-2),
+                   DueDate = DateTime.UtcNow.AddDays(12),
+                   Status = Rental.RentalStatus.Active,
+                   ReturnNotes = "",
+                   EquipmentCondition = Equipment.EquipmentCondition.Good
+               },
+               new Rental
+               {
+                   Id = 5,
+                   CustomerId = 5,
+                   IssuedAt = DateTime.UtcNow.AddDays(-30),
+                   DueDate = DateTime.UtcNow.AddDays(-5),
+                   Status = Rental.RentalStatus.Overdue,
+                   ReturnNotes = "",
+                   EquipmentCondition = Equipment.EquipmentCondition.Excellent
+               },
+               new Rental
+               {
+                   Id = 6,
+                   CustomerId = 6,
+                   IssuedAt = DateTime.UtcNow.AddDays(-1),
+                   DueDate = DateTime.UtcNow.AddDays(6),
+                   Status = Rental.RentalStatus.Active,
+                   ReturnNotes = "",
+                   EquipmentCondition = Equipment.EquipmentCondition.Excellent
+               },
+               new Rental
+               {
+                   Id = 7,
+                   CustomerId = 7,
+                   IssuedAt = DateTime.UtcNow.AddDays(-15),
+                   DueDate = DateTime.UtcNow.AddDays(-1),
+                   ReturnedAt = DateTime.UtcNow.AddDays(-1),
+                   Status = Rental.RentalStatus.Returned,
+                   ReturnNotes = "Chain replaced",
+                   EquipmentCondition = Equipment.EquipmentCondition.Fair
+               }
+           );
 
         }
     }
