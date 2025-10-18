@@ -17,17 +17,8 @@ var builder = WebApplication.CreateBuilder(args);
 // to prevent circular reference issues during JSON serialization
 builder.Services.AddControllers().AddJsonOptions(options =>
 {
-    //options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
     options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
 });
-
-
-//// show enums as strings and not numbers
-//.AddJsonOptions(options =>
-//{
-//    options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
-
-//}); 
 
 
 // Configure Entity Framework with In-Memory Database for simplicity
@@ -37,8 +28,8 @@ builder.Services.AddScoped<IEquipementService, EquipementService>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<ICustomerService, CustomerService>();
 builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
-//builder.Services.AddScoped<IRentalRepository, RentalRepository>();
-//builder.Services.AddScoped<IRentalService, RentalService>();
+builder.Services.AddScoped<IRentalRepository, RentalRepository>();
+builder.Services.AddScoped<IRentalService, RentalService>();
 
 // Configure Authentication and Authorization
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
