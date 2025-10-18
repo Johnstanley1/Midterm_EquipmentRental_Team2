@@ -26,7 +26,7 @@ namespace Midterm_EquipmentRental_Team2.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpGet]
-        public ActionResult<IEnumerable<Customer>> GetAllCustomers()
+        public ActionResult<IEnumerable<CustomerDTO>> GetAllCustomers()
         {
             var customers = _unitOfWork.Customers.GetAllCustomers();
             return Ok(customers);
@@ -35,7 +35,7 @@ namespace Midterm_EquipmentRental_Team2.Controllers
 
         [Authorize(Roles = "Admin, User")]
         [HttpGet("{id}")]
-        public ActionResult<Customer> GetCustomerById(int id)
+        public ActionResult<CustomerDTO> GetCustomerById(int id)
         {
             var customer = _unitOfWork.Customers.GetCustomerById(id);
             if (customer == null)
@@ -51,7 +51,7 @@ namespace Midterm_EquipmentRental_Team2.Controllers
 
         [Authorize(Roles = "Admin, User")]
         [HttpGet("{id}/rentals")]
-        public ActionResult<Customer> GetCustomerRentalsById(int id)
+        public ActionResult<CustomerDTO> GetCustomerRentalsById(int id)
         {
             var customer = _unitOfWork.Customers.GetCustomerRentalsById(id);
             if (customer == null)
@@ -66,7 +66,7 @@ namespace Midterm_EquipmentRental_Team2.Controllers
 
         [Authorize(Roles = "Admin, User")]
         [HttpGet("{id}/active-rental")]
-        public ActionResult<Customer> GetActiveCustomerRentalsById(int id)
+        public ActionResult<CustomerDTO> GetActiveCustomerRentalsById(int id)
         {
             var customer = _unitOfWork.Customers.GetActiveCustomerRentalsById(id);
             if (customer == null)
@@ -81,7 +81,7 @@ namespace Midterm_EquipmentRental_Team2.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpPost]
-        public ActionResult<Customer> CreateCustomer([FromBody] Customer customer)
+        public ActionResult<CustomerDTO> CreateCustomer([FromBody] CustomerDTO customer)
         {
             if (customer == null)
                 return BadRequest("Customer data is required.");
@@ -94,7 +94,7 @@ namespace Midterm_EquipmentRental_Team2.Controllers
 
         [Authorize(Roles = "Admin, User")]
         [HttpPut("{id}")]
-        public ActionResult<Customer> UpdateCustomer(int id, [FromBody] Customer customer)
+        public ActionResult<CustomerDTO> UpdateCustomer(int id, [FromBody] CustomerDTO customer)
         {
             var existingCustomer = _unitOfWork.Customers.GetCustomerById(id);
             if (existingCustomer == null)
@@ -109,7 +109,7 @@ namespace Midterm_EquipmentRental_Team2.Controllers
                 existingCustomer.Name = customer.Name;
                 existingCustomer.Username = customer.Username;
                 existingCustomer.Password = customer.Password;
-                existingCustomer.Role = customer.Role;
+                existingCustomer.Role = customer.Role.ToString();
                 existingCustomer.IsActive = customer.IsActive;
             }
             else
@@ -126,7 +126,7 @@ namespace Midterm_EquipmentRental_Team2.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
-        public ActionResult<Customer> DeleteCustomer(int id)
+        public ActionResult<CustomerDTO> DeleteCustomer(int id)
         {
             var existingCustomer = _unitOfWork.Customers.GetCustomerById(id);
             if (existingCustomer == null)
@@ -134,6 +134,16 @@ namespace Midterm_EquipmentRental_Team2.Controllers
 
             _unitOfWork.Customers.DeleteCustomer(existingCustomer);
             _unitOfWork.Complete();
+
+            var resultDto = new CustomerDTO
+            {
+                Id = existingCustomer.Id,
+                Name = existingCustomer.Name,
+                Username = existingCustomer.Username,
+                Role = existingCustomer.Role.ToString(),
+                IsActive = existingCustomer.IsActive
+            };
+
             return Ok(existingCustomer);
         }
     }

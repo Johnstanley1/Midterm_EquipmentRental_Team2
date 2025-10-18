@@ -18,15 +18,29 @@ namespace Midterm_EquipmentRental_Team2.Controllers
             _unitOfWork = unitOfWork;
         }
 
+
         [Authorize(Roles = "Admin, User")]
         [HttpGet]
-        public ActionResult<IEnumerable<Models.DTOs.RentalDTO>> GetAllRentals()
+        public ActionResult<IEnumerable<RentalDTO>> GetAllRentals()
         {
-            var isAdmin = User.IsInRole("Admin");
-            int? userId = isAdmin ? (int?)null : GetUserId();
-            var rentals = _unitOfWork.Rentals.GetAllRentalsDto(userId, isAdmin);
+            IEnumerable<RentalDTO> rentals;
+
+            if (User.IsInRole("Admin"))
+            {
+                // Admin sees all rentals
+                rentals = _unitOfWork.Rentals.GetAllRentals();
+            }
+            else
+            {
+                // Non-admins see only their rentals
+                var username = User.Identity.Name; // or another claim
+                rentals = _unitOfWork.Rentals.GetAllRentalsForUser(username);
+            }
+
             return Ok(rentals);
         }
+
+
 
         [Authorize(Roles = "Admin,User")]
         [HttpGet("{id}")]

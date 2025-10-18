@@ -10,8 +10,8 @@ namespace Midterm_EquipmentRental_Team2.Repositories
         CustomerDTO GetActiveRental(int customerId);
         CustomerDTO GetCustomerRentals(int customerId);
         IEnumerable<Enums> GetRoles();
-        void Create(Customer customer);
-        void Update(Customer customer);
-        void Delete(Customer customer);
+        void Create(CustomerDTO customer);
+        void Update(CustomerDTO customer);
+        void Delete(CustomerDTO customer);
     }
 }
