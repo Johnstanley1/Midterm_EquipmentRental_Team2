@@ -13,8 +13,5 @@ namespace Midterm_EquipmentRental_Team2.Repositories
         void Create(Customer customer);
         void Update(Customer customer);
         void Delete(Customer customer);
-        
-        //IEnumerable<Customer> GetAllWithGraph();
-        //Customer? GetByIdWithGraph(int id);
     }
 }
