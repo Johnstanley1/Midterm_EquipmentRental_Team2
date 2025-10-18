@@ -155,8 +155,8 @@ namespace Midterm_EquipmentRental_Team2.Data
                     Id = 1,
                     Name = "Admin User",
                     Username = "admin",
-                    Password = "admin123", // For demo only; use hashing in production
-                    Role = "Admin",
+                    Password = "admin",
+                    Role = Customer.UserRole.Admin,
                     IsActive = true
                 },
                 new Customer
@@ -165,7 +165,7 @@ namespace Midterm_EquipmentRental_Team2.Data
                     Name = "John Doe",
                     Username = "john",
                     Password = "john123",
-                    Role = "User",
+                    Role = Customer.UserRole.Admin,
                     IsActive = true
                 },
                 new Customer
@@ -174,7 +174,7 @@ namespace Midterm_EquipmentRental_Team2.Data
                     Name = "Jane Smith",
                     Username = "jane",
                     Password = "jane123",
-                    Role = "User",
+                    Role = Customer.UserRole.User,
                     IsActive = true
                 },
                 new Customer
@@ -183,7 +183,7 @@ namespace Midterm_EquipmentRental_Team2.Data
                     Name = "Alex Johnson",
                     Username = "alex",
                     Password = "alex",
-                    Role = "User",
+                    Role = Customer.UserRole.User,
                     IsActive = true
                 },
                 new Customer
@@ -192,7 +192,7 @@ namespace Midterm_EquipmentRental_Team2.Data
                     Name = "Maria Garcia",
                     Username = "maria",
                     Password = "maria",
-                    Role = "User",
+                    Role = Customer.UserRole.User,
                     IsActive = true
                 },
                 new Customer
@@ -201,7 +201,7 @@ namespace Midterm_EquipmentRental_Team2.Data
                     Name = "User One",
                     Username = "user1",
                     Password = "user1",
-                    Role = "User",
+                    Role = Customer.UserRole.User,
                     IsActive = true
                 },
                 new Customer
@@ -210,7 +210,7 @@ namespace Midterm_EquipmentRental_Team2.Data
                     Name = "User Two",
                     Username = "user2",
                     Password = "user2",
-                    Role = "User",
+                    Role = Customer.UserRole.User,
                     IsActive = true
                 },
                 new Customer
@@ -219,93 +219,93 @@ namespace Midterm_EquipmentRental_Team2.Data
                     Name = "User Three",
                     Username = "user3",
                     Password = "user3",
-                    Role = "User",
+                    Role = Customer.UserRole.User,
                     IsActive = true
                 }
             );
+            
 
+                // Seed data for Rental
+                //modelBuilder.Entity<Rental>().HasData(
+                //    new Rental
+                //    {
+                //        Id = 1,
+                //        CustomerId = 1, 
+                //        EquipmentId = 1, 
+                //        IssuedAt = DateTime.UtcNow.AddDays(-10),
+                //        DueDate = DateTime.UtcNow.AddDays(10),
+                //        ReturnedAt = null,
+                //        Status = "Active"
+                //    },
+                //    new Rental
+                //    {
+                //        Id = 2,
+                //        CustomerId = 2, // John Doe
+                //        EquipmentId = 3, // Surveying Drone
+                //        IssuedAt = DateTime.UtcNow.AddDays(-5),
+                //        DueDate = DateTime.UtcNow.AddDays(5),
+                //        ReturnedAt = null,
+                //        Status = "Active"
+                //    },
+                //    new Rental
+                //    {
+                //        Id = 3,
+                //        CustomerId = 3, // Jane Smith
+                //        EquipmentId = 4, // Paint Roller
+                //        IssuedAt = DateTime.UtcNow.AddDays(-20),
+                //        DueDate = DateTime.UtcNow.AddDays(-10),
+                //        ReturnedAt = DateTime.UtcNow.AddDays(-9),
+                //        Status = "Returned",
+                //        ReturnNotes = "Returned in good condition",
+                //        ReturnCondition = Equipment.EquipmentCondition.Good
 
-            // Seed data for Rental
-            modelBuilder.Entity<Rental>().HasData(
-                new Rental
-                {
-                    Id = 1,
-                    CustomerId = 1, // Admin User
-                    EquipmentId = 1, // Excavator
-                    IssuedAt = DateTime.UtcNow.AddDays(-10),
-                    DueDate = DateTime.UtcNow.AddDays(10),
-                    ReturnedAt = null,
-                    Status = "Active"
-                },
-                new Rental
-                {
-                    Id = 2,
-                    CustomerId = 2, // John Doe
-                    EquipmentId = 3, // Surveying Drone
-                    IssuedAt = DateTime.UtcNow.AddDays(-5),
-                    DueDate = DateTime.UtcNow.AddDays(5),
-                    ReturnedAt = null,
-                    Status = "Active"
-                },
-                new Rental
-                {
-                    Id = 3,
-                    CustomerId = 3, // Jane Smith
-                    EquipmentId = 4, // Paint Roller
-                    IssuedAt = DateTime.UtcNow.AddDays(-20),
-                    DueDate = DateTime.UtcNow.AddDays(-10),
-                    ReturnedAt = DateTime.UtcNow.AddDays(-9),
-                    Status = "Returned",
-                    ReturnNotes = "Returned in good condition",
-                    ReturnCondition = Equipment.EquipmentCondition.Good
-
-                },
-                new Rental
-                {
-                    Id = 4,
-                    CustomerId = 4, // Alex Johnson
-                    EquipmentId = 8, // Laser Level
-                    IssuedAt = DateTime.UtcNow.AddDays(-2),
-                    DueDate = DateTime.UtcNow.AddDays(12),
-                    ReturnedAt = null,
-                    Status = "Active"
-                },
-                new Rental
-                {
-                    Id = 5,
-                    CustomerId = 5, // Maria Garcia
-                    EquipmentId = 6, // Concrete Mixer
-                    IssuedAt = DateTime.UtcNow.AddDays(-30),
-                    DueDate = DateTime.UtcNow.AddDays(-5),
-                    ReturnedAt = null,
-                    Status = "Overdue"
-                },
-                new Rental
-                {
-                    Id = 6,
-                    CustomerId = 6, // user1
-                    EquipmentId = 7, // Safety Helmet
-                    IssuedAt = DateTime.UtcNow.AddDays(-1),
-                    DueDate = DateTime.UtcNow.AddDays(6),
-                    ReturnedAt = null,
-                    Status = "Active"
-                },
-                new Rental
-                {
-                    Id = 7,
-                    CustomerId = 7, // user2
-                    EquipmentId = 10, // Chainsaw
-                    IssuedAt = DateTime.UtcNow.AddDays(-15),
-                    DueDate = DateTime.UtcNow.AddDays(-1),
-                    ReturnedAt = DateTime.UtcNow.AddDays(-1),
-                    Status = "Returned",
-                    ReturnNotes = "Chain replaced",
-                    ReturnCondition = Equipment.EquipmentCondition.Fair
-                }
-            );
+                //    },
+                //    new Rental
+                //    {
+                //        Id = 4,
+                //        CustomerId = 4, // Alex Johnson
+                //        EquipmentId = 8, // Laser Level
+                //        IssuedAt = DateTime.UtcNow.AddDays(-2),
+                //        DueDate = DateTime.UtcNow.AddDays(12),
+                //        ReturnedAt = null,
+                //        Status = "Active"
+                //    },
+                //    new Rental
+                //    {
+                //        Id = 5,
+                //        CustomerId = 5, // Maria Garcia
+                //        EquipmentId = 6, // Concrete Mixer
+                //        IssuedAt = DateTime.UtcNow.AddDays(-30),
+                //        DueDate = DateTime.UtcNow.AddDays(-5),
+                //        ReturnedAt = null,
+                //        Status = "Overdue"
+                //    },
+                //    new Rental
+                //    {
+                //        Id = 6,
+                //        CustomerId = 6, // user1
+                //        EquipmentId = 7, // Safety Helmet
+                //        IssuedAt = DateTime.UtcNow.AddDays(-1),
+                //        DueDate = DateTime.UtcNow.AddDays(6),
+                //        ReturnedAt = null,
+                //        Status = "Active"
+                //    },
+                //    new Rental
+                //    {
+                //        Id = 7,
+                //        CustomerId = 7, // user2
+                //        EquipmentId = 10, // Chainsaw
+                //        IssuedAt = DateTime.UtcNow.AddDays(-15),
+                //        DueDate = DateTime.UtcNow.AddDays(-1),
+                //        ReturnedAt = DateTime.UtcNow.AddDays(-1),
+                //        Status = "Returned",
+                //        ReturnNotes = "Chain replaced",
+                //        ReturnCondition = Equipment.EquipmentCondition.Fair
+                //    }
+                //);
 
         }
     }
 
-    }
+}
 

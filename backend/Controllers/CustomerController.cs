@@ -5,6 +5,12 @@ using Midterm_EquipmentRental_Team2.Models;
 using Midterm_EquipmentRental_Team2.UnitOfWork;
 using Midterm_EquipmentRental_Team2.Models.DTOs;
 
+
+/// <summary>
+/// API Controller for managing Customer entity.
+/// Provides full CRUD operations to Create, Read, Update, and Delete products.
+/// Uses services and Unit of Work patterns for data access.
+/// </summary>
 namespace Midterm_EquipmentRental_Team2.Controllers
 {
     [Route("api/[controller]")]
@@ -17,33 +23,62 @@ namespace Midterm_EquipmentRental_Team2.Controllers
             _unitOfWork = unitOfWork;
         }
 
-        // GET: /api/customers
+
         [Authorize(Roles = "Admin")]
         [HttpGet]
-        public ActionResult<IEnumerable<CustomerDto>> GetAllCustomers()
+        public ActionResult<IEnumerable<Customer>> GetAllCustomers()
         {
-            var customers = _unitOfWork.Customers.GetAllCustomersDto();
+            var customers = _unitOfWork.Customers.GetAllCustomers();
             return Ok(customers);
         }
 
-        // GET: /api/customers/{id}
-        [Authorize(Roles = "Admin,User")]
+
+        [Authorize(Roles = "Admin, User")]
         [HttpGet("{id}")]
-        public ActionResult<CustomerDto> GetCustomerById(int id)
+        public ActionResult<Customer> GetCustomerById(int id)
         {
             var customer = _unitOfWork.Customers.GetCustomerById(id);
             if (customer == null)
                 return NotFound($"No customer found with id {id}");
 
-            // Users can only access their own data
-            if (User.IsInRole("User") && customer.Username != User.Identity?.Name)
+            
+            if (User.IsInRole("User") && customer.Username != User.Identity?.Name) // Users can only access their own data
                 return Forbid();
 
-            var dto = _unitOfWork.Customers.GetCustomerDtoById(id);
-            return Ok(dto);
+            return Ok(customer);
         }
 
-        // POST: /api/customers
+
+        [Authorize(Roles = "Admin, User")]
+        [HttpGet("{id}/rentals")]
+        public ActionResult<Customer> GetCustomerRentalsById(int id)
+        {
+            var customer = _unitOfWork.Customers.GetCustomerRentalsById(id);
+            if (customer == null)
+                return NotFound($"No customer found with id {id}");
+
+            if (User.IsInRole("User") && customer.Username != User.Identity?.Name) // Users can only access their own data
+                return Forbid();
+
+            return Ok(customer);
+        }
+
+
+        [Authorize(Roles = "Admin, User")]
+        [HttpGet("{id}/active-rental")]
+        public ActionResult<Customer> GetActiveCustomerRentalsById(int id)
+        {
+            var customer = _unitOfWork.Customers.GetActiveCustomerRentalsById(id);
+            if (customer == null)
+                return NotFound($"No customer found with id {id}");
+
+            if (User.IsInRole("User") && customer.Username != User.Identity?.Name) // Users can only access their own data
+                return Forbid();
+
+            return Ok(customer);
+        }
+
+
         [Authorize(Roles = "Admin")]
         [HttpPost]
         public ActionResult<Customer> CreateCustomer([FromBody] Customer customer)
@@ -56,8 +91,8 @@ namespace Midterm_EquipmentRental_Team2.Controllers
             return CreatedAtAction(nameof(GetCustomerById), new { id = customer.Id }, customer);
         }
 
-        // PUT: /api/customers/{id}
-        [Authorize(Roles = "Admin,User")]
+
+        [Authorize(Roles = "Admin, User")]
         [HttpPut("{id}")]
         public ActionResult<Customer> UpdateCustomer(int id, [FromBody] Customer customer)
         {
@@ -65,8 +100,8 @@ namespace Midterm_EquipmentRental_Team2.Controllers
             if (existingCustomer == null)
                 return NotFound($"No customer found with id {id}");
 
-            // Users can only update their own data
-            if (User.IsInRole("User") && existingCustomer.Username != User.Identity?.Name)
+            
+            if (User.IsInRole("User") && existingCustomer.Username != User.Identity?.Name) // Users can only access their own data
                 return Forbid();
 
             if (User.IsInRole("Admin"))
@@ -88,7 +123,7 @@ namespace Midterm_EquipmentRental_Team2.Controllers
             return Ok(existingCustomer);
         }
 
-        // DELETE: /api/customers/{id}
+
         [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public ActionResult<Customer> DeleteCustomer(int id)
@@ -101,40 +136,5 @@ namespace Midterm_EquipmentRental_Team2.Controllers
             _unitOfWork.Complete();
             return Ok(existingCustomer);
         }
-
-        // GET: /api/customers/{id}/rentals
-        [Authorize(Roles = "Admin,User")]
-        [HttpGet("{id}/rentals")]
-        public ActionResult<IEnumerable<Rental>> GetCustomerRentals(int id)
-        {
-            var customer = _unitOfWork.Customers.GetCustomerById(id);
-            if (customer == null)
-                return NotFound($"No customer found with id {id}");
-
-            if (User.IsInRole("User") && customer.Username != User.Identity?.Name)
-                return Forbid();
-
-            return Ok(_unitOfWork.Customers.GetCustomerRentals(id));
-        }
-
-        // GET: /api/customers/{id}/active-rental
-        [Authorize(Roles = "Admin,User")]
-        [HttpGet("{id}/active-rental")]
-        public ActionResult<Rental> GetActiveRental(int id)
-        {
-            var customer = _unitOfWork.Customers.GetCustomerById(id);
-            if (customer == null)
-                return NotFound($"No customer found with id {id}");
-
-            if (User.IsInRole("User") && customer.Username != User.Identity?.Name)
-                return Forbid();
-
-            var activeRental = _unitOfWork.Customers.GetActiveRental(id);
-            if (activeRental == null)
-                return NotFound("No active rental found.");
-
-            return Ok(activeRental);
-        }
-
     }
 }

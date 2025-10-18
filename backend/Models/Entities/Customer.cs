@@ -5,27 +5,36 @@ namespace Midterm_EquipmentRental_Team2.Models
 {
     public class Customer
     {
+        public enum UserRole 
+        { 
+            Admin,
+            User
+        }
+
         public int Id { get; set; }
 
         [Required(ErrorMessage = "Customer name is required")]
         [MaxLength(100)]
         public string Name { get; set; } = string.Empty;
 
-        [Required]
+
+        [Required(ErrorMessage = "Username is required")]
         [MaxLength(50)]
         public string Username { get; set; } = string.Empty;
 
-        [Required]
+
+        [Required(ErrorMessage = "Passwor  is required")]
         [MaxLength(100)]
         public string Password { get; set; } = string.Empty;
 
-        [Required]
+
+        [Required(ErrorMessage = "Role type is required")]
         [MaxLength(20)]
-        public string Role { get; set; } = "User"; // "Admin" or "User"
+        public UserRole Role { get; set; }
 
         public bool IsActive { get; set; } = true;
 
-        // Navigation property for rentals
-        public ICollection<Rental> Rentals { get; set; } = new List<Rental>();
+        public ICollection<Rental> Rentals { get; set; } = new List<Rental>(); // Navigation property for rentals
+
     }
 }

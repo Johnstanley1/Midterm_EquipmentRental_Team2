@@ -5,15 +5,21 @@ namespace Midterm_EquipmentRental_Team2.Models
 {
     public class Rental
     {
+        public enum RentalStatus 
+        {
+            Active, 
+            Completed, 
+            Overdue, 
+            Cancelled
+        }
+
         public int Id { get; set; }
 
         [Required]
         public int CustomerId { get; set; }
-        public Customer Customer { get; set; }
 
         [Required]
         public int EquipmentId { get; set; }
-        public Equipment Equipment { get; set; }
 
         [Required]
         public DateTime IssuedAt { get; set; }
@@ -26,8 +32,13 @@ namespace Midterm_EquipmentRental_Team2.Models
         public string? ReturnNotes { get; set; }
 
         public Equipment.EquipmentCondition? ReturnCondition { get; set; }
+        public Customer? Customer { get; set; }
+        public Equipment? Equipment { get; set; }
+        public IEnumerable<Equipment> Equipments { get; set; }
 
-        [MaxLength(20)]
-        public string Status { get; set; } = "Active"; // Active, Completed, Overdue, Cancelled
+        public RentalStatus Status { get; set; }
+
+        //[MaxLength(20)]
+        //public string Status { get; set; } = "Active"; // 
     }
 }
