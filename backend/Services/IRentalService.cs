@@ -5,17 +5,16 @@ namespace Midterm_EquipmentRental_Team2.Services
 {
     public interface IRentalService
     {
-        IEnumerable<Rental> GetAllRentals(int? userId = null, bool isAdmin = false);
-        Rental? GetRental(int id, int? userId = null, bool isAdmin = false);
-        IEnumerable<RentalDto> GetAllRentalsDto(int? userId = null, bool isAdmin = false);
-        RentalDto? GetRentalDto(int id, int? userId = null, bool isAdmin = false);
-        IEnumerable<Rental> GetRentalsByEquipment(int equipmentId);
-        IEnumerable<Rental> GetActiveRentals(int? userId = null, bool isAdmin = false);
-        IEnumerable<Rental> GetCompletedRentals(int? userId = null, bool isAdmin = false);
+        IEnumerable<Rental> GetAllRentals();
+        IEnumerable<Enums> GetStatus();
+        IEnumerable<Rental> GetRentedEquipments(int equipmentId);
+        IEnumerable<Rental> GetActiveRentals(int equipmentId);
+        IEnumerable<Rental> GetCompletedRentals(int equipmentId);
         IEnumerable<Rental> GetOverdueRentals();
-        void IssueRental(Rental rental, int userId);
-        void ReturnRental(int rentalId, int userId, string? notes, string? condition, bool force = false);
-    void ExtendRental(int rentalId, DateTime newDueDate, string reason, int userId, bool isAdmin = false);
-        void CancelRental(int rentalId, int userId, bool force = false);
+        Rental? GetRentalsById(int rentalId);
+        void AddRental(Rental rental);
+        void UpdateRental(Rental rental);
+        void ReturnRental(Rental rental);
+        void DeleteRental(Rental rental);   
     }
 }

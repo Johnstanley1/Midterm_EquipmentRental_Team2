@@ -57,42 +57,5 @@ namespace Midterm_EquipmentRental_Team2.Services
         {
             _customerRepository.Delete(customer);
         }
-
-    
-        //public IEnumerable<Customer> GetAllCustomers()
-        //{
-        //    var customers = _customerRepository.GetAllWithGraph();
-        //    return customers.Select(MapCustomerToDto).ToList();
-        //}
-
-        //public CustomerDto? GetCustomerDtoById(int id)
-        //{
-        //    var c = _customerRepository.GetByIdWithGraph(id);
-        //    return c == null ? null : MapCustomerToDto(c);
-        //}
-
-        //private static CustomerDto MapCustomerToDto(Customer c) =>
-        //    new CustomerDto
-        //    {
-        //        Id = c.Id,
-        //        Name = c.Name,
-        //        Username = c.Username,
-        //        Role = c.Role,
-        //        IsActive = c.IsActive,
-        //        Rentals = c.Rentals?
-        //            .OrderByDescending(r => r.IssuedAt)
-        //            .Select(r => new RentalSummaryDto
-        //            {
-        //                Id = r.Id,
-        //                EquipmentId = r.EquipmentId,
-        //                EquipmentName = r.Equipment?.Name ?? string.Empty,
-        //                EquipmentStatus = r.Equipment?.Status.ToString() ?? string.Empty,
-        //                IssuedAt = r.IssuedAt,
-        //                DueDate = r.DueDate,
-        //                ReturnedAt = r.ReturnedAt,
-        //                Status = r.Status
-        //            }).ToList() ?? new List<RentalSummaryDto>()
-        //    };
-
     }
 }
