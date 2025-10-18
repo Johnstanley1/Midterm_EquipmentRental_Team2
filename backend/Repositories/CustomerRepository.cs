@@ -23,52 +23,126 @@ namespace Midterm_EquipmentRental_Team2.Repositories
         }
 
 
-        public IEnumerable<Models.Customer> GetAll()
+        public IEnumerable<CustomerDTO> GetAll()
         {
-            return _context.Customers.ToList();
-        }
-
-
-        public Models.Customer GetById(int id)
-        {
-            return _context.Customers.Find(id);
-        }
-
-
-        public Models.Customer GetCustomerRentals(int id)
-        {
-            var customer = _context.Customers
-                .Include(r => r.Rentals)
-                .ThenInclude(e => e.Equipments)
-                .FirstOrDefault(c => c.Id == id);
-
-            if (customer == null) return null;
-
-            return new Models.Customer 
-            { 
-                Id = id,
-                Name = customer.Name,
-                Rentals = customer.Rentals.ToList(),
-            };
-        }
-
-
-        public Models.Customer GetActiveRental(int id)
-        {
-            var customer = _context.Customers
-                .Include(r => r.Rentals)
-                .ThenInclude(e => e.Equipments)
-                .FirstOrDefault(r => r.Id == id);
-
-            if (customer == null) return null;
-
-            // Filter rentals to only active ones
-            customer.Rentals = customer.Rentals
-                .Where(r => r.Status == RentalStatus.Active)
+            return _context.Customers
+                .Select(c => new CustomerDTO
+                {
+                    Id = c.Id,
+                    Name = c.Name,
+                    Username = c.Username,
+                    Password = c.Password,
+                    Role = c.Role.ToString(),
+                    IsActive = c.IsActive,
+                    Rentals = c.Rentals.Select(r => new RentalDTO
+                    {
+                        Id = r.Id,
+                        IssuedAt = r.IssuedAt,
+                        DueDate = r.DueDate,
+                        ReturnedAt = r.ReturnedAt,
+                        Status = r.Status.ToString(),
+                        EquipmentCondition = r.EquipmentCondition.ToString(),
+                        EquipmentStatus = r.EquipmentStatus.ToString(),
+                        EquipmentName = r.Equipment.Name,
+                        CustomerId = r.CustomerId,
+                        CustomerName = r.Customer.Name
+                    }).ToList()
+                })
                 .ToList();
+        }
+
+
+
+        public CustomerDTO GetById(int id)
+        {
+            var customer = _context.Customers
+                .Where(c => c.Id == id)
+                .Select(c => new CustomerDTO
+                {
+                    Id = c.Id,
+                    Name = c.Name,
+                    Username = c.Username,
+                    Role = c.Role.ToString(),
+                    IsActive = c.IsActive,
+                    Rentals = c.Rentals.Select(r => new RentalDTO
+                    {
+                        Id = r.Id,
+                        IssuedAt = r.IssuedAt,
+                        DueDate = r.DueDate,
+                        ReturnedAt = r.ReturnedAt,
+                        Status = r.Status.ToString(),
+                        EquipmentCondition = r.EquipmentCondition.ToString(),
+                        EquipmentStatus = r.EquipmentStatus.ToString(),
+                        EquipmentName = r.Equipment.Name
+                    }).ToList()
+                })
+                .FirstOrDefault();
 
             return customer;
         }
+
+
+
+        public CustomerDTO GetCustomerRentals(int id)
+        {
+            var customer = _context.Customers
+                .Where(c => c.Id == id)
+                .Select(c => new CustomerDTO
+                {
+                    Id = c.Id,
+                    Name = c.Name,
+                    Username = c.Username,
+                    Role = c.Role.ToString(),
+                    IsActive = c.IsActive,
+                    Rentals = c.Rentals.Select(r => new RentalDTO
+                    {
+                        Id = r.Id,
+                        IssuedAt = r.IssuedAt,
+                        DueDate = r.DueDate,
+                        ReturnedAt = r.ReturnedAt,
+                        Status = r.Status.ToString(),
+                        EquipmentCondition = r.EquipmentCondition.ToString(),
+                        EquipmentStatus = r.EquipmentStatus.ToString(),
+                        EquipmentName = r.Equipment.Name
+                    }).ToList()
+                })
+                .FirstOrDefault();
+
+            return customer;
+        }
+
+
+
+        public CustomerDTO GetActiveRental(int id)
+        {
+            var customer = _context.Customers
+                .Where(c => c.Id == id)
+                .Select(c => new CustomerDTO
+                {
+                    Id = c.Id,
+                    Name = c.Name,
+                    Username = c.Username,
+                    Role = c.Role.ToString(),
+                    IsActive = c.IsActive,
+                    Rentals = c.Rentals
+                        .Where(r => r.Status == RentalStatus.Active)
+                        .Select(r => new RentalDTO
+                        {
+                            Id = r.Id,
+                            IssuedAt = r.IssuedAt,
+                            DueDate = r.DueDate,
+                            ReturnedAt = r.ReturnedAt,
+                            Status = r.Status.ToString(),
+                            EquipmentCondition = r.EquipmentCondition.ToString(),
+                            EquipmentStatus = r.EquipmentStatus.ToString(),
+                            EquipmentName = r.Equipment.Name
+                        }).ToList()
+                })
+                .FirstOrDefault();
+
+            return customer;
+        }
+
 
 
         public IEnumerable<Enums> GetRoles()
@@ -80,39 +154,22 @@ namespace Midterm_EquipmentRental_Team2.Repositories
         }
 
 
-        public void Create(Models.Customer customer)
+        public void Create(Customer customer)
         {
             _context.Customers.Add(customer);
         }
 
 
-        public void Update(Models.Customer customer)
+        public void Update(Customer customer)
         {
             _context.Customers.Update(customer);
         }
 
 
-        public void Delete(Models.Customer customer)
+        public void Delete(Customer customer)
         {
             _context.Customers.Remove(customer);
         }
-
-
-        
-
-        //public IEnumerable<Customer> GetAllWithGraph() =>
-        //    _context.Customers
-        //        .Include(c => c.Rentals)
-        //        .ThenInclude(r => r.Equipment)
-        //        .AsNoTracking()
-        //        .ToList();
-
-        //public Customer? GetByIdWithGraph(int id) =>
-        //    _context.Customers
-        //        .Include(c => c.Rentals)
-        //        .ThenInclude(r => r.Equipment)
-        //        .AsNoTracking()
-        //        .FirstOrDefault(c => c.Id == id);
 
     }
 }

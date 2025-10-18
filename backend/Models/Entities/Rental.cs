@@ -33,7 +33,9 @@ namespace Midterm_EquipmentRental_Team2.Models
 
         public int CustomerId { get; set; }
         public Customer Customer { get; set; }
-        public IEnumerable<Equipment> Equipments { get; set; }
+        public int EquipmentId { get; set; }
+        public Equipment Equipment { get; set; }
+
         public Equipment.EquipmentCondition? EquipmentCondition { get; set; }
         public Equipment.EquipmentStatus? EquipmentStatus { get; set; }
         public RentalStatus Status { get; set; }

@@ -55,5 +55,6 @@ namespace Midterm_EquipmentRental_Team2.Models
 
         [Required(ErrorMessage = "Equipment condition is required")]
         public EquipmentCondition Condition { get; set; }
+        public ICollection<Rental> Rentals { get; set; } = new List<Rental>();
     }
 }
