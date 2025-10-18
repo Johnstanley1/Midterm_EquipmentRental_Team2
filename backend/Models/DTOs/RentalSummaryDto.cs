@@ -4,8 +4,8 @@
     {
         public int Id { get; set; }
         public int EquipmentId { get; set; }
-        public string EquipmentName { get; set; } = string.Empty;
-        public string EquipmentStatus { get; set; } = string.Empty;
+        public string EquipmentName { get; set; }
+        public string EquipmentStatus { get; set; }
         public DateTime IssuedAt { get; set; }
         public DateTime? DueDate { get; set; }
         public DateTime? ReturnedAt { get; set; }

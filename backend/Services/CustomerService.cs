@@ -13,23 +13,23 @@ namespace Midterm_EquipmentRental_Team2.Services
             _customerRepository = customerRepository;
         }
 
-        public IEnumerable<Customer> GetAllCustomers() 
+        public IEnumerable<Models.Customer> GetAllCustomers() 
         {
             return _customerRepository.GetAll();
         }
 
-        public Customer GetCustomerById(int id) 
+        public Models.Customer GetCustomerById(int id) 
         {
             return _customerRepository.GetById(id);
         }
 
 
-        public Customer GetCustomerRentalsById(int customerId)
+        public Models.Customer GetCustomerRentalsById(int customerId)
         {
             return _customerRepository.GetCustomerRentals(customerId);
         }
 
-        public Customer GetActiveCustomerRentalsById(int customerId)
+        public Models.Customer GetActiveCustomerRentalsById(int customerId)
         {
             return _customerRepository.GetActiveRental(customerId);
         }
@@ -41,19 +41,19 @@ namespace Midterm_EquipmentRental_Team2.Services
         }
 
 
-        public void CreateCustomer(Customer customer) 
+        public void CreateCustomer(Models.Customer customer) 
         { 
             _customerRepository.Create(customer);
         }
 
 
-        public void UpdateCustomer(Customer customer) 
+        public void UpdateCustomer(Models.Customer customer) 
         {
             _customerRepository.Update(customer);
         }
 
 
-        public void DeleteCustomer(Customer customer) 
+        public void DeleteCustomer(Models.Customer customer) 
         {
             _customerRepository.Delete(customer);
         }

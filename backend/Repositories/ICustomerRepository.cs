@@ -5,14 +5,14 @@ namespace Midterm_EquipmentRental_Team2.Repositories
 {
     public interface ICustomerRepository
     {
-        IEnumerable<Customer> GetAll();
-        Customer GetById(int id);
-        Customer GetActiveRental(int customerId);
-        Customer GetCustomerRentals(int customerId);
+        IEnumerable<Models.Customer> GetAll();
+        Models.Customer GetById(int id);
+        Models.Customer GetActiveRental(int customerId);
+        Models.Customer GetCustomerRentals(int customerId);
         IEnumerable<Enums> GetRoles();
-        void Create(Customer customer);
-        void Update(Customer customer);
-        void Delete(Customer customer);
+        void Create(Models.Customer customer);
+        void Update(Models.Customer customer);
+        void Delete(Models.Customer customer);
         
         //IEnumerable<Customer> GetAllWithGraph();
         //Customer? GetByIdWithGraph(int id);

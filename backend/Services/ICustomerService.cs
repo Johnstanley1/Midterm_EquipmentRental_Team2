@@ -5,13 +5,13 @@ namespace Midterm_EquipmentRental_Team2.Services
 {
     public interface ICustomerService
     {
-        IEnumerable<Customer> GetAllCustomers();
-        Customer GetCustomerById(int id);
-        Customer GetCustomerRentalsById(int customerId);
-        Customer GetActiveCustomerRentalsById(int customerId);
+        IEnumerable<Models.Customer> GetAllCustomers();
+        Models.Customer GetCustomerById(int id);
+        Models.Customer GetCustomerRentalsById(int customerId);
+        Models.Customer GetActiveCustomerRentalsById(int customerId);
         IEnumerable<Enums> GetCustomerRoles();
-        void CreateCustomer(Customer customer);
-        void UpdateCustomer(Customer customer);
-        void DeleteCustomer(Customer customer);
+        void CreateCustomer(Models.Customer customer);
+        void UpdateCustomer(Models.Customer customer);
+        void DeleteCustomer(Models.Customer customer);
     }
 }

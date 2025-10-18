@@ -23,19 +23,19 @@ namespace Midterm_EquipmentRental_Team2.Repositories
         }
 
 
-        public IEnumerable<Customer> GetAll()
+        public IEnumerable<Models.Customer> GetAll()
         {
             return _context.Customers.ToList();
         }
 
 
-        public Customer GetById(int id)
+        public Models.Customer GetById(int id)
         {
             return _context.Customers.Find(id);
         }
 
 
-        public Customer GetCustomerRentals(int id)
+        public Models.Customer GetCustomerRentals(int id)
         {
             var customer = _context.Customers
                 .Include(r => r.Rentals)
@@ -44,7 +44,7 @@ namespace Midterm_EquipmentRental_Team2.Repositories
 
             if (customer == null) return null;
 
-            return new Customer 
+            return new Models.Customer 
             { 
                 Id = id,
                 Name = customer.Name,
@@ -53,7 +53,7 @@ namespace Midterm_EquipmentRental_Team2.Repositories
         }
 
 
-        public Customer GetActiveRental(int id)
+        public Models.Customer GetActiveRental(int id)
         {
             var customer = _context.Customers
                 .Include(r => r.Rentals)
@@ -80,19 +80,19 @@ namespace Midterm_EquipmentRental_Team2.Repositories
         }
 
 
-        public void Create(Customer customer)
+        public void Create(Models.Customer customer)
         {
             _context.Customers.Add(customer);
         }
 
 
-        public void Update(Customer customer)
+        public void Update(Models.Customer customer)
         {
             _context.Customers.Update(customer);
         }
 
 
-        public void Delete(Customer customer)
+        public void Delete(Models.Customer customer)
         {
             _context.Customers.Remove(customer);
         }

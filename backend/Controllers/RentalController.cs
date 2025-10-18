@@ -20,7 +20,7 @@ namespace Midterm_EquipmentRental_Team2.Controllers
 
         [Authorize(Roles = "Admin, User")]
         [HttpGet]
-        public ActionResult<IEnumerable<RentalDto>> GetAllRentals()
+        public ActionResult<IEnumerable<Models.DTOs.RentalDTO>> GetAllRentals()
         {
             var isAdmin = User.IsInRole("Admin");
             int? userId = isAdmin ? (int?)null : GetUserId();
@@ -30,7 +30,7 @@ namespace Midterm_EquipmentRental_Team2.Controllers
 
         [Authorize(Roles = "Admin,User")]
         [HttpGet("{id}")]
-        public ActionResult<RentalDto> GetRental(int id)
+        public ActionResult<Models.DTOs.RentalDTO> GetRental(int id)
         {
             var isAdmin = User.IsInRole("Admin");
             int? userId = isAdmin ? (int?)null : GetUserId();
@@ -41,10 +41,10 @@ namespace Midterm_EquipmentRental_Team2.Controllers
 
         [Authorize(Roles = "Admin,User")]
         [HttpGet("equipment/{equipmentId}")]
-        public ActionResult<IEnumerable<RentalDto>> GetRentalsByEquipment(int equipmentId)
+        public ActionResult<IEnumerable<Models.DTOs.RentalDTO>> GetRentalsByEquipment(int equipmentId)
         {
             var rentals = _unitOfWork.Rentals.GetRentalsByEquipment(equipmentId)
-                .Select(r => new RentalDto
+                .Select((object r) => new Models.DTOs.RentalDTO
                 {
                     Id = r.Id,
                     EquipmentId = r.EquipmentId,
@@ -62,12 +62,12 @@ namespace Midterm_EquipmentRental_Team2.Controllers
 
         [Authorize(Roles = "Admin,User")]
         [HttpGet("active")]
-        public ActionResult<IEnumerable<RentalDto>> GetActiveRentals()
+        public ActionResult<IEnumerable<Models.DTOs.RentalDTO>> GetActiveRentals()
         {
             var isAdmin = User.IsInRole("Admin");
             int? userId = isAdmin ? (int?)null : GetUserId();
             var rentals = _unitOfWork.Rentals.GetActiveRentals(userId, isAdmin)
-                .Select(r => new RentalDto
+                .Select((Models.Rental r) => new Models.DTOs.RentalDTO
                 {
                     Id = r.Id,
                     EquipmentId = r.EquipmentId,
@@ -85,12 +85,12 @@ namespace Midterm_EquipmentRental_Team2.Controllers
 
         [Authorize(Roles = "Admin,User")]
         [HttpGet("completed")]
-        public ActionResult<IEnumerable<RentalDto>> GetCompletedRentals()
+        public ActionResult<IEnumerable<Models.DTOs.RentalDTO>> GetCompletedRentals()
         {
             var isAdmin = User.IsInRole("Admin");
             int? userId = isAdmin ? (int?)null : GetUserId();
             var rentals = _unitOfWork.Rentals.GetCompletedRentals(userId, isAdmin)
-                .Select(r => new RentalDto
+                .Select((Models.Rental r) => new Models.DTOs.RentalDTO
                 {
                     Id = r.Id,
                     EquipmentId = r.EquipmentId,
@@ -108,7 +108,7 @@ namespace Midterm_EquipmentRental_Team2.Controllers
 
         [Authorize(Roles = "Admin,User")]
         [HttpGet("overdue")]
-        public ActionResult<IEnumerable<RentalDto>> GetOverdueRentals()
+        public ActionResult<IEnumerable<Models.DTOs.RentalDTO>> GetOverdueRentals()
         {
             var isAdmin = User.IsInRole("Admin");
             var userId = isAdmin ? (int?)null : GetUserId();
@@ -117,7 +117,7 @@ namespace Midterm_EquipmentRental_Team2.Controllers
             {
                 rentals = rentals.Where(r => r.CustomerId == userId.Value);
             }
-            var dtos = rentals.Select(r => new RentalDto
+            var dtos = rentals.Select((Models.Rental r) => new Models.DTOs.RentalDTO
             {
                 Id = r.Id,
                 EquipmentId = r.EquipmentId,
@@ -142,7 +142,7 @@ namespace Midterm_EquipmentRental_Team2.Controllers
             try
             {
                 var targetCustomerId = isAdmin && (request.CustomerId ?? 0) != 0 ? request.CustomerId!.Value : userId;
-                var rental = new Rental
+                var rental = new Models.Rental
                 {
                     EquipmentId = request.EquipmentId,
                     CustomerId = targetCustomerId,
