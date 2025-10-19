@@ -76,7 +76,10 @@ namespace Midterm_EquipmentRental_Team2.Repositories
         public IEnumerable<RentalDTO> GetRented(int id)
         {
             return _context.Rentals
-                .Where(r => r.EquipmentStatus == EquipmentStatus.Rented && r.CustomerId == id)
+                .Include(r => r.Customer)
+                .Include(r => r.Equipment)
+                .Where(r => r.EquipmentId == id)
+                .OrderBy(r => r.IssuedAt)
                 .Select(r => new RentalDTO
                 {
                     Id = r.Id,

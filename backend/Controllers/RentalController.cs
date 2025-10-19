@@ -64,9 +64,11 @@ namespace Midterm_EquipmentRental_Team2.Controllers
          
         [Authorize(Roles = "Admin, User")]
         [HttpGet("equipment/{equipmentId}")]
-        public ActionResult<IEnumerable<RentalDTO>> GetRentedEquipments(int id)
+        public ActionResult<IEnumerable<RentalDTO>> GetRentedEquipments(int equipmentId)
         {
-            var rentals = _unitOfWork.Rentals.GetRentedEquipments(id);
+            var rentals = _unitOfWork.Rentals.GetRentedEquipments(equipmentId);
+            Console.WriteLine($"Found {rentals.Count()} rentals for equipment ID {equipmentId}");
+
 
             if (rentals == null)
                 return NotFound($"No rentals found with id");
