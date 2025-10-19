@@ -36,7 +36,7 @@
               <td>{{ c.isActive }}</td>
               <td class="col"><a [routerLink]="['/customer-detail', c.id]" class="me-2 text-decoration-none btn btn-info btn-sm">View Details</a>
                 <a [routerLink]="['/edit-customer', c.id]" class="me-2 text-decoration-none btn btn-primary btn-sm">Edit</a>
-                <button class="text-decoration-none btn btn-outline-danger btn-sm" (click)="onDelete(c.id)">
+                <button class="text-decoration-none btn btn-outline-danger btn-sm" (click)="onDelete(c.id!)">
                   Delete
                 </button>
               </td>

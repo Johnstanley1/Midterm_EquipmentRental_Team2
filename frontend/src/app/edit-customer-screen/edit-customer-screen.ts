@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Customer, CustomerDto } from '../../../services/model-services';
+import { Customer, CustomerDTO } from '../../../services/model-services';
 import { CustomerService } from '../../../services/customer-services';
 
 @Component({
@@ -34,7 +34,7 @@ export class EditCustomerScreen {
 
   ngOnInit() {
     this.id = Number(this.route.snapshot.paramMap.get('id'));
-    this.service.getCustomerById(this.id).subscribe((c: CustomerDto) => {
+    this.service.getCustomerById(this.id).subscribe((c: CustomerDTO) => {
       this.form.patchValue({
         name: c.name,
         username: c.username,

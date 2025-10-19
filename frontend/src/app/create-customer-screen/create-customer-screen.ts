@@ -1,9 +1,10 @@
-import { Component, inject } from '@angular/core';
+import {Component, Inject, inject, PLATFORM_ID} from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import {CommonModule, NgOptimizedImage} from '@angular/common';
+import {CommonModule, isPlatformBrowser, NgOptimizedImage} from '@angular/common';
 import {Router, RouterLink} from '@angular/router';
-import {Customer, Equipment} from '../../../services/model-services';
+import {Customer, CustomerDTO} from '../../../services/model-services';
 import { CustomerService } from '../../../services/customer-services';
+import {Observable, of} from 'rxjs';
 
 @Component({
   selector: 'app-create-customer-screen',
@@ -14,8 +15,14 @@ import { CustomerService } from '../../../services/customer-services';
 })
 export class CreateCustomerScreen {
   private fb = inject(FormBuilder);
-  private customerService = inject(CustomerService);
-  private router = inject(Router);
+  roleOptions$: Observable<CustomerDTO[]>
+
+  constructor(private router: Router, private customerService: CustomerService, @Inject(PLATFORM_ID) platformId: Object) {
+    const isBrowser = isPlatformBrowser(platformId);
+    this.roleOptions$ = isBrowser ? this.customerService.getCustomerRoles() : of([]);
+  }
+
+
 
   min_Length = 3;
   max_length = 50;

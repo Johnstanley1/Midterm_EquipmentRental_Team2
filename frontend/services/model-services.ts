@@ -50,20 +50,42 @@ export class Customer {
   }
 }
 
-export interface CustomerDto {
-  id: number;
+
+export class CustomerDTO {
+  id?: number;
   name: string;
   username: string;
   role: string;
   isActive: boolean;
-  rentals?: Array<{
-    id: number;
-    equipmentId: number;
-    equipmentName: string;
-    equipmentStatus: string;
-    issuedAt: string;
-    dueDate: string;
-    returnedAt?: string | null;
-    status: string;
-  }>; // optional in list view
+  rentals: []
+
+  constructor(name: string, username: string, role: string, isActive: boolean, rentals: []){
+    this.name = name;
+    this.username = username;
+    this.role = role;
+    this.isActive = isActive;
+    this.rentals = rentals
+  }
+}
+
+
+export class Rental{
+  id?: number;
+  equipmentId: number;
+  equipmentName: string;
+  equipmentStatus: string;
+  issuedAt: string;
+  dueDate: string;
+  returnedAt?: string | null;
+  status: string;
+
+  constructor(equipmentId: number, equipmentName: string, equipmentStatus: string, issuedAt: string, dueDate: string, returnedAt: string | null, status: string) {
+    this.equipmentId = equipmentId;
+    this.equipmentName = equipmentName;
+    this.equipmentStatus = equipmentStatus;
+    this.issuedAt = issuedAt;
+    this.dueDate = dueDate;
+    this.returnedAt = returnedAt;
+    this.status = status;
+  }
 }

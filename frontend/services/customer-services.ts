@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Customer, CustomerDto } from './model-services';
+import {Customer, CustomerDTO, Equipment} from './model-services';
 
 @Injectable({ providedIn: 'root' })
 export class CustomerService {
@@ -9,7 +9,7 @@ export class CustomerService {
 
   constructor(private http: HttpClient) {}
 
-  getAllCustomers(): Observable<CustomerDto[]> {
+  getAllCustomers(): Observable<CustomerDTO[]> {
     let headers = new HttpHeaders();
 
     if (typeof window !== 'undefined') {
@@ -18,10 +18,10 @@ export class CustomerService {
         headers = headers.set('Authorization', `Bearer ${token}`);
       }
     }
-    return this.http.get<CustomerDto[]>(this.baseUrl, { headers });
+    return this.http.get<CustomerDTO[]>(this.baseUrl, { headers });
   }
 
-  getCustomerById(id: number): Observable<CustomerDto> {
+  getCustomerById(id: number): Observable<CustomerDTO> {
     let headers = new HttpHeaders();
 
     if (typeof window !== 'undefined') {
@@ -30,7 +30,20 @@ export class CustomerService {
         headers = headers.set('Authorization', `Bearer ${token}`);
       }
     }
-    return this.http.get<CustomerDto>(`${this.baseUrl}/${id}`, { headers });
+    return this.http.get<CustomerDTO>(`${this.baseUrl}/${id}`, { headers });
+  }
+
+  // get all customer roles
+  getCustomerRoles(): Observable<CustomerDTO[]> {
+    let headers = new HttpHeaders();
+
+    if (typeof window !== 'undefined') {
+      const token = localStorage.getItem('token');
+      if (token) {
+        headers = headers.set('Authorization', `Bearer ${token}`);
+      }
+    }
+    return this.http.get<CustomerDTO[]>(`${this.baseUrl}/roles`, { headers });
   }
 
   createCustomer(customer: Customer): Observable<Customer> {

@@ -1,5 +1,5 @@
 import { Component, Inject, PLATFORM_ID } from '@angular/core';
-import { CustomerDto } from '../../../services/model-services';
+import { CustomerDTO } from '../../../services/model-services';
 import { CustomerService } from '../../../services/customer-services';
 import {AsyncPipe, CommonModule, isPlatformBrowser, NgOptimizedImage} from '@angular/common';
 import { Observable, of } from 'rxjs';
@@ -14,7 +14,7 @@ import { RouterLink } from '@angular/router';
   styleUrls: ['./customer-screen.css'],
 })
 export class CustomerScreen {
-  customers$: Observable<CustomerDto[]>;
+  customers$: Observable<CustomerDTO[]>;
   errorMessage: string | null = null;
 
   constructor(private customers: CustomerService, @Inject(PLATFORM_ID) platformId: Object) {
@@ -30,10 +30,10 @@ export class CustomerScreen {
             } else {
               this.errorMessage = 'Failed to load customers. Please try again.';
             }
-            return of([] as CustomerDto[]);
+            return of([] as CustomerDTO[]);
           })
         )
-      : of([] as CustomerDto[]);
+      : of([] as CustomerDTO[]);
   }
 
   onDelete(id: number) {
