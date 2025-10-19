@@ -79,32 +79,6 @@ namespace Midterm_EquipmentRental_Team2.Controllers
         }
 
 
-        //[Authorize(Roles = "Admin")]
-        //[HttpPost]
-        //public ActionResult<CustomerDTO> CreateCustomer([FromBody] CustomerDTO customerDTO)
-        //{
-        //    if (customerDTO == null)
-        //        return BadRequest("Customer data is required.");
-
-        //    var customer = new Customer
-        //    {
-        //        Id = customerDTO.Id,
-        //        Name = customerDTO.Name,
-        //        Username = customerDTO.Username,
-        //        Password = customerDTO.Password,
-        //        IsActive = customerDTO.IsActive,
-        //        Role = Enum.Parse<Customer.UserRole>(customerDTO.Role, true),
-        //        Rentals = (ICollection<Rental>)customerDTO.Rentals,
-        //    };
-
-        //    _unitOfWork.Customers.CreateCustomer(customer);
-        //    _unitOfWork.Complete();
-        //    return CreatedAtAction(nameof(GetCustomerById), new { id = customer.Id }, customer);
-        //}
-
-
-
-
         [Authorize(Roles = "Admin")]
         [HttpPost]
         public ActionResult<Customer> CreateCustomer([FromBody] Customer customer)
@@ -119,45 +93,6 @@ namespace Midterm_EquipmentRental_Team2.Controllers
             return Ok(customer);
         }
 
-
-        //[Authorize(Roles = "Admin, User")]
-        //[HttpPut("{id}")]
-        //public ActionResult<CustomerDTO> UpdateCustomer(int id, [FromBody] CustomerDTO customerDTO)
-        //{
-        //    var existingCustomer = _unitOfWork.Customers.GetByCustomerEntityId(id);
-        //    if (existingCustomer == null)
-        //        return NotFound($"No customer found with id {id}");
-
-
-        //    if (User.IsInRole("User") && existingCustomer.Username != User.Identity?.Name) // Users can only access their own data
-        //        return Forbid();
-
-        //    if (User.IsInRole("Admin"))
-        //    {
-        //        existingCustomer.Id = id;
-        //        existingCustomer.Name = customerDTO.Name;
-        //        existingCustomer.Username = customerDTO.Username;
-        //        existingCustomer.Password = customerDTO.Password;
-        //        existingCustomer.IsActive = customerDTO.IsActive;
-        //        existingCustomer.Role = Enum.Parse<Customer.UserRole>(customerDTO.Role, true);
-        //        existingCustomer.IsActive = customerDTO.IsActive;
-        //        existingCustomer.Rentals = (ICollection<Rental>)customerDTO.Rentals;
-        //    }
-        //    else
-        //    {
-        //        existingCustomer.Id = id;
-        //        existingCustomer.Name = customerDTO.Name;
-        //        existingCustomer.Username = customerDTO.Username;
-        //        existingCustomer.Password = customerDTO.Password;
-        //        existingCustomer.IsActive = customerDTO.IsActive;
-        //        existingCustomer.IsActive = customerDTO.IsActive;
-        //        existingCustomer.Rentals = (ICollection<Rental>)customerDTO.Rentals;
-        //    }
-
-        //    _unitOfWork.Customers.UpdateCustomer(existingCustomer);
-        //    _unitOfWork.Complete();
-        //    return Ok(existingCustomer);
-        //}
 
 
         [Authorize(Roles = "Admin, User")]
@@ -236,30 +171,5 @@ namespace Midterm_EquipmentRental_Team2.Controllers
 
             return Ok(existingCustomer);
         }
-
-
-
-        //[Authorize(Roles = "Admin")]
-        //[HttpDelete("{id}")]
-        //public ActionResult<CustomerDTO> DeleteCustomer(int id)
-        //{
-        //    var existingCustomer = _unitOfWork.Customers.GetCustomerEntityById(id);
-        //    if (existingCustomer == null)
-        //        return NotFound($"No customer found with id {id}");
-
-        //    _unitOfWork.Customers.DeleteCustomer(existingCustomer);
-        //    _unitOfWork.Complete();
-
-        //    var resultDto = new CustomerDTO
-        //    {
-        //        Id = existingCustomer.Id,
-        //        Name = existingCustomer.Name,
-        //        Username = existingCustomer.Username,
-        //        Role = existingCustomer.Role.ToString(),
-        //        IsActive = existingCustomer.IsActive
-        //    };
-
-        //    return Ok(existingCustomer);
-        //}
     }
 }

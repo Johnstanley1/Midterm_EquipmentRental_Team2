@@ -101,9 +101,7 @@ namespace Midterm_EquipmentRental_Team2.Repositories
                     Username = c.Username,
                     Role = c.Role.ToString(),
                     IsActive = c.IsActive,
-                    Rentals = c.Rentals
-                    .Where(r=> r.Id == id)
-                    .Select(r => new RentalDTO
+                    Rentals = c.Rentals.Select(r => new RentalDTO
                     {
                         Id = r.Id,
                         IssuedAt = r.IssuedAt,
@@ -134,18 +132,18 @@ namespace Midterm_EquipmentRental_Team2.Repositories
                     Role = c.Role.ToString(),
                     IsActive = c.IsActive,
                     Rentals = c.Rentals
-                    .Where(r => r.Status == RentalStatus.Active)
-                    .Select(r => new RentalDTO
-                    {
-                        Id = r.Id,
-                        IssuedAt = r.IssuedAt,
-                        DueDate = r.DueDate,
-                        ReturnedAt = r.ReturnedAt,
-                        Status = r.Status.ToString(),
-                        EquipmentCondition = r.EquipmentCondition.ToString(),
-                        EquipmentStatus = r.EquipmentStatus.ToString(),
-                        EquipmentName = r.Equipment.Name
-                    }).ToList()
+                        .Where(r => r.Status == RentalStatus.Active)
+                        .Select(r => new RentalDTO
+                        {
+                            Id = r.Id,
+                            IssuedAt = r.IssuedAt,
+                            DueDate = r.DueDate,
+                            ReturnedAt = r.ReturnedAt,
+                            Status = r.Status.ToString(),
+                            EquipmentCondition = r.EquipmentCondition.ToString(),
+                            EquipmentStatus = r.EquipmentStatus.ToString(),
+                            EquipmentName = r.Equipment.Name
+                        }).ToList()
                 })
                 .FirstOrDefault();
 
