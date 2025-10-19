@@ -87,7 +87,7 @@ export class CreateEquipmentScreen {
       this.equipmentService.createEquipment(equipment).subscribe(() => {
         alert("Equipment added successfully");
         // Route:
-        this.router.navigate(["/manage-equipment"]);
+        this.router.navigate(["/all-equipments"]);
       })
     }else {
       alert("Add equipment form is invalid")
