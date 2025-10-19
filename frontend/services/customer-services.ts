@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Customer, CustomerDto } from './model-services';
 
@@ -9,23 +9,63 @@ export class CustomerService {
 
   constructor(private http: HttpClient) {}
 
-  getAll(): Observable<CustomerDto[]> {
-    return this.http.get<CustomerDto[]>(this.baseUrl);
+  getAllCustomers(): Observable<CustomerDto[]> {
+    let headers = new HttpHeaders();
+
+    if (typeof window !== 'undefined') {
+      const token = localStorage.getItem('token');
+      if (token) {
+        headers = headers.set('Authorization', `Bearer ${token}`);
+      }
+    }
+    return this.http.get<CustomerDto[]>(this.baseUrl, { headers });
   }
 
-  getById(id: number): Observable<CustomerDto> {
-    return this.http.get<CustomerDto>(`${this.baseUrl}/${id}`);
+  getCustomerById(id: number): Observable<CustomerDto> {
+    let headers = new HttpHeaders();
+
+    if (typeof window !== 'undefined') {
+      const token = localStorage.getItem('token');
+      if (token) {
+        headers = headers.set('Authorization', `Bearer ${token}`);
+      }
+    }
+    return this.http.get<CustomerDto>(`${this.baseUrl}/${id}`, { headers });
   }
 
-  create(customer: Customer): Observable<Customer> {
-    return this.http.post<Customer>(this.baseUrl, customer);
+  createCustomer(customer: Customer): Observable<Customer> {
+    let headers = new HttpHeaders();
+
+    if (typeof window !== 'undefined') {
+      const token = localStorage.getItem('token');
+      if (token) {
+        headers = headers.set('Authorization', `Bearer ${token}`);
+      }
+    }
+    return this.http.post<Customer>(this.baseUrl, customer, { headers });
   }
 
-  update(id: number, customer: Customer): Observable<Customer> {
-    return this.http.put<Customer>(`${this.baseUrl}/${id}`, customer);
+  updateCustomer(id: number, customer: Customer): Observable<Customer> {
+    let headers = new HttpHeaders();
+
+    if (typeof window !== 'undefined') {
+      const token = localStorage.getItem('token');
+      if (token) {
+        headers = headers.set('Authorization', `Bearer ${token}`);
+      }
+    }
+    return this.http.put<Customer>(`${this.baseUrl}/${id}`, customer, { headers });
   }
 
-  delete(id: number): Observable<Customer> {
-    return this.http.delete<Customer>(`${this.baseUrl}/${id}`);
+  deleteCustomer(id: number): Observable<Customer> {
+    let headers = new HttpHeaders();
+
+    if (typeof window !== 'undefined') {
+      const token = localStorage.getItem('token');
+      if (token) {
+        headers = headers.set('Authorization', `Bearer ${token}`);
+      }
+    }
+    return this.http.delete<Customer>(`${this.baseUrl}/${id}`, { headers });
   }
 }

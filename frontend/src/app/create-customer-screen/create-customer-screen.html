@@ -1,34 +1,51 @@
 <div class="container mt-5">
   <div class="d-flex justify-content-between align-items-center p-3">
     <h3 class="p-3">Add Customer</h3>
-    <a routerLink="/all-e" class="btn btn-outline-success">Back</a>
+    <a routerLink="/all-customers" class="btn btn-outline-success">Back</a>
   </div>
   <div class="row">
-    <div class="col-md-7">
+    <div class="col-md-12">
       <div class="card shadow">
         <div class="card-header text-black text-center">Customer</div>
-        <div class="card-body">
-          <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <div class="row g-4 p-4 align-items-start">
+          <!-- Customer creation form -->
+          <div class="col-md-7">
+          <form [formGroup]="createForm" (ngSubmit)="onSubmit()">
             <div class="mb-3">
-              <label class="form-label">Name</label>
-              <input type="text" class="form-control" formControlName="_name" />
-              @if (refName.invalid && (refName.touched || refName.dirty)) {
-              <small class="text-danger">Name is required ({{ min_Length }}-{{ max_length }} chars)</small>
-              }
+              <label for="customer_name" class="form-label">Name</label>
+              <input type="text" class="form-control" formControlName="_name" placeholder="Enter customer name"/>
+              @if (refName.invalid && (refName.touched || refName.dirty)) { @if
+              (refName.errors?.['required']) {
+                <small class="text-danger">Customer name is required</small>
+              } @if (refName.errors?.['minlength']) {
+                <small class="text-danger">Name must be at least {{ min_Length }} char long</small>
+              } @if (refName.errors?.['maxlength']) {
+                <small class="text-danger">Name must be at least {{ max_length }} char long</small>
+              } }
             </div>
             <div class="mb-3">
-              <label class="form-label">Username</label>
-              <input type="text" class="form-control" formControlName="_username" />
-              @if (refUsername.invalid && (refUsername.touched || refUsername.dirty)) {
-              <small class="text-danger">Username is required</small>
-              }
+              <label for="username" class="form-label">Username</label>
+              <input type="text" class="form-control" formControlName="_username" placeholder="Enter customer username"/>
+              @if (refUserName.invalid && (refUserName.touched || refUserName.dirty)) { @if
+              (refUserName.errors?.['required']) {
+                <small class="text-danger">Username is required</small>
+              } @if (refUserName.errors?.['minlength']) {
+                <small class="text-danger">Username must be at least {{ min_Length }} char long</small>
+              } @if (refUserName.errors?.['maxlength']) {
+                <small class="text-danger">Username must be at least {{ max_length }} char long</small>
+              } }
             </div>
             <div class="mb-3">
-              <label class="form-label">Password</label>
-              <input type="password" class="form-control" formControlName="_password" />
-              @if (refPassword.invalid && (refPassword.touched || refPassword.dirty)) {
-              <small class="text-danger">Password is required</small>
-              }
+              <label for="password" class="form-label">Password</label>
+              <input type="password" class="form-control" formControlName="_password" placeholder="Enter customer password"/>
+              @if (refPassword.invalid && (refPassword.touched || refPassword.dirty)) { @if
+              (refPassword.errors?.['required']) {
+                <small class="text-danger">Password is required</small>
+              } @if (refPassword.errors?.['minlength']) {
+                <small class="text-danger">Password must be at least {{ min_Length }} char long</small>
+              } @if (refPassword.errors?.['maxlength']) {
+                <small class="text-danger">Password must be at least {{ max_length }} char long</small>
+              } }
             </div>
             <div class="mb-3">
               <label class="form-label">Role</label>
@@ -36,7 +53,9 @@
                 <option value="Admin">Admin</option>
                 <option value="User">User</option>
                 @if (refRole.invalid && (refRole.touched || refRole.dirty)) {
-                  <small class="text-danger">Role is required</small>
+                  @if (refRole.errors?.['required']) {
+                    <small class="text-danger">Role is required</small>
+                  }
                 }
               </select>
             </div>
@@ -47,10 +66,20 @@
                 <small class="text-danger">IsActive is required</small>
               }
             </div>
-            <button class="btn btn-primary w-100" type="submit">Create</button>
+            <button class="btn btn-primary w-100" type="submit">Create customer</button>
           </form>
         </div>
+
+          <!-- Image Card -->
+          <div class="col-md-5 d-flex justify-content-center">
+            <div class="card shadow-sm" style="width: 18rem;">
+              <img ngSrc="/images/profile.png" class="card-img-top" alt="hammer logo" height="200" width="200">
+              <div class="card-body text-center">
+              </div>
+            </div>
+          </div>
       </div>
     </div>
   </div>
+</div>
 </div>

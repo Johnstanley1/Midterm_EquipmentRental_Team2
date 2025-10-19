@@ -1,26 +1,26 @@
 import { Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { CommonModule } from '@angular/common';
+import {CommonModule, NgOptimizedImage} from '@angular/common';
 import {Router, RouterLink} from '@angular/router';
-import { Customer } from '../../../services/model-services';
+import {Customer, Equipment} from '../../../services/model-services';
 import { CustomerService } from '../../../services/customer-services';
 
 @Component({
   selector: 'app-create-customer-screen',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, RouterLink],
+  imports: [ReactiveFormsModule, CommonModule, RouterLink, NgOptimizedImage],
   templateUrl: './create-customer-screen.html',
   styleUrls: ['./create-customer-screen.css'],
 })
 export class CreateCustomerScreen {
   private fb = inject(FormBuilder);
-  private service = inject(CustomerService);
+  private customerService = inject(CustomerService);
   private router = inject(Router);
 
   min_Length = 3;
-  max_length = 100;
+  max_length = 50;
 
-  form = this.fb.group({
+  createForm = this.fb.group({
     _name: [
     "",
       [
@@ -36,31 +36,49 @@ export class CreateCustomerScreen {
   });
 
   get refName() {
-    return this.form.controls['_name'];
+    return this.createForm.controls['_name'];
   }
 
-  get refUsername() {
-    return this.form.controls['_username'];
+  get refUserName() {
+    return this.createForm.controls['_username'];
   }
 
   get refPassword() {
-    return this.form.controls['_password'];
+    return this.createForm.controls['_password'];
   }
 
   get refRole() {
-    return this.form.controls['_role'];
+    return this.createForm.controls['_role'];
   }
 
   get refIsActive() {
-    return this.form.controls['_isActive'];
+    return this.createForm.controls['_isActive'];
   }
 
   onSubmit() {
-    if (this.form.invalid) {
-      this.form.markAllAsTouched();
-      return;
+    if (this.createForm.valid) {
+
+      console.log("Add customer form valid")
+
+      // Get data:
+      const customer_name = this.createForm.value._name!
+      const username = this.createForm.value._username!;
+      const password = this.createForm.value._password!;
+      const role = this.createForm.value._role!;
+      const isActive = this.createForm.value._isActive!;
+
+      // Create new customer object, pass data:
+      const customer = new Customer(customer_name, username, password, role, isActive)
+
+
+      this.customerService.createCustomer(customer).subscribe(() => {
+        alert("Customer added successfully");
+        // Route:
+        this.router.navigate(["/all-customers"]);
+      })
+
+    }else{
+      alert("Add customer form is invalid")
     }
-    const value = this.form.value as Customer;
-    this.service.create(value).subscribe(() => this.router.navigate(['/view-customers']));
   }
 }
