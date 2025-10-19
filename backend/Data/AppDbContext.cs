@@ -150,7 +150,7 @@ namespace Midterm_EquipmentRental_Team2.Data
                 new Customer
                 {
                     Id = 1,
-                    Name = "Admin User",
+                    Name = "Admin",
                     Username = "admin",
                     Password = "admin",
                     Role = Customer.UserRole.Admin,
@@ -195,7 +195,7 @@ namespace Midterm_EquipmentRental_Team2.Data
                 new Customer
                 {
                     Id = 6,
-                    Name = "User One",
+                    Name = "User1",
                     Username = "user1",
                     Password = "user1",
                     Role = Customer.UserRole.User,
@@ -204,7 +204,7 @@ namespace Midterm_EquipmentRental_Team2.Data
                 new Customer
                 {
                     Id = 7,
-                    Name = "User Two",
+                    Name = "User2",
                     Username = "user2",
                     Password = "user2",
                     Role = Customer.UserRole.User,
@@ -213,9 +213,27 @@ namespace Midterm_EquipmentRental_Team2.Data
                 new Customer
                 {
                     Id = 8,
-                    Name = "User Three",
+                    Name = "User3",
                     Username = "user3",
                     Password = "user3",
+                    Role = Customer.UserRole.User,
+                    IsActive = true
+                },
+                new Customer
+                {
+                    Id = 9,
+                    Name = "User4",
+                    Username = "User4",
+                    Password = "User4",
+                    Role = Customer.UserRole.User,
+                    IsActive = true
+                },
+                new Customer
+                {
+                    Id = 9,
+                    Name = "User5",
+                    Username = "user5",
+                    Password = "user5",
                     Role = Customer.UserRole.User,
                     IsActive = true
                 }
