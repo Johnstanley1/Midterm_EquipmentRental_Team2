@@ -229,9 +229,7 @@ namespace Midterm_EquipmentRental_Team2.Controllers
                     EquipmentCondition = r.EquipmentCondition.ToString(),
                     Status = r.Status.ToString(),
                     CustomerId = r.CustomerId,
-                    CustomerName = r.Customer.Name,
                     EquipmentId = r.EquipmentId,
-                    EquipmentName = r.Equipment.Name,
                     Equipment = r.Equipment
                 }).ToList()
             };
