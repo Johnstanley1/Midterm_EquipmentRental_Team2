@@ -20,7 +20,7 @@ export class CustomerScreen {
   constructor(private customers: CustomerService, @Inject(PLATFORM_ID) platformId: Object) {
     const isBrowser = isPlatformBrowser(platformId);
     this.customers$ = isBrowser
-      ? this.customers.getAll().pipe(
+      ? this.customers.getAllCustomers().pipe(
           catchError((err) => {
             // Friendly message for permission issues or others
             if (err?.status === 403) {
@@ -38,9 +38,9 @@ export class CustomerScreen {
 
   onDelete(id: number) {
     if (!confirm('Delete this customer?')) return;
-    this.customers.delete(id).subscribe(() => {
+    this.customers.deleteCustomer(id).subscribe(() => {
       // refresh stream after delete
-      this.customers$ = this.customers.getAll();
+      this.customers$ = this.customers.getAllCustomers();
     });
   }
   // purely list view per request

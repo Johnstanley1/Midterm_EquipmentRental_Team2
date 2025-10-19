@@ -37,7 +37,7 @@ export class CustomerDetailScreen {
       return;
     }
     this.customerId = id;
-    this.customer$ = this.service.getById(id);
+    this.customer$ = this.service.getCustomerById(id);
     // fetch active rental for this customer
     this.activeRental$ = this.http.get<Rental>(`/api/Customer/${id}/active-rental`).pipe(
       map((r) => r as Rental),

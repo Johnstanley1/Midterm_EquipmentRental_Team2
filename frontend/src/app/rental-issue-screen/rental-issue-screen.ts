@@ -53,7 +53,7 @@ export class RentalIssueScreen {
           )
           .map((e: any) => ({ id: e.id, name: e.name }));
       });
-      this.customerService.getAll().subscribe((list) => {
+      this.customerService.getAllCustomers().subscribe((list) => {
         this.customers = (list || []).map((c: any) => ({ id: c.id, name: c.name }));
       });
     }

@@ -34,7 +34,7 @@ export class EditCustomerScreen {
 
   ngOnInit() {
     this.id = Number(this.route.snapshot.paramMap.get('id'));
-    this.service.getById(this.id).subscribe((c: CustomerDto) => {
+    this.service.getCustomerById(this.id).subscribe((c: CustomerDto) => {
       this.form.patchValue({
         name: c.name,
         username: c.username,
@@ -58,7 +58,7 @@ export class EditCustomerScreen {
       isActive: !!raw.isActive,
     };
     this.service
-      .update(this.id, payload)
+      .updateCustomer(this.id, payload)
       .subscribe(() => this.router.navigate(['/view-customers']));
   }
 }
