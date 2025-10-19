@@ -35,9 +35,7 @@
 
     <div class="d-flex align-items-center ms-auto gap-3">
       <li class="nav-item" *ngIf="username as u">
-        <span class="navbar-text"
-          >Signed in as: <strong>{{ u }}</strong></span
-        >
+        <span class="navbar-text">User: <strong>{{ u }}</strong></span>
       </li>
       <li class="nav-item">
         <button class="btn btn-close-white" (click)="logout()">Logout</button>
