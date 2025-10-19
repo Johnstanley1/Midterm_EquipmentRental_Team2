@@ -70,7 +70,7 @@ namespace Midterm_EquipmentRental_Team2.Repositories
         public IEnumerable<Equipment> GetAvailable()
         {
             return _appDbContext.Equipments
-                .Where(e => e.Status == EquipmentStatus.Rented)
+                .Where(e => e.Status == EquipmentStatus.Available)
                 .ToList();
         }
 

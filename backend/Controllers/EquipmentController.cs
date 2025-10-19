@@ -37,7 +37,7 @@ namespace Midterm_EquipmentRental_Team2.Controllers
 
 
         [Authorize(Roles = "Admin, User")]
-        [HttpGet("{Id}")]
+        [HttpGet("{id}")]
         public ActionResult<Equipment> GetEquipmentById(int id)
         {
             var equipment = _unitOfWork.Equipements.GetEquipmentById(id);
@@ -115,7 +115,7 @@ namespace Midterm_EquipmentRental_Team2.Controllers
 
 
         [Authorize(Roles = "Admin")]
-        [HttpPut("{Id}")]
+        [HttpPut("{id}")]
         public ActionResult<Equipment> UpdateEquipement([FromBody] Equipment equipment)
         {
             if (equipment == null)
@@ -141,7 +141,7 @@ namespace Midterm_EquipmentRental_Team2.Controllers
 
 
         [Authorize(Roles = "Admin")]
-        [HttpDelete("{Id}")]
+        [HttpDelete("{id}")]
         public ActionResult<Equipment> DeleteEquipement(int id)
         {
             var existingEquipment = _unitOfWork.Equipements.GetEquipmentById(id);

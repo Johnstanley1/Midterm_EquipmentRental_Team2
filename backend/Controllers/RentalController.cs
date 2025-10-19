@@ -291,7 +291,6 @@ namespace Midterm_EquipmentRental_Team2.Controllers
             if (existingRental == null)
                 return NotFound($"No customer found with id {id}");
 
-            existingRental.Id = rental.Id;
             existingRental.IssuedAt = rental.IssuedAt;
             existingRental.DueDate = rental.DueDate;
             existingRental.ReturnedAt = rental.ReturnedAt;
@@ -300,9 +299,7 @@ namespace Midterm_EquipmentRental_Team2.Controllers
             existingRental.EquipmentCondition = rental.EquipmentCondition;
             existingRental.EquipmentStatus = rental.EquipmentStatus;
             existingRental.CustomerId = rental.CustomerId; 
-            existingRental.Customer.Name = rental.Customer.Name;
             existingRental.EquipmentId = rental.EquipmentId;
-            existingRental.Equipment.Name = rental.Equipment.Name;
             existingRental.Equipment = rental.Equipment;
 
             _unitOfWork.Rentals.UpdateRental(existingRental);
