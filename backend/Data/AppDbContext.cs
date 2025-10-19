@@ -230,7 +230,7 @@ namespace Midterm_EquipmentRental_Team2.Data
                 },
                 new Customer
                 {
-                    Id = 9,
+                    Id = 10,
                     Name = "User5",
                     Username = "user5",
                     Password = "user5",
