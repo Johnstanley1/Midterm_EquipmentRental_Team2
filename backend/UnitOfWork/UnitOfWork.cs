@@ -12,7 +12,6 @@ namespace Midterm_EquipmentRental_Team2.UnitOfWork
         private AppDbContext _appDbContext;
         public IEquipementService Equipements { get; }
         public ICustomerService Customers { get; }
-
         public IRentalService Rentals { get; }
 
         public UnitOfWork(AppDbContext appDbContext, IEquipementService equipementService,ICustomerService customerService,IRentalService rentalService)

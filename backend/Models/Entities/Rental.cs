@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 using Midterm_EquipmentRental_Team2.Models;
 
 namespace Midterm_EquipmentRental_Team2.Models
@@ -22,19 +23,19 @@ namespace Midterm_EquipmentRental_Team2.Models
         [Required(ErrorMessage = "Due date is required")]
         public DateTime? DueDate { get; set; }
 
-
-        [Required(ErrorMessage = "Return date is required")]
         public DateTime? ReturnedAt { get; set; }
 
-
-        [Required(ErrorMessage = "Return note is required")]
         [MaxLength(255)]
         public string? ReturnNotes { get; set; }
 
         public int CustomerId { get; set; }
-        public Customer Customer { get; set; }
+
+        [JsonIgnore]
+        public Customer? Customer { get; set; }
         public int EquipmentId { get; set; }
-        public Equipment Equipment { get; set; }
+
+        [JsonIgnore]
+        public Equipment? Equipment { get; set; }
 
         public Equipment.EquipmentCondition? EquipmentCondition { get; set; }
         public Equipment.EquipmentStatus? EquipmentStatus { get; set; }

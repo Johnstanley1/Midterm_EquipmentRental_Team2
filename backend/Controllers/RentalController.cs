@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.VisualBasic;
 using Midterm_EquipmentRental_Team2.Models;
 using Midterm_EquipmentRental_Team2.Models.DTOs;
 using Midterm_EquipmentRental_Team2.UnitOfWork;
+using static Midterm_EquipmentRental_Team2.Models.Equipment;
 
 namespace Midterm_EquipmentRental_Team2.Controllers
 {
@@ -32,9 +34,9 @@ namespace Midterm_EquipmentRental_Team2.Controllers
             }
             else
             {
-                // Non-admins see only their rentals
-                var username = User.Identity.Name; // or another claim
-                rentals = _unitOfWork.Rentals.GetAllRentalsForUser(username);
+                // users see only their rentals
+                var username = User.Identity.Name; 
+                rentals = _unitOfWork.Rentals.GetAllRentals();
             }
 
             return Ok(rentals);
@@ -42,208 +44,305 @@ namespace Midterm_EquipmentRental_Team2.Controllers
 
 
 
-        [Authorize(Roles = "Admin,User")]
+        [Authorize(Roles = "Admin, User")]
         [HttpGet("{id}")]
-        public ActionResult<Models.DTOs.RentalDTO> GetRental(int id)
+        public ActionResult<RentalDTO> GetRentalsById(int id)
         {
-            var isAdmin = User.IsInRole("Admin");
-            int? userId = isAdmin ? (int?)null : GetUserId();
-            var rental = _unitOfWork.Rentals.GetRentalDto(id, userId, isAdmin);
-            if (rental == null) return NotFound();
+            var rental = _unitOfWork.Rentals.GetRentalsById(id);
+
+            if (rental == null)
+                return NotFound($"No rentals found with id {id}");
+
+
+            if (User.IsInRole("User") && rental.CustomerName != User.Identity?.Name) // Users can only access their own data
+                return Forbid();
+
             return Ok(rental);
         }
 
-        [Authorize(Roles = "Admin,User")]
+
+         
+        [Authorize(Roles = "Admin, User")]
         [HttpGet("equipment/{equipmentId}")]
-        public ActionResult<IEnumerable<Models.DTOs.RentalDTO>> GetRentalsByEquipment(int equipmentId)
+        public ActionResult<IEnumerable<RentalDTO>> GetRentedEquipments(int id)
         {
-            var rentals = _unitOfWork.Rentals.GetRentalsByEquipment(equipmentId)
-                .Select((object r) => new Models.DTOs.RentalDTO
-                {
-                    Id = r.Id,
-                    EquipmentId = r.EquipmentId,
-                    EquipmentName = r.Equipment?.Name ?? string.Empty,
-                    EquipmentStatus = r.Equipment?.Status.ToString() ?? string.Empty,
-                    CustomerId = r.CustomerId,
-                    CustomerName = r.Customer?.Name ?? string.Empty,
-                    IssuedAt = r.IssuedAt,
-                    DueDate = r.DueDate,
-                    ReturnedAt = r.ReturnedAt,
-                    Status = r.Status
-                });
+            var rentals = _unitOfWork.Rentals.GetRentedEquipments(id);
+
+            if (rentals == null)
+                return NotFound($"No rentals found with id");
+
+
+            // If user is not admin, only return their own rentals
+            if (User.IsInRole("User"))
+            {
+                var username = User.Identity?.Name;
+                rentals = rentals.Where(r => r.CustomerName == username);
+            }
+
+
             return Ok(rentals);
         }
 
-        [Authorize(Roles = "Admin,User")]
+
+
+        [Authorize(Roles = "Admin, User")]
         [HttpGet("active")]
-        public ActionResult<IEnumerable<Models.DTOs.RentalDTO>> GetActiveRentals()
+        public ActionResult<IEnumerable<RentalDTO>> GetActiveRentals()
         {
-            var isAdmin = User.IsInRole("Admin");
-            int? userId = isAdmin ? (int?)null : GetUserId();
-            var rentals = _unitOfWork.Rentals.GetActiveRentals(userId, isAdmin)
-                .Select((Models.Rental r) => new Models.DTOs.RentalDTO
-                {
-                    Id = r.Id,
-                    EquipmentId = r.EquipmentId,
-                    EquipmentName = r.Equipment?.Name ?? string.Empty,
-                    EquipmentStatus = r.Equipment?.Status.ToString() ?? string.Empty,
-                    CustomerId = r.CustomerId,
-                    CustomerName = r.Customer?.Name ?? string.Empty,
-                    IssuedAt = r.IssuedAt,
-                    DueDate = r.DueDate,
-                    ReturnedAt = r.ReturnedAt,
-                    Status = r.Status
-                });
+            var rentals = _unitOfWork.Rentals.GetActiveRentals();
+
+            if (rentals == null)
+                return NotFound($"No rental found with id");
+
+
+            // If user is not admin, only return their own rentals
+            if (User.IsInRole("User"))
+            {
+                var username = User.Identity?.Name;
+                rentals = rentals.Where(r => r.CustomerName == username);
+            }
+
             return Ok(rentals);
         }
 
-        [Authorize(Roles = "Admin,User")]
+
+
+        [Authorize(Roles = "Admin, User")]
         [HttpGet("completed")]
-        public ActionResult<IEnumerable<Models.DTOs.RentalDTO>> GetCompletedRentals()
+        public ActionResult<IEnumerable<RentalDTO>> GetCompletedRentals()
         {
-            var isAdmin = User.IsInRole("Admin");
-            int? userId = isAdmin ? (int?)null : GetUserId();
-            var rentals = _unitOfWork.Rentals.GetCompletedRentals(userId, isAdmin)
-                .Select((Models.Rental r) => new Models.DTOs.RentalDTO
-                {
-                    Id = r.Id,
-                    EquipmentId = r.EquipmentId,
-                    EquipmentName = r.Equipment?.Name ?? string.Empty,
-                    EquipmentStatus = r.Equipment?.Status.ToString() ?? string.Empty,
-                    CustomerId = r.CustomerId,
-                    CustomerName = r.Customer?.Name ?? string.Empty,
-                    IssuedAt = r.IssuedAt,
-                    DueDate = r.DueDate,
-                    ReturnedAt = r.ReturnedAt,
-                    Status = r.Status
-                });
+            var rentals = _unitOfWork.Rentals.GetCompletedRentals();
+
+            if (rentals == null)
+                return NotFound($"No rental found with id");
+
+
+            // If user is not admin, only return their own rentals
+            if (User.IsInRole("User"))
+            {
+                var username = User.Identity?.Name;
+                rentals = rentals.Where(r => r.CustomerName == username);
+            }
+
             return Ok(rentals);
         }
 
-        [Authorize(Roles = "Admin,User")]
+
+
+        [Authorize(Roles = "Admin, User")]
         [HttpGet("overdue")]
-        public ActionResult<IEnumerable<Models.DTOs.RentalDTO>> GetOverdueRentals()
+        public ActionResult<IEnumerable<RentalDTO>> GetOverdueRentals()
         {
-            var isAdmin = User.IsInRole("Admin");
-            var userId = isAdmin ? (int?)null : GetUserId();
             var rentals = _unitOfWork.Rentals.GetOverdueRentals();
-            if (!isAdmin && userId.HasValue)
+
+            if (rentals == null)
+                return NotFound($"No customer found with id");
+
+            // If user is not admin, only return their own rentals
+            if (User.IsInRole("User"))
             {
-                rentals = rentals.Where(r => r.CustomerId == userId.Value);
+                var username = User.Identity?.Name;
+                rentals = rentals.Where(r => r.CustomerName == username);
             }
-            var dtos = rentals.Select((Models.Rental r) => new Models.DTOs.RentalDTO
-            {
-                Id = r.Id,
-                EquipmentId = r.EquipmentId,
-                EquipmentName = r.Equipment?.Name ?? string.Empty,
-                EquipmentStatus = r.Equipment?.Status.ToString() ?? string.Empty,
-                CustomerId = r.CustomerId,
-                CustomerName = r.Customer?.Name ?? string.Empty,
-                IssuedAt = r.IssuedAt,
-                DueDate = r.DueDate,
-                ReturnedAt = r.ReturnedAt,
-                Status = r.Status
-            });
-            return Ok(dtos);
+
+            return Ok(rentals);
         }
 
-        [Authorize(Roles = "Admin,User")]
+
+
+        //[Authorize(Roles = "Admin, User")]
+        //[HttpPost("issue")]
+        //public ActionResult<RentalDTO> AddRental([FromBody] RentalDTO rentalDTO)
+        //{
+        //    if (rentalDTO == null)
+        //        return BadRequest("Customer data is required.");
+
+        //    var rental = new Rental
+        //    {
+        //        Id = rentalDTO.Id,
+        //        IssuedAt = rentalDTO.IssuedAt,
+        //        DueDate = rentalDTO.DueDate,
+        //        ReturnedAt = rentalDTO.ReturnedAt,
+        //        ReturnNotes = rentalDTO.ReturnNotes,
+        //        CustomerId = rentalDTO.CustomerId,
+        //        EquipmentId = rentalDTO.EquipmentId,
+        //        EquipmentCondition = Enum.Parse<Equipment.EquipmentCondition>(rentalDTO.EquipmentCondition, true),
+        //        EquipmentStatus = Enum.Parse<Equipment.EquipmentStatus>(rentalDTO.EquipmentStatus, true),
+        //        Status = Enum.Parse<Rental.RentalStatus>(rentalDTO.Status, true),
+        //    };
+
+        //    _unitOfWork.Rentals.AddRental(rental);
+        //    _unitOfWork.Complete();
+        //    return CreatedAtAction(nameof(GetAllRentals), new { id = rental.Id }, rental);
+        //}
+
+
+
+
+        [Authorize(Roles = "Admin, User")]
         [HttpPost("issue")]
-        public IActionResult IssueRental([FromBody] IssueRentalRequest request)
+        public ActionResult<Rental> AddRental([FromBody] Rental rental)
         {
-            var isAdmin = User.IsInRole("Admin");
-            var userId = GetUserId();
-            try
-            {
-                var targetCustomerId = isAdmin && (request.CustomerId ?? 0) != 0 ? request.CustomerId!.Value : userId;
-                var rental = new Models.Rental
-                {
-                    EquipmentId = request.EquipmentId,
-                    CustomerId = targetCustomerId,
-                    DueDate = request.DueDate,
-                    IssuedAt = request.IssuedAt ?? default(DateTime),
-                    Status = "Active"
-                };
-                _unitOfWork.Rentals.IssueRental(rental, targetCustomerId);
-                _unitOfWork.Complete();
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            if (rental == null)
+                return BadRequest("Customer data is required.");
+
+            _unitOfWork.Rentals.AddRental(rental);
+            _unitOfWork.Complete();
+            return CreatedAtAction(nameof(GetAllRentals), new { id = rental.Id }, rental);
         }
 
-        [Authorize(Roles = "Admin,User")]
+
+
+        //[Authorize(Roles = "Admin, User")]
+        //[HttpPost("return")]
+        //public IActionResult ReturnRental([FromBody] RentalDTO rentalDTO)
+        //{
+        //    // Fetch exisiting rental
+        //    var existingRental = _unitOfWork.Rentals.GetCustomerEntityById(rentalDTO.Id);
+        //    if (existingRental == null)
+        //        return NotFound($"No customer found with id {rentalDTO.Id}");
+
+        //    // Mark as returned
+        //    rentalDTO.ReturnedAt = DateTime.UtcNow;
+        //    rentalDTO.Status = Rental.RentalStatus.Returned;
+
+        //    _unitOfWork.Rentals.ReturnRental(rental);
+        //    _unitOfWork.Complete();
+        //    return CreatedAtAction(nameof(GetAllRentals), new { id = rental.Id }, rental);
+        //}
+
+
+
+        [Authorize(Roles = "Admin, User")]
         [HttpPost("return")]
-        public IActionResult ReturnRental([FromBody] ReturnRentalRequest request, [FromQuery] bool force = false)
+        public ActionResult<Rental> ReturnRental(int id)
         {
-            var userId = GetUserId();
-            try
+            // Fetch exisiting rental
+            var existingRental = _unitOfWork.Rentals.GetRentalEntityById(id);
+            if (existingRental == null)
+                return NotFound($"No customer found with id {id}");
+
+            // Mark as returned
+            existingRental.ReturnedAt = DateTime.UtcNow;
+            existingRental.Status = Rental.RentalStatus.Returned;
+
+            _unitOfWork.Rentals.UpdateRental(existingRental);
+            _unitOfWork.Complete();
+
+            // Return DTO
+            var rentalDTO = new RentalDTO
             {
-                // Admins can always force-return without requiring the query flag
-                var canForce = User.IsInRole("Admin") || force;
-                _unitOfWork.Rentals.ReturnRental(request.Id, userId, request.ReturnNotes, request.ReturnCondition, canForce);
-                _unitOfWork.Complete();
-                return Ok();
-            }
-            catch (UnauthorizedAccessException ex)
-            {
-                return StatusCode(StatusCodes.Status403Forbidden, ex.Message);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+                Id = existingRental.Id,
+                IssuedAt = existingRental.IssuedAt,
+                DueDate = existingRental.DueDate,
+                ReturnedAt = existingRental.ReturnedAt,
+                ReturnNotes = existingRental.ReturnNotes,
+                Status = existingRental.Status.ToString(),
+                EquipmentCondition = existingRental.EquipmentCondition.ToString(),
+                EquipmentStatus = existingRental.EquipmentStatus.ToString(),
+                CustomerId = existingRental.CustomerId,
+                CustomerName = existingRental.Customer.Name,
+                EquipmentId = existingRental.EquipmentId,
+                EquipmentName = existingRental.Equipment.Name,
+                Equipment = existingRental.Equipment 
+            };
+
+            return CreatedAtAction(nameof(GetRentalsById), new { id = existingRental.Id }, existingRental);
         }
 
-        [Authorize(Roles = "Admin,User")]
+
+
+        //[Authorize(Roles = "Admin")]
+        //[HttpPut("{id}/extend")]
+        //public IActionResult ExtendRental([FromBody] RentalDTO rental)
+        //{
+        //    var existingRental = _unitOfWork.Rentals.GetRentalsById(rental.Id);
+        //    if (existingRental == null)
+        //        return NotFound($"No customer found with id {rental.Id}");
+
+        //    existingRental.Id = rental.Id;
+        //    existingRental.IssuedAt = rental.IssuedAt;
+        //    existingRental.DueDate = rental.DueDate;
+        //    existingRental.ReturnedAt = rental.ReturnedAt;  
+        //    existingRental.ReturnNotes = rental.ReturnNotes;    
+        //    existingRental.Status = rental.Status;
+        //    existingRental.EquipmentCondition = rental.EquipmentCondition;
+        //    existingRental.EquipmentStatus = rental.EquipmentStatus;
+        //    existingRental.CustomerId = rental.CustomerId;
+        //    existingRental.CustomerName = rental.CustomerName;
+        //    existingRental.EquipmentId = rental.EquipmentId;    
+        //    existingRental.EquipmentName = rental.EquipmentName;
+        //    existingRental.Equipments = new List<Equipment> { rental.Equipments };
+            
+        //    _unitOfWork.Rentals.UpdateRental(existingRental);
+        //    _unitOfWork.Complete();
+        //    return CreatedAtAction(nameof(GetAllRentals), new { id = rental.Id }, rental);
+        //}
+
+
+
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id}/extend")]
-        public IActionResult ExtendRental(int id, [FromBody] ExtendRentalRequest request)
+        public ActionResult<Rental> ExtendRental(int id, [FromBody] Rental rental)
         {
-            var userId = GetUserId();
-            var isAdmin = User.IsInRole("Admin");
-            try
-            {
-                _unitOfWork.Rentals.ExtendRental(id, request.DueDate == default(DateTime) ? DateTime.UtcNow : request.DueDate, request.Reason ?? string.Empty, userId, isAdmin);
-                _unitOfWork.Complete();
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            var existingRental = _unitOfWork.Rentals.GetRentalEntityById(id);
+            if (existingRental == null)
+                return NotFound($"No customer found with id {id}");
+
+            existingRental.Id = rental.Id;
+            existingRental.IssuedAt = rental.IssuedAt;
+            existingRental.DueDate = rental.DueDate;
+            existingRental.ReturnedAt = rental.ReturnedAt;
+            existingRental.ReturnNotes = rental.ReturnNotes;
+            existingRental.Status = rental.Status;
+            existingRental.EquipmentCondition = rental.EquipmentCondition;
+            existingRental.EquipmentStatus = rental.EquipmentStatus;
+            existingRental.CustomerId = rental.CustomerId; 
+            existingRental.Customer.Name = rental.Customer.Name;
+            existingRental.EquipmentId = rental.EquipmentId;
+            existingRental.Equipment.Name = rental.Equipment.Name;
+            existingRental.Equipment = rental.Equipment;
+
+            _unitOfWork.Rentals.UpdateRental(existingRental);
+            _unitOfWork.Complete();
+            return CreatedAtAction(nameof(GetAllRentals), new { id = id }, rental);
         }
+
+
+
 
         [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
-        public IActionResult CancelRental(int id, [FromQuery] bool force = false)
+        public ActionResult<Rental> DeleteRental(int id)
         {
-            var userId = GetUserId();
-            try
+            var existingRental = _unitOfWork.Rentals.GetRentalEntityById(id);
+            if (existingRental == null)
+                return NotFound($"No customer found with id {id}");
+
+            _unitOfWork.Rentals.DeleteRental(existingRental);
+            _unitOfWork.Complete();
+
+            var resultDto = new RentalDTO
             {
-                var canForce = User.IsInRole("Admin") || force;
-                _unitOfWork.Rentals.CancelRental(id, userId, canForce);
-                _unitOfWork.Complete();
-                return Ok();
-            }
-            catch (UnauthorizedAccessException ex)
-            {
-                return StatusCode(StatusCodes.Status403Forbidden, ex.Message);
-            }
-            catch (InvalidOperationException ex)
-            {
-                if (ex.Message.Contains("not found", StringComparison.OrdinalIgnoreCase))
-                {
-                    return NotFound(ex.Message);
-                }
-                return BadRequest(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+                Id = existingRental.Id,
+                IssuedAt = existingRental.IssuedAt,
+                DueDate = existingRental.DueDate,
+                ReturnedAt = existingRental.ReturnedAt,
+                ReturnNotes = existingRental.ReturnNotes,
+                Status = existingRental.Status.ToString(),
+                EquipmentCondition = existingRental.EquipmentCondition.ToString(),
+                EquipmentStatus = existingRental.EquipmentStatus.ToString(),
+                CustomerId = existingRental.CustomerId,
+                CustomerName = existingRental.Customer.Name,
+                EquipmentId = existingRental.EquipmentId,
+                EquipmentName = existingRental.Equipment.Name,
+                Equipment = existingRental.Equipment
+            };
+
+            return Ok(existingRental);
         }
+
+
 
         private int GetUserId()
         {

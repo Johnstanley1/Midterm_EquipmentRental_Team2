@@ -5,13 +5,14 @@ namespace Midterm_EquipmentRental_Team2.Services
 {
     public interface IRentalService
     {
-        IEnumerable<Rental> GetAllRentals();
+        IEnumerable<RentalDTO> GetAllRentals();
         IEnumerable<Enums> GetStatus();
-        IEnumerable<Rental> GetRentedEquipments(int equipmentId);
-        IEnumerable<Rental> GetActiveRentals(int equipmentId);
-        IEnumerable<Rental> GetCompletedRentals(int equipmentId);
-        IEnumerable<Rental> GetOverdueRentals();
-        Rental? GetRentalsById(int rentalId);
+        IEnumerable<RentalDTO> GetRentedEquipments(int id);
+        IEnumerable<RentalDTO> GetActiveRentals();
+        IEnumerable<RentalDTO> GetCompletedRentals();
+        IEnumerable<RentalDTO> GetOverdueRentals();
+        RentalDTO? GetRentalsById(int rentalId);
+        Rental GetRentalEntityById(int id);
         void AddRental(Rental rental);
         void UpdateRental(Rental rental);
         void ReturnRental(Rental rental);

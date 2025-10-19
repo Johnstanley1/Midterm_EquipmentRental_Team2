@@ -14,14 +14,19 @@ namespace Midterm_EquipmentRental_Team2.Services
         }
 
 
-        public IEnumerable<Rental> GetAllRentals()
+        public IEnumerable<RentalDTO> GetAllRentals()
         {
             return _rentalRepository.GetAll();
         }
 
-        public Rental GetRentalsById(int rentalId)
+        public RentalDTO GetRentalsById(int rentalId)
         {
             return _rentalRepository.GetById(rentalId);
+        }
+
+        public Rental GetRentalEntityById(int rentalId)
+        {
+            return _rentalRepository.GetByEntityId(rentalId);
         }
 
         public IEnumerable<Enums> GetStatus()
@@ -29,22 +34,22 @@ namespace Midterm_EquipmentRental_Team2.Services
             return _rentalRepository.GetStatus();
         }
 
-        public IEnumerable<Rental> GetRentedEquipments(int equipmentId)
+        public IEnumerable<RentalDTO> GetRentedEquipments(int id)
         {
-            return _rentalRepository.GetRented(equipmentId);
+            return _rentalRepository.GetRented(id);
         }
 
-        public IEnumerable<Rental> GetActiveRentals(int equipmentId)
+        public IEnumerable<RentalDTO> GetActiveRentals()
         {
-            return _rentalRepository.GetActive(equipmentId);
+            return _rentalRepository.GetActive();
         }
 
-        public IEnumerable<Rental> GetCompletedRentals(int equipmentId)
+        public IEnumerable<RentalDTO> GetCompletedRentals()
         { 
-            return _rentalRepository.GetCompleted(equipmentId);
+            return _rentalRepository.GetCompleted();
         }
 
-        public IEnumerable<Rental> GetOverdueRentals()
+        public IEnumerable<RentalDTO> GetOverdueRentals()
         {
             return _rentalRepository.GetOverdue();
         }

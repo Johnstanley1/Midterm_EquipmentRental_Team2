@@ -23,13 +23,12 @@ namespace Midterm_EquipmentRental_Team2.Models
         public string Username { get; set; } = string.Empty;
 
 
-        [Required(ErrorMessage = "Passwor  is required")]
+        [Required(ErrorMessage = "Password  is required")]
         [MaxLength(100)]
         public string Password { get; set; } = string.Empty;
 
 
         [Required(ErrorMessage = "Role type is required")]
-        [MaxLength(20)]
         public UserRole Role { get; set; }
 
         public bool IsActive { get; set; } = true;

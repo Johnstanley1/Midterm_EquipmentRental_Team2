@@ -7,11 +7,12 @@ namespace Midterm_EquipmentRental_Team2.Services
     {
         IEnumerable<CustomerDTO> GetAllCustomers();
         CustomerDTO GetCustomerById(int id);
+        Customer GetByCustomerEntityId(int id);
         CustomerDTO GetCustomerRentalsById(int customerId);
         CustomerDTO GetActiveCustomerRentalsById(int customerId);
         IEnumerable<Enums> GetCustomerRoles();
-        void CreateCustomer(CustomerDTO customer);
-        void UpdateCustomer(CustomerDTO customer);
-        void DeleteCustomer(CustomerDTO customer);
+        void CreateCustomer(Customer customer);
+        void UpdateCustomer(Customer customer);
+        void DeleteCustomer(Customer customer);
     }
 }

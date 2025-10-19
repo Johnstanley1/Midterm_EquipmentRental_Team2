@@ -51,6 +51,13 @@ namespace Midterm_EquipmentRental_Team2.Repositories
                 .ToList();
         }
 
+        public Customer GetByEntityId(int id)
+        {
+            return _context.Customers
+            .Include(c => c.Rentals)  
+            .ThenInclude(c => c.Equipment)
+            .FirstOrDefault(c => c.Id == id);
+        }
 
 
         public CustomerDTO GetById(int id)

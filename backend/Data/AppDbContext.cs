@@ -1,5 +1,7 @@
 ﻿using Midterm_EquipmentRental_Team2.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualBasic;
+using static Midterm_EquipmentRental_Team2.Models.Equipment;
 
 namespace Midterm_EquipmentRental_Team2.Data
 {
@@ -38,103 +40,109 @@ namespace Midterm_EquipmentRental_Team2.Data
                 {
                     Id = 1,
                     Name = "Excavator",
-                    Category = Equipment.EquipmentCategory.Vehicles,
-                    Condition = Equipment.EquipmentCondition.Excellent,
+                    Category = EquipmentCategory.Vehicles,
+                    Condition = EquipmentCondition.Excellent,
                     Description = "CAT 320 Excavator",
                     IsAvailable = false,
-                    Status = Equipment.EquipmentStatus.Rented
+                    Status = EquipmentStatus.Rented
                 },
                 new Equipment
                 {
                     Id = 2,
                     Name = "Jackhammer",
-                    Category = Equipment.EquipmentCategory.PowerTools,
-                    Condition = Equipment.EquipmentCondition.Excellent,
+                    Category = EquipmentCategory.PowerTools,
+                    Condition = EquipmentCondition.Excellent,
                     Description = "Bosch Electric Jackhammer",
                     IsAvailable = false,
-                    Status = Equipment.EquipmentStatus.Maintenance
+                    Status = EquipmentStatus.Maintenance
                 },
                 new Equipment
                 {
                     Id = 3,
                     Name = "Surveying Drone",
-                    Category = Equipment.EquipmentCategory.HeavyMachinery,
-                    Condition = Equipment.EquipmentCondition.Good,
+                    Category = EquipmentCategory.HeavyMachinery,
+                    Condition = EquipmentCondition.Good,
                     Description = "DJI Phantom 4 RTK",
                     IsAvailable = false,
-                    Status = Equipment.EquipmentStatus.Rented
+                    Status = EquipmentStatus.Rented
                 },
                 new Equipment
                 {
                     Id = 4,
                     Name = "Paint Roller",
-                    Category = Equipment.EquipmentCategory.PowerTools,
-                    Condition = Equipment.EquipmentCondition.Excellent,
+                    Category = EquipmentCategory.PowerTools,
+                    Condition = EquipmentCondition.Excellent,
                     Description = "Double Sided Roller",
                     IsAvailable = false,
-                    Status = Equipment.EquipmentStatus.Rented
+                    Status = EquipmentStatus.Rented
                 },
                 new Equipment
                 {
                     Id = 5,
                     Name = "Mechnical Gloves",
-                    Category = Equipment.EquipmentCategory.Safety,
-                    Condition = Equipment.EquipmentCondition.New,
+                    Category = EquipmentCategory.Safety,
+                    Condition = EquipmentCondition.New,
                     Description = "Rechargeable Gloves",
                     IsAvailable = true,
-                    Status = Equipment.EquipmentStatus.Maintenance
+                    Status = EquipmentStatus.Maintenance
                 },
                 new Equipment
                 {
                     Id = 6,
                     Name = "Concrete Mixer",
-                    Category = Equipment.EquipmentCategory.HeavyMachinery,
-                    Condition = Equipment.EquipmentCondition.Good,
+                    Category = EquipmentCategory.HeavyMachinery,
+                    Condition = EquipmentCondition.Good,
                     Description = "Portable Electric Mixer",
                     IsAvailable = true,
-                    Status = Equipment.EquipmentStatus.Available
+                    Status = EquipmentStatus.Available
                 },
                 new Equipment
                 {
                     Id = 7,
                     Name = "Safety Helmet",
-                    Category = Equipment.EquipmentCategory.Safety,
-                    Condition = Equipment.EquipmentCondition.Excellent,
+                    Category = EquipmentCategory.Safety,
+                    Condition = EquipmentCondition.Excellent,
                     Description = "ANSI Z89.1 Helmet",
                     IsAvailable = true,
-                    Status = Equipment.EquipmentStatus.Available
+                    Status = EquipmentStatus.Available
                 },
                 new Equipment
                 {
                     Id = 8,
                     Name = "Laser Level",
-                    Category = Equipment.EquipmentCategory.Surveying,
-                    Condition = Equipment.EquipmentCondition.Good,
+                    Category = EquipmentCategory.Surveying,
+                    Condition = EquipmentCondition.Good,
                     Description = "Rotary Laser Level",
                     IsAvailable = false,
-                    Status = Equipment.EquipmentStatus.Rented
+                    Status = EquipmentStatus.Rented
                 },
                 new Equipment
                 {
                     Id = 9,
                     Name = "Pickup Truck",
-                    Category = Equipment.EquipmentCategory.Vehicles,
-                    Condition = Equipment.EquipmentCondition.Fair,
+                    Category = EquipmentCategory.Vehicles,
+                    Condition = EquipmentCondition.Fair,
                     Description = "1/2 Ton Truck",
                     IsAvailable = true,
-                    Status = Equipment.EquipmentStatus.Available
+                    Status = EquipmentStatus.Available
                 },
                 new Equipment
                 {
                     Id = 10,
                     Name = "Chainsaw",
-                    Category = Equipment.EquipmentCategory.PowerTools,
-                    Condition = Equipment.EquipmentCondition.Good,
+                    Category = EquipmentCategory.PowerTools,
+                    Condition = EquipmentCondition.Good,
                     Description = "Stihl Chainsaw",
                     IsAvailable = true,
-                    Status = Equipment.EquipmentStatus.Available
+                    Status = EquipmentStatus.Available
                 }
             );
+
+
+
+            modelBuilder.Entity<Customer>()
+                .Property(c => c.Role)
+                .HasConversion<string>();
 
 
             // Seed data for Customer
@@ -227,74 +235,93 @@ namespace Midterm_EquipmentRental_Team2.Data
                {
                    Id = 1,
                    CustomerId = 1,
+                   EquipmentId = 1,
                    IssuedAt = DateTime.UtcNow.AddDays(-10),
                    DueDate = DateTime.UtcNow.AddDays(10),
+                   ReturnedAt = null,
                    Status = Rental.RentalStatus.Active,
                    ReturnNotes = "",
-                   EquipmentCondition = Equipment.EquipmentCondition.New
+                   EquipmentCondition = Equipment.EquipmentCondition.New,
+                   EquipmentStatus = Equipment.EquipmentStatus.Rented
                },
                new Rental
                {
                    Id = 2,
                    CustomerId = 2,
+                   EquipmentId = 2,
                    IssuedAt = DateTime.UtcNow.AddDays(-5),
                    DueDate = DateTime.UtcNow.AddDays(5),
+                   ReturnedAt = null,
                    Status = Rental.RentalStatus.Active,
                    ReturnNotes = "",
-                   EquipmentCondition = Equipment.EquipmentCondition.New
+                   EquipmentCondition = Equipment.EquipmentCondition.New,
+                   EquipmentStatus = Equipment.EquipmentStatus.Rented
                },
                new Rental
                {
                    Id = 3,
-                   CustomerId = 3, 
+                   CustomerId = 3,
+                   EquipmentId = 3,
                    IssuedAt = DateTime.UtcNow.AddDays(-20),
                    DueDate = DateTime.UtcNow.AddDays(-10),
                    ReturnedAt = DateTime.UtcNow.AddDays(-9),
                    Status = Rental.RentalStatus.Returned,
                    ReturnNotes = "Returned in good condition",
-                   EquipmentCondition = Equipment.EquipmentCondition.Good
+                   EquipmentCondition = Equipment.EquipmentCondition.Good,
+                   EquipmentStatus = Equipment.EquipmentStatus.Available
 
                },
                new Rental
                {
                    Id = 4,
                    CustomerId = 4,
+                   EquipmentId = 4,
                    IssuedAt = DateTime.UtcNow.AddDays(-2),
                    DueDate = DateTime.UtcNow.AddDays(12),
+                   ReturnedAt = null,
                    Status = Rental.RentalStatus.Active,
                    ReturnNotes = "",
-                   EquipmentCondition = Equipment.EquipmentCondition.Good
+                   EquipmentCondition = Equipment.EquipmentCondition.Good,
+                   EquipmentStatus = Equipment.EquipmentStatus.Rented
                },
                new Rental
                {
                    Id = 5,
                    CustomerId = 5,
+                   EquipmentId = 5,
                    IssuedAt = DateTime.UtcNow.AddDays(-30),
                    DueDate = DateTime.UtcNow.AddDays(-5),
+                   ReturnedAt = null,
                    Status = Rental.RentalStatus.Overdue,
                    ReturnNotes = "",
-                   EquipmentCondition = Equipment.EquipmentCondition.Excellent
+                   EquipmentCondition = Equipment.EquipmentCondition.Excellent,
+                   EquipmentStatus = Equipment.EquipmentStatus.Rented
                },
                new Rental
                {
                    Id = 6,
                    CustomerId = 6,
+                   EquipmentId = 6,
                    IssuedAt = DateTime.UtcNow.AddDays(-1),
                    DueDate = DateTime.UtcNow.AddDays(6),
+                   ReturnedAt = null,
                    Status = Rental.RentalStatus.Active,
                    ReturnNotes = "",
-                   EquipmentCondition = Equipment.EquipmentCondition.Excellent
+                   EquipmentCondition = Equipment.EquipmentCondition.Excellent,
+                   EquipmentStatus = Equipment.EquipmentStatus.Rented
                },
                new Rental
                {
                    Id = 7,
                    CustomerId = 7,
+                   EquipmentId = 7,
                    IssuedAt = DateTime.UtcNow.AddDays(-15),
                    DueDate = DateTime.UtcNow.AddDays(-1),
                    ReturnedAt = DateTime.UtcNow.AddDays(-1),
                    Status = Rental.RentalStatus.Returned,
                    ReturnNotes = "Chain replaced",
-                   EquipmentCondition = Equipment.EquipmentCondition.Fair
+                   EquipmentCondition = Equipment.EquipmentCondition.Fair,
+                   EquipmentStatus = Equipment.EquipmentStatus.Available
                }
            );
 

@@ -16,31 +16,85 @@ namespace Midterm_EquipmentRental_Team2.Repositories
         }
 
 
-        public IEnumerable<Rental> GetAll()
+        public IEnumerable<RentalDTO> GetAll()
         {
             return _context.Rentals
-                .Include(c => c.Customer)
-                .Include(e => e.Equipments)
+                .Include(r => r.Customer)
+                .Include(r => r.Equipment)
+                .Select(r => new RentalDTO
+                {
+                    Id = r.Id,
+                    IssuedAt = r.IssuedAt,
+                    DueDate = r.DueDate,
+                    ReturnedAt = r.ReturnedAt,
+                    ReturnNotes = r.ReturnNotes,
+                    Status = r.Status.ToString(),
+                    EquipmentCondition = r.EquipmentCondition.ToString(),
+                    EquipmentStatus = r.EquipmentStatus.ToString(),
+                    CustomerId = r.CustomerId,
+                    CustomerName = r.Customer.Name,
+                    EquipmentName = r.Equipment.Name,
+                    Equipment = r.Equipment
+                })
                 .ToList();
         }
 
 
-        public Rental? GetById(int id)
+        public Rental GetByEntityId(int id)
         {
             return _context.Rentals
-                .Include(c => c.Customer)
-                .Include(e => e.Equipments)
+                .Include(r => r.Customer)
+                .Include(r => r.Equipment)
                 .FirstOrDefault(r => r.Id == id);
         }
 
-        public IEnumerable<Rental> GetRented(int id)
+
+        public RentalDTO? GetById(int id)
         {
             return _context.Rentals
-                .Include(c => c.Customer)
-                .Include(e => e.Equipments)
-                .Where(r => r.EquipmentStatus == EquipmentStatus.Rented)
+                .Include(r => r.Customer)
+                .Include(r => r.Equipment)
+                .Select(r => new RentalDTO
+                {
+                    Id = r.Id,
+                    IssuedAt = r.IssuedAt,
+                    DueDate = r.DueDate,
+                    ReturnedAt = r.ReturnedAt,
+                    ReturnNotes = r.ReturnNotes,
+                    Status = r.Status.ToString(),
+                    EquipmentCondition = r.EquipmentCondition.ToString(),
+                    EquipmentStatus = r.EquipmentStatus.ToString(),
+                    CustomerId = r.CustomerId,
+                    CustomerName = r.Customer.Name,
+                    EquipmentName = r.Equipment.Name,
+                    Equipment = r.Equipment
+                })
+                .FirstOrDefault(r => r.Id == id);
+                
+        }
+
+        public IEnumerable<RentalDTO> GetRented(int id)
+        {
+            return _context.Rentals
+                .Where(r => r.EquipmentStatus == EquipmentStatus.Rented && r.CustomerId == id)
+                .Select(r => new RentalDTO
+                {
+                    Id = r.Id,
+                    IssuedAt = r.IssuedAt,
+                    DueDate = r.DueDate,
+                    ReturnedAt = r.ReturnedAt,
+                    ReturnNotes = r.ReturnNotes,
+                    Status = r.Status.ToString(),
+                    EquipmentCondition = r.EquipmentCondition.ToString(),
+                    EquipmentStatus = r.EquipmentStatus.ToString(),
+                    CustomerId = r.CustomerId,
+                    CustomerName = r.Customer.Name,
+                    EquipmentName = r.Equipment.Name,
+                    Equipment = r.Equipment
+                })
                 .ToList();
         }
+
 
         public IEnumerable<Enums> GetStatus()
         {
@@ -51,40 +105,82 @@ namespace Midterm_EquipmentRental_Team2.Repositories
         }
 
 
-        public IEnumerable<Rental> GetActive(int id) 
+        public IEnumerable<RentalDTO> GetActive()
         {
             return _context.Rentals
-                .Include(r => r.Customer)
-                .Include(r => r.Equipments)
-                .Where(r => r.CustomerId == id && r.ReturnedAt == null)
+                .Where(r => r.Status == RentalStatus.Active && r.ReturnedAt == null)
+                .Select(r => new RentalDTO
+                {
+                    Id = r.Id,
+                    IssuedAt = r.IssuedAt,
+                    DueDate = r.DueDate,
+                    ReturnedAt = r.ReturnedAt,
+                    ReturnNotes = r.ReturnNotes,
+                    Status = r.Status.ToString(),
+                    EquipmentCondition = r.EquipmentCondition.ToString(),
+                    EquipmentStatus = r.EquipmentStatus.ToString(),
+                    CustomerId = r.CustomerId,
+                    CustomerName = r.Customer.Name,
+                    EquipmentName = r.Equipment.Name,
+                    Equipment = r.Equipment 
+                })
                 .ToList();
-
         }
 
-        public IEnumerable<Rental> GetCompleted(int id)
-        {
-            return _context.Rentals
-                .Include(r => r.Customer)
-                .Include(r => r.Equipments)
-                .Where(r => r.CustomerId == id && r.ReturnedAt != null).ToList();
-        }
-        
 
-        public IEnumerable<Rental> GetOverdue()
+        public IEnumerable<RentalDTO> GetCompleted()
         {
             return _context.Rentals
-                .Include(r => r.Customer)
-                .Include(r => r.Equipments)
+                .Where(r => r.Status == RentalStatus.Returned && r.ReturnedAt != null)
+                .Select(r => new RentalDTO
+                {
+                    Id = r.Id,
+                    IssuedAt = r.IssuedAt,
+                    DueDate = r.DueDate,
+                    ReturnedAt = r.ReturnedAt,
+                    ReturnNotes = r.ReturnNotes,
+                    Status = r.Status.ToString(),
+                    EquipmentCondition = r.EquipmentCondition.ToString(),
+                    EquipmentStatus = r.EquipmentStatus.ToString(),
+                    CustomerId = r.CustomerId,
+                    CustomerName = r.Customer.Name,
+                    EquipmentName = r.Equipment.Name,
+                    Equipment = r.Equipment // or map to EquipmentDTO if needed
+                })
+                .ToList();
+        }
+
+
+
+        public IEnumerable<RentalDTO> GetOverdue()
+        {
+            return _context.Rentals
                 .Where(r => r.DueDate < DateTime.UtcNow && r.ReturnedAt == null)
+                .Select(r => new RentalDTO
+                {
+                    Id = r.Id,
+                    IssuedAt = r.IssuedAt,
+                    DueDate = r.DueDate,
+                    ReturnedAt = r.ReturnedAt,
+                    ReturnNotes = r.ReturnNotes,
+                    Status = r.Status.ToString(),
+                    EquipmentCondition = r.EquipmentCondition.ToString(),
+                    EquipmentStatus = r.EquipmentStatus.ToString(),
+                    CustomerId = r.CustomerId,
+                    CustomerName = r.Customer.Name,
+                    EquipmentName = r.Equipment.Name,
+                    Equipment = r.Equipment // or map to EquipmentDTO
+                })
                 .ToList();
         }
-        
+
+
 
         public void Return(Rental rental)
         {
             _context.Rentals
                 .Include(r => r.Customer)
-                .Include(r => r.Equipments)
+                .Include(r => r.Equipment)
                 .Where(r => r.DueDate < DateTime.UtcNow && r.ReturnedAt == null)
                 .ToList();
         }
@@ -96,7 +192,7 @@ namespace Midterm_EquipmentRental_Team2.Repositories
 
         public void Add(Rental rental)
         {
-            _context.Add(rental);
+            _context.Rentals.Add(rental);
         }
 
         public void Delete(Rental rental)
