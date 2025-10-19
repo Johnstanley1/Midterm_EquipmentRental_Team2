@@ -1,14 +1,14 @@
 import { Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import {Router, RouterLink} from '@angular/router';
 import { Customer } from '../../../services/model-services';
 import { CustomerService } from '../../../services/customer-services';
 
 @Component({
   selector: 'app-create-customer-screen',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule, RouterLink],
   templateUrl: './create-customer-screen.html',
   styleUrls: ['./create-customer-screen.css'],
 })

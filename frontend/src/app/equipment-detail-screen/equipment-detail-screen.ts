@@ -3,7 +3,7 @@ import {EquipmentService} from '../../../services/equipment-services';
 import {ActivatedRoute, RouterLink} from '@angular/router';
 import {Equipment} from '../../../services/model-services';
 import {of} from 'rxjs';
-import {AsyncPipe, isPlatformBrowser, NgOptimizedImage} from '@angular/common';
+import {AsyncPipe, isPlatformBrowser, NgIf, NgOptimizedImage} from '@angular/common';
 import {catchError} from 'rxjs/operators';
 
 @Component({
@@ -12,6 +12,7 @@ import {catchError} from 'rxjs/operators';
     AsyncPipe,
     NgOptimizedImage,
     RouterLink,
+    NgIf,
   ],
   templateUrl: './equipment-detail-screen.html',
   styleUrl: './equipment-detail-screen.css'
