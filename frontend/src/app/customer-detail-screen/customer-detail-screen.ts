@@ -1,5 +1,5 @@
 import { Component, Inject, PLATFORM_ID } from '@angular/core';
-import { CommonModule, isPlatformBrowser } from '@angular/common';
+import {CommonModule, isPlatformBrowser, NgOptimizedImage} from '@angular/common';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import { AsyncPipe } from '@angular/common';
 import {CustomerDTO, RentalDTO} from '../../../services/model-services';
@@ -12,7 +12,7 @@ import {catchError} from 'rxjs/operators';
 @Component({
   selector: 'app-customer-detail-screen',
   standalone: true,
-  imports: [CommonModule, AsyncPipe, RouterLink],
+  imports: [CommonModule, AsyncPipe, RouterLink, NgOptimizedImage],
   templateUrl: './customer-detail-screen.html',
   styleUrls: ['./customer-detail-screen.css'],
 })

@@ -20,30 +20,39 @@
       </div>
     </div>
     <div class="col-md-8">
-      <div class="card shadow-sm mb-3">
-        <div class="card-header d-flex justify-content-between align-items-center">
-          <span>Active Rental</span>
-        </div>
-        <div class="card-body">
-          @if (activeRentals$ | async; as ar) {
-            @for (rental of ar.rentals; track rental.id) {
-              <div  class="row align-items-center">
-                <div class="col">
-                  <p class="mb-1"><strong>Equipment:</strong> {{ rental.equipmentName }}</p>
-                  <p class="mb-1"><strong>Issued:</strong> {{ rental.issuedAt | date : 'mediumDate' }}</p>
-                  <p class="mb-1"><strong>Due:</strong> {{ rental.dueDate | date : 'mediumDate' }}</p>
+      <div class="row g-3 align-items-start">
+        <div class="card shadow-sm mb-3">
+          <div class="card-header d-flex justify-content-between align-items-center">
+            <span>Active Rental</span>
+          </div>
+          <div class="card-body">
+            @if (activeRentals$ | async; as ar) {
+              @for (rental of ar.rentals; track rental.id) {
+                <div class="row g-3 align-items-start">
+                  <!-- Rental Details -->
+                  <div class="col-md-6">
+                    <div class="border rounded p-3 h-100">
+                      <p class="mb-1"><strong>Equipment:</strong> {{ rental.equipmentName }}</p>
+                      <p class="mb-1"><strong>Issued:</strong> {{ rental.issuedAt | date : 'mediumDate' }}</p>
+                      <p class="mb-1"><strong>Due:</strong> {{ rental.dueDate | date : 'mediumDate' }}</p>
+                      <a [routerLink]="['/rental-return', rental.id]" class="btn btn-warning mt-2">Return</a>
+                    </div>
+                  </div>
+
+                  <!-- Image Card -->
+                  <div class="col-md-6 d-flex justify-content-center">
+                    <div class="card shadow-sm" style="width: 18rem;">
+                      <img ngSrc="/images/hammer.jpg" class="card-img-top" alt="hammer logo" height="200" width="200">
+                    </div>
+                  </div>
                 </div>
-                <div class="col-auto">
-                  <a [routerLink]="['/rental-return', ar.id]" class="btn btn-warning">Return</a>
-                </div>
-              </div>
+              }
+            } @else {
+              <div class="text-muted">No active rentals found.</div>
             }
-          }@else{
-            <div class="text-muted">
-              No active rentals found.
-            </div>
-          }
+          </div>
         </div>
+
       </div>
       <div class="card shadow-sm">
         <div class="card-header">Rental History</div>
