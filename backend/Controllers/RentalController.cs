@@ -152,35 +152,6 @@ namespace Midterm_EquipmentRental_Team2.Controllers
 
 
 
-        //[Authorize(Roles = "Admin, User")]
-        //[HttpPost("issue")]
-        //public ActionResult<RentalDTO> AddRental([FromBody] RentalDTO rentalDTO)
-        //{
-        //    if (rentalDTO == null)
-        //        return BadRequest("Customer data is required.");
-
-        //    var rental = new Rental
-        //    {
-        //        Id = rentalDTO.Id,
-        //        IssuedAt = rentalDTO.IssuedAt,
-        //        DueDate = rentalDTO.DueDate,
-        //        ReturnedAt = rentalDTO.ReturnedAt,
-        //        ReturnNotes = rentalDTO.ReturnNotes,
-        //        CustomerId = rentalDTO.CustomerId,
-        //        EquipmentId = rentalDTO.EquipmentId,
-        //        EquipmentCondition = Enum.Parse<Equipment.EquipmentCondition>(rentalDTO.EquipmentCondition, true),
-        //        EquipmentStatus = Enum.Parse<Equipment.EquipmentStatus>(rentalDTO.EquipmentStatus, true),
-        //        Status = Enum.Parse<Rental.RentalStatus>(rentalDTO.Status, true),
-        //    };
-
-        //    _unitOfWork.Rentals.AddRental(rental);
-        //    _unitOfWork.Complete();
-        //    return CreatedAtAction(nameof(GetAllRentals), new { id = rental.Id }, rental);
-        //}
-
-
-
-
         [Authorize(Roles = "Admin, User")]
         [HttpPost("issue")]
         public ActionResult<Rental> AddRental([FromBody] Rental rental)
@@ -192,26 +163,6 @@ namespace Midterm_EquipmentRental_Team2.Controllers
             _unitOfWork.Complete();
             return CreatedAtAction(nameof(GetAllRentals), new { id = rental.Id }, rental);
         }
-
-
-
-        //[Authorize(Roles = "Admin, User")]
-        //[HttpPost("return")]
-        //public IActionResult ReturnRental([FromBody] RentalDTO rentalDTO)
-        //{
-        //    // Fetch exisiting rental
-        //    var existingRental = _unitOfWork.Rentals.GetCustomerEntityById(rentalDTO.Id);
-        //    if (existingRental == null)
-        //        return NotFound($"No customer found with id {rentalDTO.Id}");
-
-        //    // Mark as returned
-        //    rentalDTO.ReturnedAt = DateTime.UtcNow;
-        //    rentalDTO.Status = Rental.RentalStatus.Returned;
-
-        //    _unitOfWork.Rentals.ReturnRental(rental);
-        //    _unitOfWork.Complete();
-        //    return CreatedAtAction(nameof(GetAllRentals), new { id = rental.Id }, rental);
-        //}
 
 
 
@@ -251,35 +202,6 @@ namespace Midterm_EquipmentRental_Team2.Controllers
 
             return CreatedAtAction(nameof(GetRentalsById), new { id = existingRental.Id }, existingRental);
         }
-
-
-
-        //[Authorize(Roles = "Admin")]
-        //[HttpPut("{id}/extend")]
-        //public IActionResult ExtendRental([FromBody] RentalDTO rental)
-        //{
-        //    var existingRental = _unitOfWork.Rentals.GetRentalsById(rental.Id);
-        //    if (existingRental == null)
-        //        return NotFound($"No customer found with id {rental.Id}");
-
-        //    existingRental.Id = rental.Id;
-        //    existingRental.IssuedAt = rental.IssuedAt;
-        //    existingRental.DueDate = rental.DueDate;
-        //    existingRental.ReturnedAt = rental.ReturnedAt;  
-        //    existingRental.ReturnNotes = rental.ReturnNotes;    
-        //    existingRental.Status = rental.Status;
-        //    existingRental.EquipmentCondition = rental.EquipmentCondition;
-        //    existingRental.EquipmentStatus = rental.EquipmentStatus;
-        //    existingRental.CustomerId = rental.CustomerId;
-        //    existingRental.CustomerName = rental.CustomerName;
-        //    existingRental.EquipmentId = rental.EquipmentId;    
-        //    existingRental.EquipmentName = rental.EquipmentName;
-        //    existingRental.Equipments = new List<Equipment> { rental.Equipments };
-            
-        //    _unitOfWork.Rentals.UpdateRental(existingRental);
-        //    _unitOfWork.Complete();
-        //    return CreatedAtAction(nameof(GetAllRentals), new { id = rental.Id }, rental);
-        //}
 
 
 

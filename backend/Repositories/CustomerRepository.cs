@@ -34,20 +34,6 @@ namespace Midterm_EquipmentRental_Team2.Repositories
                     Password = c.Password,
                     Role = c.Role.ToString(),
                     IsActive = c.IsActive
-                    //Rentals = c.Rentals.Select(r => new RentalDTO
-                    //{
-                    //    Id = r.Id,
-                    //    IssuedAt = r.IssuedAt,
-                    //    DueDate = r.DueDate,
-                    //    ReturnedAt = r.ReturnedAt,
-                    //    Status = r.Status.ToString(),
-                    //    EquipmentCondition = r.EquipmentCondition.ToString(),
-                    //    EquipmentStatus = r.EquipmentStatus.ToString(),
-                    //    EquipmentName = r.Equipment.Name,
-                    //    CustomerId = r.CustomerId,
-                    //    EquipmentId = r.EquipmentId,
-                    //    CustomerName = r.Customer.Name
-                    //}).ToList()
                 })
                 .ToList();
         }
@@ -72,22 +58,7 @@ namespace Midterm_EquipmentRental_Team2.Repositories
                     Username = c.Username,
                     Password = c.Password,
                     Role = c.Role.ToString(),
-                    IsActive = c.IsActive,
-                    //Rentals = c.Rentals.Select(r => new RentalDTO
-                    //{
-                    //    Id = r.Id,
-                    //    IssuedAt = r.IssuedAt,
-                    //    DueDate = r.DueDate,
-                    //    ReturnedAt = r.ReturnedAt,
-                    //    Status = r.Status.ToString(),
-                    //    EquipmentCondition = r.EquipmentCondition.ToString(),
-                    //    EquipmentStatus = r.EquipmentStatus.ToString(),
-                    //    EquipmentName = r.Equipment.Name,
-                    //    CustomerId = r.CustomerId,
-                    //    EquipmentId = r.EquipmentId,
-                    //    CustomerName = r.Customer.Name,
-                    //    Equipment = r.Equipment
-                    //}).ToList()
+                    IsActive = c.IsActive
                 })
                 .FirstOrDefault();
 
