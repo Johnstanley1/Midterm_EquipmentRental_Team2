@@ -7,9 +7,9 @@ import { CreateEquipmentScreen } from './create-equipment-screen/create-equipmen
 import { CustomerScreen } from './customer-screen/customer-screen';
 import { RentalsScreen } from './rentals-screen/rentals-screen';
 import { RentalDetailScreen } from './rental-detail-screen/rental-detail-screen';
-import { RentalIssueScreen } from './rental-issue-screen/rental-issue-screen';
+import { RentalIssueScreen } from './create-rental-screen/rental-issue-screen';
 import { RentalReturnScreen } from './rental-return-screen/rental-return-screen';
-import { RentalEditScreen } from './rental-edit-screen/rental-edit-screen';
+import { RentalEditScreen } from './edit-rental-screen/rental-edit-screen';
 import { OverdueRentalsScreen } from './overdue-rentals-screen/overdue-rentals-screen';
 import { AvailableScreen } from './available-screen/available-screen';
 import { CreateCustomerScreen } from './create-customer-screen/create-customer-screen';

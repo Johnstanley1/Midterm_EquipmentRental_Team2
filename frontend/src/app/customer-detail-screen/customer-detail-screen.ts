@@ -2,11 +2,11 @@ import { Component, Inject, PLATFORM_ID } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { AsyncPipe } from '@angular/common';
-import {CustomerDTO, Equipment} from '../../../services/model-services';
+import {CustomerDTO, RentalDTO} from '../../../services/model-services';
 import { CustomerService } from '../../../services/customer-services';
 import { Observable, of, switchMap, map } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { RentalService, Rental } from '../../../services/rental-services';
+import { RentalService } from '../../../services/rental-services';
 import {catchError} from 'rxjs/operators';
 
 @Component({
@@ -18,9 +18,8 @@ import {catchError} from 'rxjs/operators';
 })
 export class CustomerDetailScreen {
   customer$ =  of<CustomerDTO | null>(null);
-  activeRental$ =  of<Rental | null>(null);
+  activeRentals$ =  of<RentalDTO []| null>(null);
   customerId!: number;
-  rentalId!: number;
   errorMessage: string | null = null;
 
 
@@ -43,7 +42,7 @@ export class CustomerDetailScreen {
         })
       );
 
-      this.activeRental$ = this.rentalService.getActiveRental().pipe(
+      this.activeRentals$ = this.rentalService.getActiveRental().pipe(
         catchError(err => {
           this.errorMessage = 'Failed to load customer details';
           console.error(err);
@@ -53,16 +52,9 @@ export class CustomerDetailScreen {
     }
   }
 
-  onReturn(rental: Rental) {
-    if (!confirm('Return this equipment now?')) return;
+  onReturn(rentalDTO: RentalDTO) {
+    if (confirm('Return this equipment now?')) return;
 
-    this.rentalService.returnRental().subscribe({
-      next: () => {
-        // refresh active rental after return
-        this.activeRental$ = this.http.get<Rental>(
-          `/api/Customer/${this.customerId}/active-rental`
-        );
-      },
-    });
+
   }
 }
