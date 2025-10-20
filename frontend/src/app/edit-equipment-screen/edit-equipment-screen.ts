@@ -96,10 +96,6 @@ export class EditEquipmentScreen {
 
       updatedEquipment.id = this.equipmentId;
 
-      console.log('Form Value:', this.modifyForm.value);
-      console.log('Form Value:', updatedEquipment);
-      console.log("id: ", this.equipmentId)
-
       this.equipmentService.updateEquipment(this.equipmentId, updatedEquipment).subscribe(() => {
         alert("Equipment modified successfully");
         this.router.navigate(["/all-equipments"]);
