@@ -35,7 +35,7 @@
                       <p class="mb-1"><strong>Equipment:</strong> {{ rental.equipmentName }}</p>
                       <p class="mb-1"><strong>Issued:</strong> {{ rental.issuedAt | date : 'mediumDate' }}</p>
                       <p class="mb-1"><strong>Due:</strong> {{ rental.dueDate | date : 'mediumDate' }}</p>
-                      <a [routerLink]="['/rental-return', rental.id]" class="btn btn-warning mt-2">Return</a>
+                      <a [routerLink]="['/return-rental', rental.id]" class="btn btn-warning mt-2">Return</a>
                     </div>
                   </div>
 
