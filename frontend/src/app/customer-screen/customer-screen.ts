@@ -2,7 +2,7 @@ import { Component, Inject, PLATFORM_ID } from '@angular/core';
 import { CustomerDTO } from '../../../services/model-services';
 import { CustomerService } from '../../../services/customer-services';
 import {AsyncPipe, CommonModule, isPlatformBrowser, NgOptimizedImage} from '@angular/common';
-import { Observable, of } from 'rxjs';
+import {map, Observable, of} from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { RouterLink } from '@angular/router';
 
@@ -38,10 +38,27 @@ export class CustomerScreen {
 
   onDelete(id: number) {
     if (!confirm('Delete this customer?')) return;
-    this.customers.deleteCustomer(id).subscribe(() => {
-      // refresh stream after delete
-      this.customers$ = this.customers.getAllCustomers();
+
+    this.customers$ = this.customers$.pipe(
+      map((customers) => customers.filter((c) => c.id !== id))
+    );
+
+    this.customers.deleteCustomer(id).subscribe({
+      // Refresh the list after deletion
+      next:(data) =>{
+        this.customers$ = this.customers$.pipe(
+          map((data) => data.filter((d) => d.id != id))
+        )
+      },
+        error:(err) => {
+        if (err.status === 404) {
+          this.errorMessage = 'Customer not found.';
+        } else if (err.status === 403) {
+          this.errorMessage = 'You do not have permission to delete customer.';
+        } else {
+          this.errorMessage = 'Failed to delete customer. Please try again.';
+        }
+      }
     });
   }
-  // purely list view per request
 }
