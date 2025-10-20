@@ -32,24 +32,6 @@ export class CustomerDetailScreen {
     @Inject(PLATFORM_ID) private platformId: Object
   ) {}
 
-  // ngOnInit() {
-  //   const idParam = this.route.snapshot.paramMap.get('id');
-  //   const id = idParam ? Number(idParam) : NaN;
-  //   const isBrowser = isPlatformBrowser(this.platformId);
-  //
-  //   if (!isBrowser || isNaN(id)) {
-  //     this.customer$ = of(null);
-  //     return;
-  //   }
-  //   this.customer$ = this.service.getCustomerById(id);
-  //   // fetch active rental for this customer
-  //   this.activeRental$ = this.http.get<Rental>(`/api/Customer/${id}/active-rental`).pipe(
-  //     map((r) => r as Rental),
-  //     switchMap((r) => of(r))
-  //     // if not found, API may return 404; keep null in that case
-  //   );
-  // }
-
   ngOnInit(): void {
     if (isPlatformBrowser(this.platformId)) {
       this.customerId = Number(this.route.snapshot.paramMap.get('id'));
@@ -61,8 +43,7 @@ export class CustomerDetailScreen {
         })
       );
 
-      this.rentalId = Number(this.route.snapshot.paramMap.get('id'));
-      this.activeRental$ = this.rentalService.getById(this.rentalId).pipe(
+      this.activeRental$ = this.rentalService.getActiveRental().pipe(
         catchError(err => {
           this.errorMessage = 'Failed to load customer details';
           console.error(err);
@@ -74,7 +55,8 @@ export class CustomerDetailScreen {
 
   onReturn(rental: Rental) {
     if (!confirm('Return this equipment now?')) return;
-    this.rentalService.returnRental(rental.id).subscribe({
+
+    this.rentalService.returnRental().subscribe({
       next: () => {
         // refresh active rental after return
         this.activeRental$ = this.http.get<Rental>(
