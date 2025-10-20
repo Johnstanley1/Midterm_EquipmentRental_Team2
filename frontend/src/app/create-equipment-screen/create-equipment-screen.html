@@ -1,7 +1,7 @@
 <div class="container mt-5">
   <div class="d-flex justify-content-between align-items-center p-3">
     <h3 class="m-0">Add Equipments</h3>
-    <a routerLink="/all-equipments" class="btn btn-outline-success">Back</a>
+    <a routerLink="/all-equipments" class="btn btn-outline-primary">Back</a>
   </div>
   <div class="row">
     <div class="col-md-12">
@@ -13,7 +13,7 @@
           <form [formGroup]="createForm">
             <div class="mb-3">
               <label for="equipment_name" class="form-label">Name</label>
-              <input type="text" class="form-control" formControlName="_equipment_name" name="Enter equipment name"/>
+              <input type="text" class="form-control" formControlName="_equipment_name" placeholder="Enter equipment name"/>
               @if (refName.invalid && (refName.touched || refName.dirty)) { @if
               (refName.errors?.['required']) {
               <small class="text-danger">User name is required</small>
@@ -25,7 +25,7 @@
             </div>
             <div class="mb-3">
               <label for="description" class="form-label">Description</label>
-              <input type="text" class="form-control" formControlName="_description" name="Enter description" />
+              <input type="text" class="form-control" formControlName="_description" placeholder="Enter description" />
 
               @if (refDescription.invalid && (refDescription.touched || refDescription.dirty)) { @if
               (refDescription.errors?.['required']) {
@@ -51,7 +51,7 @@
             </div>
             <div class="mb-3">
               <label for="status" class="form-label">Status</label>
-              <select class="form-select" formControlName="_status" id="status">
+              <select class="form-select" formControlName="_status" id="status" aria-label="Default select example">
                 @if (statusOptions$ | async; as statusOptions) {
                   @for (s of statusOptions; track s.id) {
                     <option [value]="s.id">{{ s.name }}</option>
