@@ -108,14 +108,12 @@
               <td>{{ r.equipmentName || r.equipmentId }}</td>
               <td>{{ r.issuedAt | date : 'mediumDate' }}</td>
               <td>{{ r.dueDate ? (r.dueDate | date : 'mediumDate') : '—' }}</td>
+              <td>{{ r.status ===  'Returned'}}</td>
               <td>
               <span
                 class="badge"
                 [ngClass]="{
-                  'bg-success': r.status === 'Returned',
-                  'bg-danger': r.status === 'Overdue',
-                  'bg-secondary': r.status === 'Cancelled',
-                  'bg-primary': r.status === 'Active'
+                  'bg-success': r.status === 'Returned'
                 }"
               >{{ r.status }}</span>
               </td>
