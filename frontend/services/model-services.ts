@@ -69,23 +69,34 @@ export class CustomerDTO {
 }
 
 
-export class Rental{
+export class RentalDTO{
   id?: number;
+  issuedAt: Date;
+  dueDate: Date;
+  returnedAt: Date
+  returnNotes: string
   equipmentId: number;
+  status: string;
   equipmentName: string;
   equipmentStatus: string;
-  issuedAt: string;
-  dueDate: string;
-  returnedAt?: string | null;
-  status: string;
+  equipmentCondition: string
+  equipment: Equipment
+  customerId: number
+  customerName: string;
 
-  constructor(equipmentId: number, equipmentName: string, equipmentStatus: string, issuedAt: string, dueDate: string, returnedAt: string | null, status: string) {
-    this.equipmentId = equipmentId;
-    this.equipmentName = equipmentName;
-    this.equipmentStatus = equipmentStatus;
+  constructor(issuedAt: Date, dueDate: Date, returnedAt: Date, returnNotes: string, equipmentId: number, status: string, equipmentName: string, equipmentStatus: string, equipmentCondition: string, equipment: Equipment, customerId: number, customerName: string) {
     this.issuedAt = issuedAt;
     this.dueDate = dueDate;
     this.returnedAt = returnedAt;
+    this.returnNotes = returnNotes;
+    this.equipmentId = equipmentId;
     this.status = status;
+    this.equipmentName = equipmentName;
+    this.equipmentStatus = equipmentStatus;
+    this.equipmentCondition = equipmentCondition;
+    this.equipment = equipment;
+    this.customerId = customerId;
+    this.customerName = customerName;
   }
+
 }
