@@ -50,14 +50,19 @@
             <div class="mb-3">
               <label class="form-label">Role</label>
               <select class="form-select" formControlName="_role">
-                <option value="Admin">Admin</option>
-                <option value="User">User</option>
-                @if (refRole.invalid && (refRole.touched || refRole.dirty)) {
-                  @if (refRole.errors?.['required']) {
-                    <small class="text-danger">Role is required</small>
+                @if (roleOptions$ | async; as roleOptions) {
+                  @for (s of roleOptions; track s.id) {
+                    <option [value]="s.id">{{ s.name }}</option>
                   }
+                } @else {
+                  <option disabled>Loading...</option>
                 }
               </select>
+              @if (refRole.invalid && (refRole.touched || refRole.dirty)) {
+                @if (refRole.errors?.['required']) {
+                  <small class="text-danger">Role is required</small>
+                }
+              }
             </div>
             <div class="mb-3 form-check">
               <input type="checkbox" class="form-check-input" formControlName="_isActive"/>

@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { CommonModule } from '@angular/common';
-import { ActivatedRoute, Router } from '@angular/router';
+import {CommonModule} from '@angular/common';
+import {ActivatedRoute, Router} from '@angular/router';
 import { Customer, CustomerDTO } from '../../../services/model-services';
 import { CustomerService } from '../../../services/customer-services';
 

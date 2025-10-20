@@ -1,43 +1,85 @@
-<div class="container mt-5">
-  <h3 class="p-3">Edit Customer</h3>
-  <div class="row">
-    <div class="col-md-7">
-      <div class="card shadow">
-        <div class="card-header text-black text-center">Customer</div>
-        <div class="card-body">
-          <form [formGroup]="form" (ngSubmit)="onSubmit()">
-            <div class="mb-3">
-              <label class="form-label">Name</label>
-              <input type="text" class="form-control" formControlName="name" />
-            </div>
-            <div class="mb-3">
-              <label class="form-label">Username</label>
-              <input type="text" class="form-control" formControlName="username" />
-            </div>
-            <div class="mb-3">
-              <label class="form-label">Password (leave blank to keep)</label>
-              <input type="password" class="form-control" formControlName="password" />
-            </div>
-            <div class="mb-3">
-              <label class="form-label">Role</label>
-              <select class="form-select" formControlName="role">
-                <option value="Admin">Admin</option>
-                <option value="User">User</option>
-              </select>
-            </div>
-            <div class="mb-3 form-check">
-              <input
-                type="checkbox"
-                class="form-check-input"
-                id="isActive"
-                formControlName="isActive"
-              />
-              <label class="form-check-label" for="isActive">Active</label>
-            </div>
-            <button class="btn btn-primary w-100" type="submit">Update</button>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+<!--<div class="container mt-5">-->
+<!--  <div class="d-flex justify-content-between align-items-center p-3">-->
+<!--    <h3 class="m-0">Modify Customer</h3>-->
+<!--    <a routerLink="/all-customers" class="btn btn-outline-primary">Back</a>-->
+<!--  </div>-->
+<!--  <div class="row">-->
+<!--    <div class="col-md-12">-->
+<!--      <div class="card shadow">-->
+<!--        <div class="card-header text-black text-center">Customer</div>-->
+<!--        <div class="row g-4 p-4 align-items-start">-->
+<!--          &lt;!&ndash; Customer edit form &ndash;&gt;-->
+<!--          <div class="col-md-7">-->
+<!--          <form [formGroup]="form" (ngSubmit)="onSubmit()">-->
+<!--            <div class="mb-3">-->
+<!--              <label class="form-label">Name</label>-->
+<!--              <input type="text" class="form-control" formControlName="name" placeholder="Enter customer name"/>-->
+<!--              @if (refName.invalid && (refName.touched || refName.dirty)) { @if-->
+<!--              (refName.errors?.['required']) {-->
+<!--                <small class="text-danger">Customer name is required</small>-->
+<!--              } @if (refName.errors?.['minlength']) {-->
+<!--                <small class="text-danger">Name must be at least {{ min_Length }} char long</small>-->
+<!--              } @if (refName.errors?.['maxlength']) {-->
+<!--                <small class="text-danger">Name must be at least {{ max_length }} char long</small>-->
+<!--              } }-->
+<!--            </div>-->
+<!--            <div class="mb-3">-->
+<!--              <label class="form-label">Username</label>-->
+<!--              <input type="text" class="form-control" formControlName="username" placeholder="Enter customer username"/>-->
+<!--              @if (refUserName.invalid && (refUserName.touched || refUserName.dirty)) { @if-->
+<!--              (refUserName.errors?.['required']) {-->
+<!--                <small class="text-danger">Username is required</small>-->
+<!--              } @if (refUserName.errors?.['minlength']) {-->
+<!--                <small class="text-danger">Username must be at least {{ min_Length }} char long</small>-->
+<!--              } @if (refUserName.errors?.['maxlength']) {-->
+<!--                <small class="text-danger">Username must be at least {{ max_length }} char long</small>-->
+<!--              } }-->
+<!--            </div>-->
+<!--            <div class="mb-3">-->
+<!--              <label class="form-label">Password (leave blank to keep)</label>-->
+<!--              <input type="password" class="form-control" formControlName="password" placeholder="Enter customer password"/>-->
+<!--              @if (refPassword.invalid && (refPassword.touched || refPassword.dirty)) { @if-->
+<!--              (refPassword.errors?.['required']) {-->
+<!--                <small class="text-danger">Password is required</small>-->
+<!--              } @if (refPassword.errors?.['minlength']) {-->
+<!--                <small class="text-danger">Password must be at least {{ min_Length }} char long</small>-->
+<!--              } @if (refPassword.errors?.['maxlength']) {-->
+<!--                <small class="text-danger">Password must be at least {{ max_length }} char long</small>-->
+<!--              } }-->
+<!--            </div>-->
+<!--            <div class="mb-3">-->
+<!--              <label class="form-label">Role</label>-->
+<!--              <select class="form-select" formControlName="role">-->
+<!--                <option value="Admin">Admin</option>-->
+<!--                <option value="User">User</option>-->
+<!--                @if (refRole.invalid && (refRole.touched || refRole.dirty)) {-->
+<!--                  @if (refRole.errors?.['required']) {-->
+<!--                    <small class="text-danger">Role is required</small>-->
+<!--                  }-->
+<!--                }-->
+<!--              </select>-->
+<!--            </div>-->
+<!--            <div class="mb-3 form-check">-->
+<!--              <input type="checkbox" class="form-check-input" id="isActive" formControlName="isActive"/>-->
+<!--              <label class="form-check-label" for="isActive">Active</label>-->
+<!--              @if (refIsActive.invalid && (refIsActive.touched || refIsActive.dirty)) {-->
+<!--                <small class="text-danger">IsActive is required</small>-->
+<!--              }-->
+<!--            </div>-->
+<!--            <button class="btn btn-primary w-100" type="submit">Update</button>-->
+<!--          </form>-->
+<!--        </div>-->
+
+<!--          &lt;!&ndash; Image Card &ndash;&gt;-->
+<!--          <div class="col-md-5 d-flex justify-content-center">-->
+<!--            <div class="card shadow-sm" style="width: 18rem;">-->
+<!--              <img ngSrc="/images/profile.jpg" class="card-img-top" alt="hammer logo" height="300" width="462">-->
+<!--              <div class="card-body text-center">-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</div>-->
+<!--</div>-->

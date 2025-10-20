@@ -80,6 +80,16 @@ namespace Midterm_EquipmentRental_Team2.Controllers
 
 
         [Authorize(Roles = "Admin")]
+        [HttpGet("roles")]
+        public ActionResult<IEnumerable<Equipment>> GetCustomerRoles()
+        {
+            var equipment = _unitOfWork.Customers.GetCustomerRoles();
+            return Ok(equipment);
+
+        }
+
+
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public ActionResult<Customer> CreateCustomer([FromBody] Customer customer)
         {
