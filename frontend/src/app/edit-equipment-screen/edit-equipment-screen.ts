@@ -104,8 +104,6 @@ export class EditEquipmentScreen {
       alert("Modify equipment form is invalid")
     }
   }
-
-  protected readonly name = name;
 }
 
 
