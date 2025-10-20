@@ -116,7 +116,7 @@ namespace Midterm_EquipmentRental_Team2.Controllers
                 existingCustomer.IsActive = customer.IsActive;
                 existingCustomer.Role = customer.Role;
                 existingCustomer.IsActive = customer.IsActive;
-                existingCustomer.Rentals = customer.Rentals;
+                //existingCustomer.Rentals = customer.Rentals;
             }
             else
             {
@@ -126,7 +126,7 @@ namespace Midterm_EquipmentRental_Team2.Controllers
                 existingCustomer.Password = customer.Password;
                 existingCustomer.IsActive = customer.IsActive;
                 existingCustomer.IsActive = customer.IsActive;
-                existingCustomer.Rentals = customer.Rentals;
+                //existingCustomer.Rentals = customer.Rentals;
             }
 
             _unitOfWork.Customers.UpdateCustomer(existingCustomer);
@@ -152,21 +152,21 @@ namespace Midterm_EquipmentRental_Team2.Controllers
                 Name = existingCustomer.Name,
                 Username = existingCustomer.Username,
                 Role = existingCustomer.Role.ToString(),
-                IsActive = existingCustomer.IsActive,
-                Rentals = existingCustomer.Rentals.Select(r => new RentalDTO
-                {
-                    Id = r.Id,
-                    IssuedAt = r.IssuedAt,
-                    DueDate = r.DueDate,
-                    ReturnedAt = r.ReturnedAt,
-                    ReturnNotes = r.ReturnNotes,
-                    EquipmentStatus = r.EquipmentStatus.ToString(),
-                    EquipmentCondition = r.EquipmentCondition.ToString(),
-                    Status = r.Status.ToString(),
-                    CustomerId = r.CustomerId,
-                    EquipmentId = r.EquipmentId,
-                    Equipment = r.Equipment
-                }).ToList()
+                IsActive = existingCustomer.IsActive
+                //Rentals = existingCustomer.Rentals.Select(r => new RentalDTO
+                //{
+                //    Id = r.Id,
+                //    IssuedAt = r.IssuedAt,
+                //    DueDate = r.DueDate,
+                //    ReturnedAt = r.ReturnedAt,
+                //    ReturnNotes = r.ReturnNotes,
+                //    EquipmentStatus = r.EquipmentStatus.ToString(),
+                //    EquipmentCondition = r.EquipmentCondition.ToString(),
+                //    Status = r.Status.ToString(),
+                //    CustomerId = r.CustomerId,
+                //    EquipmentId = r.EquipmentId,
+                //    Equipment = r.Equipment
+                //}).ToList()
             };
 
             return Ok(existingCustomer);

@@ -57,9 +57,9 @@ export class CustomerDTO {
   username: string;
   role: string;
   isActive: boolean;
-  rentals: []
+  rentals: RentalDTO[]
 
-  constructor(name: string, username: string, role: string, isActive: boolean, rentals: []){
+  constructor(name: string, username: string, role: string, isActive: boolean, rentals: RentalDTO[]){
     this.name = name;
     this.username = username;
     this.role = role;

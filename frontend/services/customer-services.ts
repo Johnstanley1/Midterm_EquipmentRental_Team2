@@ -33,6 +33,30 @@ export class CustomerService {
     return this.http.get<CustomerDTO>(`${this.baseUrl}/${id}`, { headers });
   }
 
+  getCustomerActiveRental(id: number): Observable<CustomerDTO> {
+    let headers = new HttpHeaders();
+
+    if (typeof window !== 'undefined') {
+      const token = localStorage.getItem('token');
+      if (token) {
+        headers = headers.set('Authorization', `Bearer ${token}`);
+      }
+    }
+    return this.http.get<CustomerDTO>(`${this.baseUrl}/${id}/active-rental`, { headers });
+  }
+
+  getAllCustomerRentals(id: number): Observable<CustomerDTO> {
+    let headers = new HttpHeaders();
+
+    if (typeof window !== 'undefined') {
+      const token = localStorage.getItem('token');
+      if (token) {
+        headers = headers.set('Authorization', `Bearer ${token}`);
+      }
+    }
+    return this.http.get<CustomerDTO>(`${this.baseUrl}/${id}/rentals`, { headers });
+  }
+
   // get all customer roles
   getCustomerRoles(): Observable<CustomerDTO[]> {
     let headers = new HttpHeaders();

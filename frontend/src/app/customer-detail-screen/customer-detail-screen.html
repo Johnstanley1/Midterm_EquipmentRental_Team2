@@ -1,14 +1,14 @@
-<div class="container mt-5" *ngIf="customer$ | async as c; else loading">
+<div class="container mt-5">
   <div class="d-flex justify-content-between align-items-center p-3">
     <h3 class="mb-0">Customer Detail</h3>
-    <div class="d-flex justify-content-end">
+    <div class="d-flex justify-content-end" *ngIf="customer$ | async as c; else loading">
       <a [routerLink]="['/edit-customer', c.id]" class="btn btn-outline-success me-2">Edit</a>
       <a routerLink="/all-customers" class="btn btn-outline-primary me-2">Back</a>
     </div>
   </div>
   <div class="row g-3">
     <div class="col-md-4">
-      <div class="card shadow-sm">
+      <div class="card shadow-sm" *ngIf="customer$ | async as c; else loading">
         <div class="card-header">Profile</div>
         <div class="card-body">
           <p><strong>ID:</strong> {{ c.id }}</p>
@@ -25,55 +25,61 @@
           <span>Active Rental</span>
         </div>
         <div class="card-body">
-          <ng-container *ngIf="activeRental$ | async as ar; else noActive">
-            <div class="row align-items-center">
-              <div class="col">
-                <p class="mb-1"><strong>Equipment:</strong> {{ ar.equipmentId }}</p>
-                <p class="mb-1"><strong>Issued:</strong> {{ ar.issuedAt | date : 'mediumDate' }}</p>
-                <p class="mb-1"><strong>Due:</strong> {{ ar.dueDate | date : 'mediumDate' }}</p>
+          @if (activeRentals$ | async; as ar) {
+            @for (rental of ar.rentals; track rental.id) {
+              <div  class="row align-items-center">
+                <div class="col">
+                  <p class="mb-1"><strong>Equipment:</strong> {{ rental.equipmentName }}</p>
+                  <p class="mb-1"><strong>Issued:</strong> {{ rental.issuedAt | date : 'mediumDate' }}</p>
+                  <p class="mb-1"><strong>Due:</strong> {{ rental.dueDate | date : 'mediumDate' }}</p>
+                </div>
+                <div class="col-auto">
+                  <a [routerLink]="['/rental-return', ar.id]" class="btn btn-warning">Return</a>
+                </div>
               </div>
-              <div class="col-auto">
-                <a [routerLink]="['/rental-return', ar.id]" class="btn btn-warning">Return</a>
-              </div>
+            }
+          }@else{
+            <div class="text-muted">
+              No active rentals found.
             </div>
-          </ng-container>
-          <ng-template #noActive>
-            <div class="text-muted">No active rental.</div>
-          </ng-template>
+          }
         </div>
       </div>
       <div class="card shadow-sm">
         <div class="card-header">Rental History</div>
         <div class="card-body">
-          <div *ngIf="!c.rentals || c.rentals.length === 0" class="text-muted">
-            No rentals found.
-          </div>
-          <div *ngIf="c.rentals && c.rentals.length > 0">
-            <div class="table-responsive">
-              <table class="table table-hover table-striped-columns table-bordered table-sm">
-                <thead>
+          @if (customerRentals$ | async; as cr) {
+            @for (rental of cr.rentals; track rental.id) {
+              <div class="table-responsive">
+                <table class="table table-hover table-striped-columns table-bordered table-sm">
+                  <thead>
                   <tr>
-                    <th>Rental #</th>
+                    <th>Rental Id</th>
                     <th>Equipment</th>
                     <th>Status</th>
                     <th>Issued</th>
                     <th>Due</th>
                     <th>Returned</th>
                   </tr>
-                </thead>
-                <tbody>
-                  <tr *ngFor="let r of c.rentals">
-                    <td>{{ r.id }}</td>
-                    <td>{{ r.equipmentName }} ({{ r.equipmentId }})</td>
-                    <td>{{ r.status }}</td>
-                    <td>{{ r.issuedAt | date : 'mediumDate' }}</td>
-                    <td>{{ r.dueDate | date : 'mediumDate' }}</td>
-                    <td>{{ r.returnedAt ? (r.returnedAt | date : 'mediumDate') : '-' }}</td>
+                  </thead>
+                  <tbody>
+                  <tr>
+                    <td>{{ rental.id }}</td>
+                    <td>{{ rental.equipmentName }}</td>
+                    <td>{{ rental.equipmentStatus }}</td>
+                    <td>{{ rental.issuedAt | date : 'mediumDate' }}</td>
+                    <td>{{ rental.dueDate | date : 'mediumDate' }}</td>
+                    <td>{{ rental.returnedAt ? (rental.returnedAt | date : 'mediumDate') : '-' }}</td>
                   </tr>
-                </tbody>
-              </table>
+                  </tbody>
+                </table>
+              </div>
+            }
+          }@else{
+           <div class="text-muted">
+              No rentals found.
             </div>
-          </div>
+           }
         </div>
       </div>
     </div>

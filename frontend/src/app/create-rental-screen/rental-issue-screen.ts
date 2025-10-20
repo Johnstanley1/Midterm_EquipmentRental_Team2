@@ -76,31 +76,31 @@ export class RentalIssueScreen {
       }
     }
     const proceedIssue = () => {
-      this.rentalService
-        .issueRental({
-          equipmentId: Number(v.equipmentId),
-          customerId: Number(v.customerId) || undefined,
-          dueDate: v.dueDate || null,
-          issuedAt: issuedIso,
-        })
-        .subscribe({
-          next: () => this.router.navigate(['/all-rentals']),
-          error: (err) => {
-            const raw = err?.error;
-            let msg = 'Failed to issue rental';
-            if (typeof raw === 'string') {
-              msg = raw;
-            } else if (raw && typeof raw === 'object') {
-              const title = raw.title || raw.error || '';
-              const detail = raw.detail || raw.message || '';
-              const errors = raw.errors ? Object.values(raw.errors).flat().join('\n') : '';
-              msg = [title, detail, errors].filter(Boolean).join('\n');
-            } else if (err?.message) {
-              msg = err.message;
-            }
-            alert(msg);
-          },
-        });
+      // this.rentalService
+      //   .createRental({
+      //     equipmentId: Number(v.equipmentId),
+      //     customerId: Number(v.customerId) || undefined,
+      //     dueDate: v.dueDate || null,
+      //     issuedAt: issuedIso,
+      //   })
+      //   .subscribe({
+      //     next: () => this.router.navigate(['/all-rentals']),
+      //     error: (err) => {
+      //       const raw = err?.error;
+      //       let msg = 'Failed to issue rental';
+      //       if (typeof raw === 'string') {
+      //         msg = raw;
+      //       } else if (raw && typeof raw === 'object') {
+      //         const title = raw.title || raw.error || '';
+      //         const detail = raw.detail || raw.message || '';
+      //         const errors = raw.errors ? Object.values(raw.errors).flat().join('\n') : '';
+      //         msg = [title, detail, errors].filter(Boolean).join('\n');
+      //       } else if (err?.message) {
+      //         msg = err.message;
+      //       }
+      //       alert(msg);
+      //     },
+      //   });
     };
 
     // Multiple active rentals allowed; no pre-check needed

@@ -30,9 +30,9 @@ export class RentalReturnScreen {
   }
 
   submit() {
-    const v = this.form.value;
-    this.rentals
-      .returnRental(this.rentalId, v.notes || '', v.condition || 'Good')
-      .subscribe(() => this.router.navigate(['/all-rentals']));
+    // const v = this.form.value;
+    // this.rentals
+    //   .returnRental(this.rentalId, v.notes || '', v.condition || 'Good')
+    //   .subscribe(() => this.router.navigate(['/all-rentals']));
   }
 }

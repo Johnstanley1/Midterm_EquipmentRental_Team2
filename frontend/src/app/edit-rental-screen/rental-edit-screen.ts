@@ -2,8 +2,10 @@ import { Component, Inject, PLATFORM_ID, ChangeDetectorRef } from '@angular/core
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Rental, RentalService } from '../../../services/rental-services';
+import { RentalService } from '../../../services/rental-services';
 import { isPlatformBrowser } from '@angular/common';
+import {Observable, of} from 'rxjs';
+import {RentalDTO} from '../../../services/model-services';
 
 @Component({
   selector: 'app-rental-edit-screen',
@@ -14,7 +16,7 @@ import { isPlatformBrowser } from '@angular/common';
 })
 export class RentalEditScreen {
   form!: FormGroup;
-  rental!: Rental;
+  rental!: RentalDTO;
   rentalId = 0;
   loading = true;
   errorMsg: string | null = null;
@@ -31,43 +33,43 @@ export class RentalEditScreen {
     this.isBrowser = isPlatformBrowser(platformId);
   }
 
-  ngOnInit() {
-    this.form = this.fb.group({
-      dueDate: ['', Validators.required],
-      reason: [''],
-    });
-    this.route.paramMap.subscribe((params) => {
-      const id = Number(params.get('id'));
-      this.rentalId = id;
-      if (!this.isBrowser) {
-        // Do not fetch on server; rely on client load
-        this.loading = false;
-        this.errorMsg = 'This page requires a browser environment.';
-        this.cdr.markForCheck();
-        return;
-      }
-      if (!isNaN(id) && id > 0) {
-        this.rentals.getById(id).subscribe({
-          next: (r) => {
-            this.rental = r;
-            const suggested = this.toLocalInputValue(r.dueDate || r.issuedAt);
-            this.form.patchValue({ dueDate: suggested, reason: '' });
-            this.loading = false;
-            this.cdr.markForCheck();
-          },
-          error: (err) => {
-            this.loading = false;
-            this.errorMsg = typeof err?.error === 'string' ? err.error : 'Failed to load rental.';
-            this.cdr.markForCheck();
-          },
-        });
-      } else {
-        this.loading = false;
-        this.errorMsg = 'Invalid rental id.';
-        this.cdr.markForCheck();
-      }
-    });
-  }
+  // ngOnInit() {
+  //   this.form = this.fb.group({
+  //     dueDate: ['', Validators.required],
+  //     reason: [''],
+  //   });
+  //   this.route.paramMap.subscribe((params) => {
+  //     const id = Number(params.get('id'));
+  //     this.rentalId = id;
+  //     if (!this.isBrowser) {
+  //       // Do not fetch on server; rely on client load
+  //       this.loading = false;
+  //       this.errorMsg = 'This page requires a browser environment.';
+  //       this.cdr.markForCheck();
+  //       return;
+  //     }
+  //     if (!isNaN(id) && id > 0) {
+  //       this.rentals.getRentalsById(id).subscribe({
+  //         next: (r) => {
+  //           this.rental = r;
+  //           const suggested = this.toLocalInputValue(r.dueDate || r.issuedAt);
+  //           this.form.patchValue({ dueDate: suggested, reason: '' });
+  //           this.loading = false;
+  //           this.cdr.markForCheck();
+  //         },
+  //         error: (err) => {
+  //           this.loading = false;
+  //           this.errorMsg = typeof err?.error === 'string' ? err.error : 'Failed to load rental.';
+  //           this.cdr.markForCheck();
+  //         },
+  //       });
+  //     } else {
+  //       this.loading = false;
+  //       this.errorMsg = 'Invalid rental id.';
+  //       this.cdr.markForCheck();
+  //     }
+  //   });
+  // }
 
   private toLocalInputValue(iso?: string | null): string {
     try {
@@ -85,16 +87,16 @@ export class RentalEditScreen {
   }
 
   save() {
-    if (this.form.invalid) {
-      this.form.markAllAsTouched();
-      return;
-    }
-    const v = this.form.value;
-    const iso = new Date(v.dueDate).toISOString();
-    this.rentals.extendRental(this.rentalId, iso, v.reason || '').subscribe({
-      next: () => this.router.navigate(['/rental-detail', this.rentalId]),
-      error: (err) => alert('Failed to update: ' + (err?.error || err?.message || err)),
-    });
+    // if (this.form.invalid) {
+    //   this.form.markAllAsTouched();
+    //   return;
+    // }
+    // const v = this.form.value;
+    // const iso = new Date(v.dueDate).toISOString();
+    // this.rentals.updateRental(this.rentalId, ).subscribe({
+    //   next: () => this.router.navigate(['/rental-detail', this.rentalId]),
+    //   error: (err) => alert('Failed to update: ' + (err?.error || err?.message || err)),
+    // });
   }
 
   back() {

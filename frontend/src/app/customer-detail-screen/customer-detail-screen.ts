@@ -1,6 +1,6 @@
 import { Component, Inject, PLATFORM_ID } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import { AsyncPipe } from '@angular/common';
 import {CustomerDTO, RentalDTO} from '../../../services/model-services';
 import { CustomerService } from '../../../services/customer-services';
@@ -18,13 +18,16 @@ import {catchError} from 'rxjs/operators';
 })
 export class CustomerDetailScreen {
   customer$ =  of<CustomerDTO | null>(null);
-  activeRentals$ =  of<RentalDTO []| null>(null);
+  activeRentals$ =  of<CustomerDTO | null>(null);
+  customerRentals$ =  of<CustomerDTO | null>(null);
   customerId!: number;
+  rentalId!: number;
   errorMessage: string | null = null;
 
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private customerService: CustomerService,
     private http: HttpClient,
     private rentalService: RentalService,
@@ -42,9 +45,17 @@ export class CustomerDetailScreen {
         })
       );
 
-      this.activeRentals$ = this.rentalService.getActiveRental().pipe(
+      this.activeRentals$ = this.customerService.getCustomerActiveRental(this.customerId).pipe(
         catchError(err => {
-          this.errorMessage = 'Failed to load customer details';
+          this.errorMessage = 'Failed to load customer active rental';
+          console.error(err);
+          return of(null);
+        })
+      );
+
+      this.customerRentals$ = this.customerService.getAllCustomerRentals(this.customerId).pipe(
+        catchError(err => {
+          this.errorMessage = 'Failed to load customer rentals';
           console.error(err);
           return of(null);
         })
@@ -53,8 +64,10 @@ export class CustomerDetailScreen {
   }
 
   onReturn(rentalDTO: RentalDTO) {
-    if (confirm('Return this equipment now?')) return;
-
-
+    confirm('Return this equipment now?');
+    if (confirm()){
+      this.rentalId = Number(this.route.snapshot.paramMap.get('id'));
+      this.router.navigate(["/rental-detail/:id"]);
+    }
   }
 }

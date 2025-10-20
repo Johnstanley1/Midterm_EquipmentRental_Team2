@@ -2,7 +2,8 @@ import { Component, Inject, PLATFORM_ID } from '@angular/core';
 import { CommonModule, AsyncPipe, isPlatformBrowser } from '@angular/common';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Observable, of } from 'rxjs';
-import { Rental, RentalService } from '../../../services/rental-services';
+import { RentalService } from '../../../services/rental-services';
+import {RentalDTO} from '../../../services/model-services';
 
 @Component({
   selector: 'app-rental-detail-screen',
@@ -12,7 +13,7 @@ import { Rental, RentalService } from '../../../services/rental-services';
   styleUrls: ['./rental-detail-screen.css'],
 })
 export class RentalDetailScreen {
-  rental$!: Observable<Rental | null>;
+  rental$!: Observable<RentalDTO | null>;
   private rentalId: number = 0;
 
   constructor(
@@ -24,7 +25,7 @@ export class RentalDetailScreen {
     const isBrowser = isPlatformBrowser(platformId);
     const id = Number(this.route.snapshot.paramMap.get('id'));
     this.rentalId = id;
-    this.rental$ = isBrowser && !isNaN(id) ? this.rentals.getById(id) : of(null);
+    this.rental$ = isBrowser && !isNaN(id) ? this.rentals.getRentalsById(id) : of(null);
   }
 
   // Navigate back to rentals list
@@ -33,14 +34,14 @@ export class RentalDetailScreen {
   }
 
   // Navigate to new edit screen
-  extend(_r: Rental) {
+  extend(_r: RentalDTO) {
     this.router.navigate(['/rental-edit', this.rentalId]);
   }
 
   // Cancel rental (admin)
   cancel(force = false) {
     if (!confirm(force ? 'Force cancel this rental?' : 'Cancel this rental?')) return;
-    this.rentals.cancelRental(this.rentalId, force).subscribe({
+    this.rentals.deleteRental(this.rentalId).subscribe({
       next: () => this.backToList(),
       error: (err) => {
         const status = err?.status ?? 0;
@@ -59,13 +60,13 @@ export class RentalDetailScreen {
   markReturned() {
     const notes = prompt('Return notes (optional):', 'Returned in good condition') || '';
     const condition = prompt('Return condition:', 'Good') || 'Good';
-    this.rentals.returnRental(this.rentalId, notes, condition).subscribe({
+    this.rentals.returnRental().subscribe({
       next: () => this.backToList(),
       error: (err) => {
         const status = err?.status ?? 0;
         if (status === 401 || status === 403) {
           if (confirm('Unauthorized to return. Force return as admin?')) {
-            this.rentals.forceReturn(this.rentalId, notes, condition).subscribe({
+            this.rentals.returnRental().subscribe({
               next: () => this.backToList(),
               error: (e2) => alert('Failed to force return: ' + (e2?.error || e2?.message || e2)),
             });

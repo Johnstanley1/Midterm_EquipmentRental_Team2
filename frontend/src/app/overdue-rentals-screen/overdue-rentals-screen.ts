@@ -3,9 +3,10 @@ import { CommonModule, AsyncPipe, isPlatformBrowser } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Rental, RentalService } from '../../../services/rental-services';
+import { RentalService } from '../../../services/rental-services';
+import {RentalDTO} from '../../../services/model-services';
 
-type OverdueRental = Rental & { daysOverdue: number };
+type OverdueRental = RentalDTO & { daysOverdue: number };
 
 @Component({
   selector: 'app-overdue-rentals-screen',
@@ -37,14 +38,14 @@ export class OverdueRentalsScreen {
     return r.id;
   }
 
-  onExtend(r: Rental) {
+  onExtend(r: RentalDTO) {
     this.router.navigate(['/rental-edit', r.id]);
   }
 
-  onForceReturn(r: Rental) {
+  onForceReturn(r: RentalDTO) {
     if (!confirm('Force return this equipment now?')) return;
     if (this.isAdmin) {
-      this.rentals.returnRental(r.id, 'Force returned by admin', 'Good', true).subscribe({
+      this.rentals.returnRental().subscribe({
         next: () => {
           // Optimistically remove the item and push to stream
           this.lastList = this.lastList.filter((x) => x.id !== r.id);
@@ -56,7 +57,7 @@ export class OverdueRentalsScreen {
       });
     } else {
       // Non-admins cannot force; attempt normal return (allowed if it's their own rental)
-      this.rentals.returnRental(r.id, 'Returned by user').subscribe({
+      this.rentals.returnRental().subscribe({
         next: () => {
           this.lastList = this.lastList.filter((x) => x.id !== r.id);
           this.overdueSubject.next([...this.lastList]);
@@ -68,36 +69,36 @@ export class OverdueRentalsScreen {
   }
 
   private load() {
-    this.rentals
-      .getOverdue()
-      .pipe(
-        map((list) =>
-          list.map(
-            (r) =>
-              ({
-                ...r,
-                daysOverdue: r.dueDate
-                  ? Math.max(
-                      0,
-                      Math.ceil((Date.now() - Date.parse(r.dueDate)) / (1000 * 60 * 60 * 24))
-                    )
-                  : 0,
-              } as OverdueRental)
-          )
-        )
-      )
-      .subscribe((list) => {
-        this.lastList = list;
-        this.overdueSubject.next(list);
-      });
-    this.stats$ = this.overdueSubject.asObservable().pipe(
-      map((list) => {
-        const days = list.map((r) => r.daysOverdue || 0);
-        const total = list.length;
-        const avgDays = total ? days.reduce((a, b) => a + b, 0) / total : 0;
-        const maxDays = days.length ? Math.max(...days) : 0;
-        return { total, avgDays, maxDays };
-      })
-    );
+    // this.rentals
+    //   .getOverdueRental()
+    //   .pipe(
+    //     map((list) =>
+    //       list.map(
+    //         (r) =>
+    //           ({
+    //             ...r,
+    //             daysOverdue: r.dueDate
+    //               ? Math.max(
+    //                   0,
+    //                   Math.ceil((Date.now() - Date.parse(r.dueDate)) / (1000 * 60 * 60 * 24))
+    //                 )
+    //               : 0,
+    //           } as OverdueRental)
+    //       )
+    //     )
+    //   )
+    //   .subscribe((list) => {
+    //     this.lastList = list;
+    //     this.overdueSubject.next(list);
+    //   });
+    // this.stats$ = this.overdueSubject.asObservable().pipe(
+    //   map((list) => {
+    //     const days = list.map((r) => r.daysOverdue || 0);
+    //     const total = list.length;
+    //     const avgDays = total ? days.reduce((a, b) => a + b, 0) / total : 0;
+    //     const maxDays = days.length ? Math.max(...days) : 0;
+    //     return { total, avgDays, maxDays };
+    //   })
+    // );
   }
 }
