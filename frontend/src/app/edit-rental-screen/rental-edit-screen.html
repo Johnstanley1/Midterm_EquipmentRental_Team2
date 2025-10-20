@@ -1,13 +1,8 @@
-<div class="container mt-4" *ngIf="!loading; else loadingTpl">
-  <div *ngIf="errorMsg" class="alert alert-danger" role="alert">
-    {{ errorMsg }}
+<div class="container mt-5">
+  <div class="d-flex justify-content-between align-items-center p-3">
+    <h3 class="m-0">Modify Rental</h3>
+    <a routerLink="/all-rentals" class="btn btn-outline-primary">Back</a>
   </div>
-  <ng-container *ngIf="!errorMsg">
-    <div class="d-flex justify-content-between align-items-center mb-3">
-      <h3 class="mb-0">Update Rental #{{ rentalId }}</h3>
-      <a [routerLink]="['/rental-detail', rentalId]" class="btn btn-outline-secondary">Back</a>
-    </div>
-
     <div class="card shadow-sm">
       <div class="card-header">Edit/Extend</div>
       <div class="card-body">
@@ -40,9 +35,4 @@
         </form>
       </div>
     </div>
-  </ng-container>
 </div>
-
-<ng-template #loadingTpl>
-  <div class="container mt-4">Loading...</div>
-</ng-template>
