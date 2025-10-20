@@ -1,6 +1,6 @@
 import { Component, Inject, PLATFORM_ID } from '@angular/core';
-import { CommonModule, AsyncPipe, isPlatformBrowser } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import {CommonModule, AsyncPipe, isPlatformBrowser} from '@angular/common';
+import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {map, Observable, of} from 'rxjs';
 import { RentalService } from '../../../services/rental-services';
 import {RentalDTO} from '../../../services/model-services';
@@ -15,26 +15,21 @@ import {catchError} from 'rxjs/operators';
 })
 export class RentalsScreen {
   rentals$: Observable<RentalDTO[]> = of([]);
+  rentalId!: number;
   errorMessage: string | null = null;
+  activeRentals$ =  of<RentalDTO [] | null>(null);
+  completedRentals$ =  of<RentalDTO [] | null>(null);
+  overdueRentals$ =  of<RentalDTO [] | null>(null);
+  equipmentRentalHistory =  of<RentalDTO [] | null>(null);
+  today = new Date;
 
-  constructor(private rentals: RentalService, @Inject(PLATFORM_ID) platformId: Object) {
-    const isBrowser = isPlatformBrowser(platformId);
-    this.rentals$ = isBrowser
-      ? this.rentals.getAllRentals().pipe(
-        catchError((err) => {
-          // Friendly message for permission issues or others
-          if (err?.status === 403) {
-            this.errorMessage = 'You do not have permission to view rentals.';
-          } else if (err?.status === 401) {
-            this.errorMessage = 'Your session has expired. Please log in again.';
-          } else {
-            this.errorMessage = 'Failed to load customers. Please try again.';
-          }
-          return of([] as RentalDTO[]);
-        })
-      )
-      : of([] as RentalDTO[]);
-  }
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private rentals: RentalService,
+    @Inject(PLATFORM_ID) private platformId: Object
+  ) {}
+
 
   onDelete(id: number) {
     if (!confirm('Delete this customer?')) return;
@@ -60,5 +55,71 @@ export class RentalsScreen {
         }
       }
     });
+  }
+
+  getDaysRented(issuedAt: Date | null): number {
+    if (!issuedAt) return 0;
+    const issued = new Date(issuedAt).getTime();
+    const now = this.today.getTime();
+    const diffMs = now - issued;
+    return Math.floor(diffMs / (1000 * 60 * 60 * 24));
+  }
+
+  getDuration(issuedAt: Date | null): number {
+    if (!issuedAt) return 0;
+    const issued = new Date(issuedAt).getTime();
+    const now = this.today.getTime();
+    const diffMs = now - issued;
+    return Math.floor(diffMs / (1000 * 60 * 60 * 24));
+  }
+
+  ngOnInit(): void {
+    if (isPlatformBrowser(this.platformId)) {
+      this.activeRentals$ = this.rentals.getActiveRental().pipe(
+        catchError(err => {
+          this.errorMessage = 'Failed to load active rental';
+          console.error(err);
+          return of(null);
+        })
+      );
+
+      this.completedRentals$ = this.rentals.getCompletedRental().pipe(
+        catchError(err => {
+          this.errorMessage = 'Failed to load completed rentals';
+          console.error(err);
+          return of(null);
+        })
+      );
+
+      this.overdueRentals$ = this.rentals.getOverdueRental().pipe(
+        catchError(err => {
+          this.errorMessage = 'Failed to load overdue rentals';
+          console.error(err);
+          return of(null);
+        })
+      );
+
+      this.equipmentRentalHistory = this.rentals.getEquipmentRentalHistory(this.rentalId).pipe(
+        catchError(err => {
+          this.errorMessage = 'Failed to load equipment rental history';
+          console.error(err);
+          return of(null);
+        })
+      );
+
+      this.rentals$ = this.rentals.getAllRentals().pipe(
+        catchError((err) => {
+          // Friendly message for permission issues or others
+          if (err?.status === 403) {
+            this.errorMessage = 'You do not have permission to view rentals.';
+          } else if (err?.status === 401) {
+            this.errorMessage = 'Your session has expired. Please log in again.';
+          } else {
+            this.errorMessage = 'Failed to load customers. Please try again.';
+          }
+          return of([] as RentalDTO[]);
+        })
+      );
+    }
   }
 }

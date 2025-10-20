@@ -53,6 +53,20 @@ export class RentalService {
   }
 
 
+  // Get equipment rental history (admin sees all, user sees own)
+  getEquipmentRentalHistory(id: number): Observable<RentalDTO[]> {
+    let headers = new HttpHeaders();
+
+    if (typeof window !== 'undefined') {
+      const token = localStorage.getItem('token');
+      if (token) {
+        headers = headers.set('Authorization', `Bearer ${token}`);
+      }
+    }
+    return this.http.get<RentalDTO[]>(`${this.baseUrl}/equipment/${id}`, { headers });
+  }
+
+
   // Get active rentals (admin sees all, user sees own)
   getActiveRental(): Observable<RentalDTO[]> {
     let headers = new HttpHeaders();

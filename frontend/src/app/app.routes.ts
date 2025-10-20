@@ -33,7 +33,7 @@ export const routes: Routes = [
   { path: 'rental-detail/:id', component: RentalDetailScreen },
   { path: 'add-rental', component: RentalIssueScreen },
   { path: 'return-rental/:id', component: RentalReturnScreen },
-  { path: 'edit-rental:id', component: RentalEditScreen },
+  { path: 'edit-rental/:id', component: RentalEditScreen },
   { path: 'overdue-rentals', component: OverdueRentalsScreen },
   { path: 'available', component: AvailableScreen },
   { path: 'error', component: ErrorScreen },

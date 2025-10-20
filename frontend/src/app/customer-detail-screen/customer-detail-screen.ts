@@ -4,9 +4,7 @@ import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import { AsyncPipe } from '@angular/common';
 import {CustomerDTO, RentalDTO} from '../../../services/model-services';
 import { CustomerService } from '../../../services/customer-services';
-import { Observable, of, switchMap, map } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
-import { RentalService } from '../../../services/rental-services';
+import { of } from 'rxjs';
 import {catchError} from 'rxjs/operators';
 
 @Component({
@@ -29,8 +27,6 @@ export class CustomerDetailScreen {
     private route: ActivatedRoute,
     private router: Router,
     private customerService: CustomerService,
-    private http: HttpClient,
-    private rentalService: RentalService,
     @Inject(PLATFORM_ID) private platformId: Object
   ) {}
 
