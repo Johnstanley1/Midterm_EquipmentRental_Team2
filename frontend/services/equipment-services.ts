@@ -98,7 +98,15 @@ export class EquipmentService {
 
   // create new equipment
   createEquipment(equipment: Equipment): Observable<Equipment> {
-    return this.http.post<Equipment>(this.baseUrl, equipment);
+    let headers = new HttpHeaders();
+
+    if (typeof window !== 'undefined') {
+      const token = localStorage.getItem('token');
+      if (token) {
+        headers = headers.set('Authorization', `Bearer ${token}`);
+      }
+    }
+    return this.http.post<Equipment>(this.baseUrl, equipment, { headers });
   }
 
 
