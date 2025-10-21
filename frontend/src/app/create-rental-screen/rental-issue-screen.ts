@@ -41,15 +41,15 @@ export class RentalIssueScreen {
 
   // Validation
   form = this.builder.group({
-    equipmentName: ["", [Validators.required]],
-    customerName: ["", [Validators.required]],
+    equipmentName: [null as Equipment | null, Validators.required],
+    customerName: [null as CustomerDTO | null, Validators.required],
     issuedAt: [null, [Validators.required]],
     dueDate: [null, [Validators.required]],
     returnedAt: [null],
     returnNotes: [null],
     equipmentId: [0],
-    status: 'Active',
-    equipmentStatus: ["", [Validators.required]],
+    status: ["Active"],
+    equipmentStatus: ["Rented"],
     equipmentCondition: ["", [Validators.required]],
     equipment: [null],
     customerId: [0]
@@ -72,8 +72,13 @@ export class RentalIssueScreen {
       console.log("Issue rental form is valid")
 
       // Get data:
-      const equipment_name = this.form.value.equipmentName!
-      const customerName = this.form.value.customerName!;
+      // const equipment_name = this.form.value.equipmentName!
+      // const customerName = this.form.value.customerName!;
+
+      const equipment = this.form.value.equipmentName;
+      const customer = this.form.value.customerName;
+
+
       const issuedAt = this.form.value.issuedAt!;
       const dueDate = this.form.value.dueDate!;
       const returnedAt = this.form.value.returnedAt!;
@@ -81,21 +86,26 @@ export class RentalIssueScreen {
       const status = this.form.value.status!;
       const equipmentStatus = this.form.value.equipmentStatus!;
       const equipmentCondition = this.form.value.equipmentCondition!;
-      const equipment = this.form.value.equipment!;
-      const customerId = this.form.value.customerId!;
-      const equipmentId = this.form.value.equipmentId!;
+
+      // const equipment = this.form.value.equipment!;
+
+      const customerId = customer?.id;
+      const equipmentId = equipment?.id;
 
       // Create new equipment object, pass data:
-      const rental = new RentalDTO(issuedAt, dueDate, returnedAt, returnNotes, customerId,
-        equipmentId, equipmentCondition, equipmentStatus,status)
+      if (customerId != null && equipmentId != null) {
+        const rental = new RentalDTO(issuedAt, dueDate, returnedAt, returnNotes, customerId,
+          equipmentId, equipmentCondition, equipmentStatus, status)
 
-      console.log(JSON.stringify(rental));
+        console.log(JSON.stringify(rental));
 
-      this.rentalService.createRental(rental).subscribe(() => {
-        alert("Rental issued successfully");
-        // Route:
-        this.router.navigate(["/all-rentals"]);
-      })
+        this.rentalService.createRental(rental).subscribe(() => {
+          alert("Rental issued successfully");
+          // Route:
+          this.router.navigate(["/all-rentals"]);
+        })
+
+      }
     }else {
       alert("Issue rental form is invalid")
     }

@@ -32,6 +32,7 @@ namespace Midterm_EquipmentRental_Team2.Repositories
                     EquipmentCondition = r.EquipmentCondition.ToString(),
                     EquipmentStatus = r.EquipmentStatus.ToString(),
                     CustomerId = r.CustomerId,
+                    EquipmentId = r.EquipmentId,
                     CustomerName = r.Customer.Name,
                     EquipmentName = r.Equipment.Name,
                     Equipment = r.Equipment

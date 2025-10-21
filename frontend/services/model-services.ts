@@ -75,8 +75,8 @@ export class RentalDTO{
   dueDate: Date;
   returnedAt: Date;
   returnNotes: string;
-  customerId: number
-  equipmentId: number;
+  customerId: number = 0;
+  equipmentId: number = 0;
   equipmentCondition: string
   equipmentStatus: string;
   status: string;
