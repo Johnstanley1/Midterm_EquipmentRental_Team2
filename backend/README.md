@@ -62,6 +62,19 @@ The system has two user profiles and allows:
 - Log in to get a token, user or admin.
 - Click the authorize tab and input the token generated.
 - Test all CRUD operations by version.
+- 
+
+## Default credentials for Admin and User
+| Role      | Username | Password |
+| --------- | -------- | -------- |
+| **Admin** | `admin`  | `admin`  |
+| **User**  | `user1`  | `user1`  |
+| **User**  | `user2`  | `user2`  |
+| **User**  | `user3`  | `user3`  |
+| **User**  | `user4`  | `user4`  |
+| **User**  | `user5`  | `user5`  |
+| **User**  | `alex`   | `alex`   |
+| **User**  | `maria`  | `maria`  |
 
 
 ## Developers
