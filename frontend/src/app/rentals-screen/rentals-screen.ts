@@ -14,7 +14,7 @@ import {catchError} from 'rxjs/operators';
   styleUrls: ['./rentals-screen.css'],
 })
 export class RentalsScreen {
-  rentals$: Observable<RentalDTO[]> = of([]);
+  rentals$!: Observable<RentalDTO [] | null>;
   rentalId!: number;
   errorMessage: string | null = null;
   activeRentals$ =  of<RentalDTO [] | null>(null);
@@ -30,32 +30,6 @@ export class RentalsScreen {
     @Inject(PLATFORM_ID) private platformId: Object
   ) {}
 
-
-  onDelete(id: number) {
-    if (!confirm('Delete this customer?')) return;
-
-    this.rentals$ = this.rentals$.pipe(
-      map((rentals) => rentals.filter((r) => r.id !== id))
-    );
-
-    this.rentals.deleteRental(id).subscribe({
-      // Refresh the list after deletion
-      next:(data) =>{
-        this.rentals$ = this.rentals$.pipe(
-          map((data) => data.filter((d) => d.id != id))
-        )
-      },
-      error:(err) => {
-        if (err.status === 404) {
-          this.errorMessage = 'Rental not found.';
-        } else if (err.status === 403) {
-          this.errorMessage = 'You do not have permission to delete rental.';
-        } else {
-          this.errorMessage = 'Failed to delete rental. Please try again.';
-        }
-      }
-    });
-  }
 
   getDaysRented(issuedAt: Date | null): number {
     if (!issuedAt) return 0;
@@ -122,4 +96,29 @@ export class RentalsScreen {
       );
     }
   }
+
+
+  // Cancel rental (admin)
+  onDelete(id: number): void {
+    if (confirm('Are you sure you want to cancel this rental?')) {
+      id =  this.rentalId
+      console.log(id)
+      this.rentals.deleteRental(id).subscribe({
+        next: () => {
+          console.log("navigating to all rentals")
+          this.router.navigate(['/all-rentals']);
+        },
+        error: (err) => {
+          if (err.status === 404) {
+            this.errorMessage = 'Rental not found.';
+          } else if (err.status === 403) {
+            this.errorMessage = 'You do not have permission to delete this rental.';
+          } else {
+            this.errorMessage = 'Failed to delete rental. Please try again.';
+          }
+        }
+      });
+    }
+  }
+
 }

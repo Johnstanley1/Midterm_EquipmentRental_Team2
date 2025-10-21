@@ -31,6 +31,7 @@ export class RentalDetailScreen {
   ngOnInit(): void {
     if (isPlatformBrowser(this.platformId)) {
       this.rentalId = Number(this.route.snapshot.paramMap.get('id'));
+      console.log(this.rentalId)
       this.rental$ = this.rentalService.getRentalsById(this.rentalId).pipe(
         catchError(err => {
           this.errorMessage = 'Failed to load rental details';
@@ -45,9 +46,11 @@ export class RentalDetailScreen {
   // Cancel rental (admin)
   cancel(id: number): void {
     if (confirm('Are you sure you want to cancel this rental?')) {
+      id =  this.rentalId
+      console.log(id)
       this.rentalService.deleteRental(id).subscribe({
         next: () => {
-          // Navigate to all rentals screen after successful deletion
+          console.log("navigating to all rentals")
           this.router.navigate(['/all-rentals']);
         },
         error: (err) => {

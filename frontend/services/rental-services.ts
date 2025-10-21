@@ -133,7 +133,7 @@ export class RentalService {
         headers = headers.set('Authorization', `Bearer ${token}`);
       }
     }
-    return this.http.delete(`${this.baseUrl}/${id}}`, { headers });
+    return this.http.delete(`${this.baseUrl}/${id}`, { headers });
   }
 
 
