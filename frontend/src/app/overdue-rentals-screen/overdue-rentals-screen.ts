@@ -69,36 +69,36 @@ export class OverdueRentalsScreen {
   }
 
   private load() {
-    // this.rentals
-    //   .getOverdueRental()
-    //   .pipe(
-    //     map((list) =>
-    //       list.map(
-    //         (r) =>
-    //           ({
-    //             ...r,
-    //             daysOverdue: r.dueDate
-    //               ? Math.max(
-    //                   0,
-    //                   Math.ceil((Date.now() - Date.parse(r.dueDate)) / (1000 * 60 * 60 * 24))
-    //                 )
-    //               : 0,
-    //           } as OverdueRental)
-    //       )
-    //     )
-    //   )
-    //   .subscribe((list) => {
-    //     this.lastList = list;
-    //     this.overdueSubject.next(list);
-    //   });
-    // this.stats$ = this.overdueSubject.asObservable().pipe(
-    //   map((list) => {
-    //     const days = list.map((r) => r.daysOverdue || 0);
-    //     const total = list.length;
-    //     const avgDays = total ? days.reduce((a, b) => a + b, 0) / total : 0;
-    //     const maxDays = days.length ? Math.max(...days) : 0;
-    //     return { total, avgDays, maxDays };
-    //   })
-    // );
+    this.rentals
+      .getOverdueRental()
+      .pipe(
+        map((list) =>
+          list.map(
+            (r) =>
+              ({
+                ...r,
+                daysOverdue: r.dueDate
+                  ? Math.max(
+                      0,
+                    Math.ceil((Date.now() - r.dueDate.getTime()) / (1000 * 60 * 60 * 24))
+                  )
+                  : 0,
+              } as OverdueRental)
+          )
+        )
+      )
+      .subscribe((list) => {
+        this.lastList = list;
+        this.overdueSubject.next(list);
+      });
+    this.stats$ = this.overdueSubject.asObservable().pipe(
+      map((list) => {
+        const days = list.map((r) => r.daysOverdue || 0);
+        const total = list.length;
+        const avgDays = total ? days.reduce((a, b) => a + b, 0) / total : 0;
+        const maxDays = days.length ? Math.max(...days) : 0;
+        return { total, avgDays, maxDays };
+      })
+    );
   }
 }

@@ -32,25 +32,30 @@
               @for (r of rentals; track r) {
                 <tr>
                   <td>{{ r.equipmentName || r.equipmentId }}</td>
+                  <td>{{ r.customerName }}</td>
                   <td>{{ r.issuedAt | date : 'mediumDate' }}</td>
                   <td>{{ r.dueDate ? (r.dueDate | date : 'mediumDate') : '—' }}</td>
-                  <td>{{ r.status === 'Returned' }}</td>
                   <td>
-              <span
-                class="badge"
-                [ngClass]="{
-                  'bg-success': r.status === 'Returned',
-                  'bg-danger': r.status === 'Overdue',
-                  'bg-secondary': r.status === 'Cancelled',
-                  'bg-primary': r.status === 'Active'
-                }"
-              >{{ r.status }}</span>
-                <td class="col">
-                  <a [routerLink]="['/rental-detail', r.id]" class="me-2 text-decoration-none btn btn-info btn-sm">ViewDetails</a>
-                  <a [routerLink]="['/edit-rental', r.id]" class="me-2 text-decoration-none btn btn-primary btn-sm">Edit</a>
-                  <button class="btn btn-sm btn-outline-danger me-0" (click)="onDelete(this.rentalId)">Delete</button>
-                </td>
+                    <span
+                      class="badge"
+                      [ngClass]="{
+                        'bg-success': r.status === 'Returned',
+                        'bg-danger': r.status === 'Overdue',
+                        'bg-secondary': r.status === 'Cancelled',
+                        'bg-primary': r.status === 'Active'
+                      }"
+                    >
+                      {{ r.status }}
+                    </span>
+                  </td>
+                  <td>
+                    <a [routerLink]="['/rental-detail', r.id]" class="btn btn-info btn-sm me-2">View</a>
+                    <a [routerLink]="['/edit-rental', r.id]" class="btn btn-primary btn-sm me-2">Edit</a>
+                    <button class="btn btn-outline-danger btn-sm" (click)="onDelete(r.id)">Delete</button>
+                  </td>
+                </tr>
               }
+
             }
           } @else {
             <tr>

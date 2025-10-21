@@ -14,7 +14,7 @@ import {catchError} from 'rxjs/operators';
   styleUrls: ['./rentals-screen.css'],
 })
 export class RentalsScreen {
-  rentals$!: Observable<RentalDTO [] | null>;
+  rentals$!: Observable<RentalDTO []>;
   rentalId!: number;
   errorMessage: string | null = null;
   activeRentals$ =  of<RentalDTO [] | null>(null);
@@ -28,7 +28,8 @@ export class RentalsScreen {
     private router: Router,
     private rentals: RentalService,
     @Inject(PLATFORM_ID) private platformId: Object
-  ) {}
+  ) {
+  }
 
 
   getDaysRented(issuedAt: Date | null): number {
@@ -49,6 +50,7 @@ export class RentalsScreen {
 
   ngOnInit(): void {
     if (isPlatformBrowser(this.platformId)) {
+      this.rentalId = Number(this.route.snapshot.paramMap.get('id'));
       this.activeRentals$ = this.rentals.getActiveRental().pipe(
         catchError(err => {
           this.errorMessage = 'Failed to load active rental';
@@ -99,25 +101,30 @@ export class RentalsScreen {
 
 
   // Cancel rental (admin)
-  onDelete(id: number): void {
-    if (confirm('Are you sure you want to cancel this rental?')) {
-      id =  this.rentalId
+  onDelete(id: number){
+    if (confirm('Are you sure you want to delete this rental?')){
+
+      this.rentals$ = this.rentals$.pipe(
+        map((rentals) => rentals.filter((e) => e.id !== id))
+      );
       console.log(id)
       this.rentals.deleteRental(id).subscribe({
-        next: () => {
-          console.log("navigating to all rentals")
-          this.router.navigate(['/all-rentals']);
+        // Refresh the list after deletion
+        next:(data) =>{
+          this.rentals$ = this.rentals$.pipe(
+            map((data) => data.filter((d) => d.id != id))
+          )
         },
-        error: (err) => {
+        error:(err) => {
           if (err.status === 404) {
             this.errorMessage = 'Rental not found.';
           } else if (err.status === 403) {
-            this.errorMessage = 'You do not have permission to delete this rental.';
+            this.errorMessage = 'You do not have permission to delete rental.';
           } else {
             this.errorMessage = 'Failed to delete rental. Please try again.';
           }
         }
-      });
+      })
     }
   }
 

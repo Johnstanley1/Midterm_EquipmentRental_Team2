@@ -11,7 +11,6 @@ import { RentalIssueScreen } from './create-rental-screen/rental-issue-screen';
 import { RentalReturnScreen } from './return-rental-screen/rental-return-screen';
 import { RentalEditScreen } from './edit-rental-screen/rental-edit-screen';
 import { OverdueRentalsScreen } from './overdue-rentals-screen/overdue-rentals-screen';
-import { AvailableScreen } from './available-screen/available-screen';
 import { CreateCustomerScreen } from './create-customer-screen/create-customer-screen';
 import { EditCustomerScreen } from './edit-customer-screen/edit-customer-screen';
 import { CustomerDetailScreen } from './customer-detail-screen/customer-detail-screen';
@@ -35,7 +34,6 @@ export const routes: Routes = [
   { path: 'return-rental/:id', component: RentalReturnScreen },
   { path: 'edit-rental/:id', component: RentalEditScreen },
   { path: 'overdue-rentals', component: OverdueRentalsScreen },
-  { path: 'available', component: AvailableScreen },
   { path: 'error', component: ErrorScreen },
   { path: '', redirectTo: '/login', pathMatch: 'full' },
 ];

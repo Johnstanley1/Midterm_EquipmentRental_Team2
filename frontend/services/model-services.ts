@@ -70,7 +70,7 @@ export class CustomerDTO {
 
 
 export class RentalDTO{
-  id?: number;
+  id!: number;
   issuedAt: Date;
   dueDate: Date;
   returnedAt: Date;

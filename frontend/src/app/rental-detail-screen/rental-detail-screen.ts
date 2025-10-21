@@ -31,7 +31,6 @@ export class RentalDetailScreen {
   ngOnInit(): void {
     if (isPlatformBrowser(this.platformId)) {
       this.rentalId = Number(this.route.snapshot.paramMap.get('id'));
-      console.log(this.rentalId)
       this.rental$ = this.rentalService.getRentalsById(this.rentalId).pipe(
         catchError(err => {
           this.errorMessage = 'Failed to load rental details';
