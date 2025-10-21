@@ -13,7 +13,7 @@
         <div class="card-header">Equipment</div>
         @if (rental$ | async; as rentals) {
             <div class="card-body">
-              <p><strong>ID:</strong> {{ rentals.equipment.id }}</p>
+              <p><strong>ID:</strong> {{ rentals.equipment?.id }}</p>
               <p><strong>Name:</strong> {{ rentals.equipmentName || '—' }}</p>
             </div>
         }

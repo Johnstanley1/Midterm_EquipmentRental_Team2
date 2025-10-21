@@ -1,109 +1,103 @@
-import { Component, Inject, PLATFORM_ID } from '@angular/core';
-import { CommonModule, isPlatformBrowser } from '@angular/common';
+import {Component, inject, Inject, PLATFORM_ID} from '@angular/core';
+import {CommonModule, isPlatformBrowser, NgOptimizedImage} from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators, FormGroup } from '@angular/forms';
-import { Router } from '@angular/router';
+import {Router, RouterLink} from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { EquipmentService } from '../../../services/equipment-services';
 import { RentalService } from '../../../services/rental-services';
 import { CustomerService } from '../../../services/customer-services';
+import {Observable, of} from 'rxjs';
+import {CustomerDTO, Equipment, RentalDTO} from '../../../services/model-services';
 
 @Component({
   selector: 'app-rental-issue-screen',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterLink, NgOptimizedImage],
   templateUrl: './rental-issue-screen.html',
   styleUrls: ['./rental-issue-screen.css'],
 })
 export class RentalIssueScreen {
-  equipments: Array<{ id: number; name: string }> = [];
-  customers: Array<{ id: number; name: string }> = [];
-  isAdmin = false;
-  form!: FormGroup;
-  private fb: FormBuilder;
+  customers$: Observable<CustomerDTO[]>;
+  equipments$: Observable<Equipment[]>;
+  rentals$: Observable<RentalDTO[]>;
+  equipmentStatus$: Observable<Equipment[]>;
+  equipmentCondition$: Observable<Equipment[]>;
 
-  constructor(
-    fb: FormBuilder,
-    private equipmentService: EquipmentService,
-    private rentalService: RentalService,
-    private customerService: CustomerService,
-    private router: Router,
-    private http: HttpClient,
-    @Inject(PLATFORM_ID) platformId: Object
-  ) {
-    this.fb = fb;
+  constructor(private router: Router,
+              private equipmentService: EquipmentService,
+              private rentalService: RentalService,
+              private customerService: CustomerService,
+              @Inject(PLATFORM_ID) platformId: Object) {
     const isBrowser = isPlatformBrowser(platformId);
-    if (isBrowser) {
-      this.isAdmin = (localStorage.getItem('role') || '').toLowerCase() === 'admin';
-    }
+    this.equipments$ = isBrowser ? this.equipmentService.getAllEquipments() : of([]);
+    this.customers$ = isBrowser ? this.customerService.getAllCustomers() : of([]);
+    this.rentals$ = isBrowser ? this.rentalService.getAllRentals() : of([]);
+    this.equipmentStatus$ = isBrowser ? this.equipmentService.getEquipmentStatus() : of([]);
+    this.equipmentCondition$ = isBrowser ? this.equipmentService.getEquipmentCondition() : of([]);
   }
 
-  ngOnInit() {
-    this.form = this.fb.group({
-      equipmentId: [null, Validators.required],
-      customerId: [null],
-      issuedAt: [''],
-      dueDate: [''],
-    });
-    // Avoid HTTP when running on server during prerender
-    if (typeof window !== 'undefined') {
-      this.equipmentService.getAllEquipments().subscribe((list) => {
-        this.equipments = (list || [])
-          .filter(
-            (e: any) => e.isAvailable === true && (e.status === 0 || e.status === 'Available')
-          )
-          .map((e: any) => ({ id: e.id, name: e.name }));
-      });
-      this.customerService.getAllCustomers().subscribe((list) => {
-        this.customers = (list || []).map((c: any) => ({ id: c.id, name: c.name }));
-      });
-    }
-  }
+  // Inject builder
+  builder = inject(FormBuilder)
+
+  // Validation
+  form = this.builder.group({
+    equipmentName: ["", [Validators.required]],
+    customerName: ["", [Validators.required]],
+    issuedAt: [null, [Validators.required]],
+    dueDate: [null, [Validators.required]],
+    returnedAt: [null],
+    returnNotes: [null],
+    equipmentId: [0],
+    status: 'Active',
+    equipmentStatus: ["", [Validators.required]],
+    equipmentCondition: ["", [Validators.required]],
+    equipment: [null],
+    customerId: [0]
+  })
+
+
+  // Get data:
+  refName = this.form.controls['equipmentName']
+  refCusName = this.form.controls['customerName']
+  refIssue = this.form.controls['issuedAt']
+  refDue = this.form.controls['dueDate']
+  refCondition = this.form.controls["equipmentCondition"]
+  refStatus = this.form.controls["equipmentStatus"]
+  refNotes = this.form.controls["returnNotes"]
+
 
   submit() {
-    if (this.form.invalid) {
-      this.form.markAllAsTouched();
-      return;
-    }
-    const v = this.form.value;
-    let issuedIso: string | null = null;
-    if (v.issuedAt) {
-      const d = new Date(v.issuedAt);
-      if (!isNaN(d.getTime())) {
-        issuedIso = d.toISOString();
-      } else {
-        // If parsing fails, omit issuedAt so backend uses UtcNow
-        issuedIso = null;
-      }
-    }
-    const proceedIssue = () => {
-      // this.rentalService
-      //   .createRental({
-      //     equipmentId: Number(v.equipmentId),
-      //     customerId: Number(v.customerId) || undefined,
-      //     dueDate: v.dueDate || null,
-      //     issuedAt: issuedIso,
-      //   })
-      //   .subscribe({
-      //     next: () => this.router.navigate(['/all-rentals']),
-      //     error: (err) => {
-      //       const raw = err?.error;
-      //       let msg = 'Failed to issue rental';
-      //       if (typeof raw === 'string') {
-      //         msg = raw;
-      //       } else if (raw && typeof raw === 'object') {
-      //         const title = raw.title || raw.error || '';
-      //         const detail = raw.detail || raw.message || '';
-      //         const errors = raw.errors ? Object.values(raw.errors).flat().join('\n') : '';
-      //         msg = [title, detail, errors].filter(Boolean).join('\n');
-      //       } else if (err?.message) {
-      //         msg = err.message;
-      //       }
-      //       alert(msg);
-      //     },
-      //   });
-    };
+    // Check Validation
+    if (this.form.valid) {
+      console.log("Issue rental form is valid")
 
-    // Multiple active rentals allowed; no pre-check needed
-    proceedIssue();
+      // Get data:
+      const equipment_name = this.form.value.equipmentName!
+      const customerName = this.form.value.customerName!;
+      const issuedAt = this.form.value.issuedAt!;
+      const dueDate = this.form.value.dueDate!;
+      const returnedAt = this.form.value.returnedAt!;
+      const returnNotes = this.form.value.returnNotes!;
+      const status = this.form.value.status!;
+      const equipmentStatus = this.form.value.equipmentStatus!;
+      const equipmentCondition = this.form.value.equipmentCondition!;
+      const equipment = this.form.value.equipment!;
+      const customerId = this.form.value.customerId!;
+      const equipmentId = this.form.value.equipmentId!;
+
+      // Create new equipment object, pass data:
+      const rental = new RentalDTO(issuedAt, dueDate, returnedAt, returnNotes, customerId,
+        equipmentId, equipmentCondition, equipmentStatus,status)
+
+      console.log(JSON.stringify(rental));
+
+      this.rentalService.createRental(rental).subscribe(() => {
+        alert("Rental issued successfully");
+        // Route:
+        this.router.navigate(["/all-rentals"]);
+      })
+    }else {
+      alert("Issue rental form is invalid")
+    }
   }
 }

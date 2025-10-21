@@ -8,30 +8,30 @@
   }
 
   <div class="row g-3 align-items-start">
-    <!-- Rental table -->
-    <div class="row text-primary text-center">
-      <table class="table table-hover table-striped-columns table-bordered table-sm" style="font-size: 0.9rem;">
-        <thead>
-        <tr>
-          <th>Equipment</th>
-          <th>Customer</th>
-          <th>Issue Date</th>
-          <th>Due Date</th>
-          <th>Status</th>
-          <th></th>
+  <!-- Rental table -->
+  <div class="row text-center">
+    <table class="table table-hover table-striped-columns table-bordered table-sm" style="font-size: 0.9rem;">
+      <thead>
+      <tr>
+        <th>Equipment</th>
+        <th>Customer</th>
+        <th>Issue Date</th>
+        <th>Due Date</th>
+        <th>Status</th>
+        <th></th>
+      </tr>
+      </thead>
+      <tbody>
+      <ng-container *ngIf="rentals$ | async as rentals; else loading">
+        <tr *ngIf="rentals.length === 0">
+          <td colspan="6" class="text-center">No rentals found</td>
         </tr>
-        </thead>
-        <tbody>
-        <ng-container *ngIf="rentals$ | async as rentals; else loading">
-          <tr *ngIf="rentals.length === 0">
-            <td colspan="6" class="text-center">No rentals found</td>
-          </tr>
-          <tr *ngFor="let r of rentals;">
-            <td>{{ r.equipmentName || r.equipmentId }}</td>
-            <td>{{ r.customerName || r.customerId }}</td>
-            <td>{{ r.issuedAt | date : 'mediumDate' }}</td>
-            <td>{{ r.dueDate ? (r.dueDate | date : 'mediumDate') : '—' }}</td>
-            <td>
+        <tr *ngFor="let r of rentals;">
+          <td>{{ r.equipmentName || r.equipmentId }}</td>
+          <td>{{ r.customerName || r.customerId }}</td>
+          <td>{{ r.issuedAt | date : 'mediumDate' }}</td>
+          <td>{{ r.dueDate ? (r.dueDate | date : 'mediumDate') : '—' }}</td>
+          <td>
               <span
                 class="badge"
                 [ngClass]="{
@@ -41,91 +41,94 @@
                   'bg-primary': r.status === 'Active'
                 }"
               >{{ r.status }}</span>
-            </td>
-            <td class="col">
-              <a [routerLink]="['/rental-detail', r.id]" class="me-2 text-decoration-none btn btn-info btn-sm">View
-                                                                                                               Details</a>
-              <a [routerLink]="['/edit-rental', r.id]" class="me-2 text-decoration-none btn btn-primary btn-sm">Edit</a>
-              <button class="text-decoration-none btn btn-outline-danger btn-sm" (click)="onDelete(r.id!)">
-                Delete
-              </button>
-            </td>
-          </tr>
-        </ng-container>
-        </tbody>
-      </table>
-      <ng-template #loading>
-        <div class="text-center p-3">Loading...</div>
-      </ng-template>
-    </div>
+          </td>
+          <td class="col">
+            <a [routerLink]="['/rental-detail', r.id]" class="me-2 text-decoration-none btn btn-info btn-sm">View
+                                                                                                             Details</a>
+            <a [routerLink]="['/edit-rental', r.id]" class="me-2 text-decoration-none btn btn-primary btn-sm">Edit</a>
+            <button class="text-decoration-none btn btn-outline-danger btn-sm" (click)="onDelete(r.id!)">
+              Delete
+            </button>
+          </td>
+        </tr>
+      </ng-container>
+      </tbody>
+    </table>
+    <ng-template #loading>
+      <div class="text-center p-3">Loading...</div>
+    </ng-template>
+  </div>
 
-    <!-- Active rentals Card -->
-    <div class="card shadow-sm mt-2">
-      <div class="card-header fw-bolder">Active Rentals</div>
-      <div class="card-body">
-        @if (activeRentals$ | async; as rentals) {
-          <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-2">
-            @for (rental of rentals; track rental.id) {
-              <div class="col">
-                <div class="card h-100">
-                  <img src="/images/excavator.jpg" class="card-img-top" alt="equipment image" height="200" width="259">
-                  <div class="card-body">
-                    <h5 class="card-title">{{ rental.equipmentName || '—' }}</h5>
-                    <p class="card-text">
-                    <p><strong>Days Rented:</strong> {{ getDaysRented(rental.issuedAt) }}</p>
-                    <a [routerLink]="['/equipment-detail', rental.equipment.id]" class="btn btn-outline-primary">View Details</a>
-                  </div>
+  <!-- Active rentals Card -->
+  <div class="card shadow-sm mt-3">
+    <div class="card-header fw-bolder">Active Rentals</div>
+    <div class="card-body">
+      @if (activeRentals$ | async; as rentals) {
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-2">
+          @for (rental of rentals; track rental.id) {
+            <div class="col">
+              <div class="card h-100">
+                <img src="/images/excavator.jpg" class="card-img-top" alt="equipment image" height="200" width="259">
+                <div class="card-body">
+                  <h5 class="card-title">{{ rental.equipmentName || '—' }}</h5>
+                  <p class="card-text">
+                  <p><strong>Days Rented:</strong> {{ getDaysRented(rental.issuedAt) }}</p>
+                  <a [routerLink]="['/equipment-detail', rental.equipment?.id]" class="btn btn-outline-primary">View
+                                                                                                                Details</a>
                 </div>
               </div>
-            }
-          </div>
-        } @else {
-          <div class="text-muted">No rentals found.</div>
-        }
-      </div>
+            </div>
+          }
+        </div>
+      } @else {
+        <div class="text-muted">No rentals found.</div>
+      }
     </div>
+  </div>
 
-    <!-- Completed rental table -->
-    <div class="card shadow-sm mt-4">
-      <div class="card-header fw-bolder">Completed Rentals</div>
-      <div class="card-body row text-primary text-center ">
-        <table class="table table-hover table-striped-columns table-bordered table-sm" style="font-size: 0.9rem;">
-          <thead>
+  <!-- Completed rental table -->
+  <div class="row text-center mt-5">
+    <div class="fw-bolder fs-6">Completed Rentals</div>
+    <table class="table table-hover table-striped-columns table-bordered table-sm" style="font-size: 0.9rem;">
+      <thead>
+      <tr>
+        <th>Equipment</th>
+        <th>Issue Date</th>
+        <th>Due Date</th>
+        <th>Status</th>
+        <th>Duration</th>
+      </tr>
+      </thead>
+      <tbody>
+        @if (completedRentals$ | async; as rentals) { @if (rentals.length === 0) {
           <tr>
-            <th>Equipment</th>
-            <th>Issue Date</th>
-            <th>Due Date</th>
-            <th>Status</th>
-            <th>Duration</th>
+            <td colspan="5" class="text-center">No customers found</td>
           </tr>
-          </thead>
-          <tbody>
-          <ng-container *ngIf="completedRentals$ | async as rentals; else loading">
-            <tr *ngIf="rentals.length === 0">
-              <td colspan="6" class="text-center">No rentals found</td>
-            </tr>
-            <tr *ngFor="let r of rentals;">
-              <td>{{ r.equipmentName || r.equipmentId }}</td>
-              <td>{{ r.issuedAt | date : 'mediumDate' }}</td>
-              <td>{{ r.dueDate ? (r.dueDate | date : 'mediumDate') : '—' }}</td>
-              <td>{{ r.status ===  'Returned'}}</td>
-              <td>
+        } @else { @for (r of rentals; track r) {
+          <tr>
+            <td>{{ r.equipmentName || r.equipmentId }}</td>
+            <td>{{ r.issuedAt | date : 'mediumDate' }}</td>
+            <td>{{ r.dueDate ? (r.dueDate | date : 'mediumDate') : '—' }}</td>
+            <td>{{ r.status === 'Returned' }}</td>
+            <td>
               <span
                 class="badge"
                 [ngClass]="{
                   'bg-success': r.status === 'Returned'
                 }"
               >{{ r.status }}</span>
-              </td>
-              <td><p><strong>Days Rented:</strong> {{ getDuration(r.issuedAt) }}</p></td>
-            </tr>
-          </ng-container>
-          </tbody>
-        </table>
-        <ng-template #loading>
-          <div class="text-center p-3">Loading...</div>
-        </ng-template>
-      </div>
-    </div>
+            </td>
+            <td><p><strong>Days Rented:</strong> {{ getDuration(r.issuedAt) }}</p></td>
+          </tr>
+        } } } @else {
+          <tr>
+            <td colspan="5" class="text-center">Loading...</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+    <ng-template #loading>
+      <div class="text-center p-3">Loading...</div>
+    </ng-template>
   </div>
 </div>
