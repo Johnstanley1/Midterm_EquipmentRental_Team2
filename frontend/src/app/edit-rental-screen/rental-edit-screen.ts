@@ -45,22 +45,6 @@ export class RentalEditScreen {
     this.equipmentCondition$ = isBrowser ? this.equipmentService.getEquipmentCondition() : of([]);
   }
 
-  getDaysRented(issuedAt: Date | null): number {
-    if (!issuedAt) return 0;
-    const issued = new Date(issuedAt).getTime();
-    const now = this.today.getTime();
-    const diffMs = now - issued;
-    return Math.floor(diffMs / (1000 * 60 * 60 * 24));
-  }
-
-  getDuration(issuedAt: Date | null): number {
-    if (!issuedAt) return 0;
-    const issued = new Date(issuedAt).getTime();
-    const now = this.today.getTime();
-    const diffMs = now - issued;
-    return Math.floor(diffMs / (1000 * 60 * 60 * 24));
-  }
-
   builder = inject(FormBuilder);
 
   form = this.builder.group({
@@ -85,7 +69,6 @@ export class RentalEditScreen {
   refDue = this.form.controls['dueDate']
   refCondition = this.form.controls["equipmentCondition"]
   refStatus = this.form.controls["equipmentStatus"]
-  refNotes = this.form.controls["returnNotes"]
 
   ngOnInit(): void {
     this.rentalId = this.route.snapshot.params['id'];
@@ -97,6 +80,7 @@ export class RentalEditScreen {
           customerName: rental.customerName ? {name: rental.customerName} as CustomerDTO: null
         }
         this.form.patchValue(mappedRental);
+        console.log(mappedRental);
       }
     });
   }
