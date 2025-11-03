@@ -55,7 +55,7 @@
                 <select class="form-select" formControlName="equipmentName">
                   @if (equipments$ | async; as equipments) {
                     @for (e of equipments; track e.id) {
-                      <option [ngValue]="e">{{ e.name }}</option>
+                      <option [ngValue]="e.name">{{ e.name }}</option>
                     }
                   } @else {
                     <option disabled>Loading...</option>
@@ -73,7 +73,7 @@
                 <select class="form-select" formControlName="customerName">
                   @if (customers$ | async; as customers) {
                     @for (c of customers; track c.id) {
-                      <option [ngValue]="c">{{ c.name }}</option>
+                      <option [ngValue]="c.name">{{ c.name }}</option>
                     }
                   } @else {
                     <option disabled>Loading...</option>

@@ -61,7 +61,6 @@ export class EditCustomerScreen {
       if (customer) {
         this.form.patchValue(customer);
       }
-      console.log(customer);
     });
   }
 

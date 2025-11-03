@@ -107,7 +107,6 @@ export class RentalsScreen {
       this.rentals$ = this.rentals$.pipe(
         map((rentals) => rentals.filter((e) => e.id !== id))
       );
-      console.log(id)
       this.rentals.deleteRental(id).subscribe({
         // Refresh the list after deletion
         next:(data) =>{

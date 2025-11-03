@@ -74,7 +74,6 @@ export class EditEquipmentScreen {
       if (equipment) {
         this.modifyForm.patchValue(equipment);
       }
-      console.log(equipment);
     });
   }
 

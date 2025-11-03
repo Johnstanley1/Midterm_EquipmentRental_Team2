@@ -119,7 +119,7 @@ export class RentalService {
         headers = headers.set('Authorization', `Bearer ${token}`);
       }
     }
-    return this.http.post(`${this.baseUrl}/${id}/extend`, rentalDTO, { headers });
+    return this.http.put(`${this.baseUrl}/${id}/extend`, rentalDTO, { headers });
   }
 
 

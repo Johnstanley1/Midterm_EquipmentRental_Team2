@@ -49,15 +49,15 @@ export class RentalEditScreen {
 
   // Validation
   form = this.builder.group({
-    equipmentName: [null as Equipment | null, Validators.required],
-    customerName: [null as CustomerDTO | null, Validators.required],
+    equipmentName: ["", Validators.required],
+    customerName: ["", Validators.required],
     issuedAt: [null as Date | null, [Validators.required]],
     dueDate: [null as Date | null, [Validators.required]],
     returnedAt: [null  as Date | null],
     returnNotes: [""],
     equipmentId: [0],
-    status: ["Active"],
-    equipmentStatus: ["Rented"],
+    status: [""],
+    equipmentStatus: ["", [Validators.required]],
     equipmentCondition: ["", [Validators.required]],
     equipment: [null as Equipment | null],
     customerId: [0]
@@ -76,13 +76,17 @@ export class RentalEditScreen {
     this.rentalId = this.route.snapshot.params['id'];
     this.rentalService.getRentalsById(this.rentalId).subscribe(rental => {
       if (rental) {
-        const mappedRental = {
-          ...rental,
-          equipmentName: rental.equipmentName ? {name: rental.equipmentName} as Equipment: null,
-          customerName: rental.customerName ? {name: rental.customerName} as CustomerDTO: null
-        }
-        this.form.patchValue(mappedRental);
-        console.log(mappedRental);
+        this.form.patchValue({
+          equipmentName: rental.equipmentName,
+          customerName: rental.customerName,
+          equipmentCondition: rental.equipmentCondition,
+          equipmentStatus: rental.equipmentStatus,
+          issuedAt: rental.issuedAt,
+          dueDate: rental.dueDate,
+          customerId: rental.customerId,
+          equipmentId: rental.equipmentId,
+          status: rental.status,
+        });
       }
     });
   }
