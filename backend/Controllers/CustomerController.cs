@@ -24,7 +24,7 @@ namespace Midterm_EquipmentRental_Team2.Controllers
         }
 
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, User")]
         [HttpGet]
         public ActionResult<IEnumerable<CustomerDTO>> GetAllCustomers()
         {
