@@ -1,102 +1,133 @@
-import { Component, Inject, PLATFORM_ID, ChangeDetectorRef } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {Component, Inject, PLATFORM_ID, ChangeDetectorRef, inject} from '@angular/core';
+import {CommonModule, NgOptimizedImage} from '@angular/common';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RentalService } from '../../../services/rental-services';
 import { isPlatformBrowser } from '@angular/common';
 import {Observable, of} from 'rxjs';
-import {RentalDTO} from '../../../services/model-services';
+import {Customer, CustomerDTO, Equipment, RentalDTO} from '../../../services/model-services';
+import {catchError} from 'rxjs/operators';
+import {CustomerService} from '../../../services/customer-services';
+import {EquipmentService} from '../../../services/equipment-services';
 
 @Component({
   selector: 'app-rental-edit-screen',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterLink],
+    imports: [CommonModule, ReactiveFormsModule, NgOptimizedImage],
   templateUrl: './rental-edit-screen.html',
   styleUrls: ['./rental-edit-screen.css'],
 })
 export class RentalEditScreen {
-  form!: FormGroup;
+  rentals$: Observable<RentalDTO []>;
+  equipments$: Observable<Equipment []>;
+  customers$: Observable<CustomerDTO []>;
+  equipmentStatus$: Observable<Equipment[]>;
+  equipmentCondition$: Observable<Equipment[]>;
   rental!: RentalDTO;
   rentalId = 0;
-  loading = true;
-  errorMsg: string | null = null;
-  private isBrowser = true;
+  errorMessage: string | null = null;
+  private today: any;
 
   constructor(
-    private fb: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private rentals: RentalService,
+    private rentalService: RentalService,
+    private equipmentService: EquipmentService,
+    private customerService: CustomerService,
     private cdr: ChangeDetectorRef,
-    @Inject(PLATFORM_ID) platformId: Object
+    @Inject(PLATFORM_ID) private platformId: Object
   ) {
-    this.isBrowser = isPlatformBrowser(platformId);
+    const isBrowser = isPlatformBrowser(platformId);
+    this.equipments$ = isBrowser ? this.equipmentService.getAllEquipments() : of([]);
+    this.customers$ = isBrowser ? this.customerService.getAllCustomers() : of([]);
+    this.rentals$ = isBrowser ? this.rentalService.getAllRentals() : of([]);
+    this.equipmentStatus$ = isBrowser ? this.equipmentService.getEquipmentStatus() : of([]);
+    this.equipmentCondition$ = isBrowser ? this.equipmentService.getEquipmentCondition() : of([]);
   }
 
-  // ngOnInit() {
-  //   this.form = this.fb.group({
-  //     dueDate: ['', Validators.required],
-  //     reason: [''],
-  //   });
-  //   this.route.paramMap.subscribe((params) => {
-  //     const id = Number(params.get('id'));
-  //     this.rentalId = id;
-  //     if (!this.isBrowser) {
-  //       // Do not fetch on server; rely on client load
-  //       this.loading = false;
-  //       this.errorMsg = 'This page requires a browser environment.';
-  //       this.cdr.markForCheck();
-  //       return;
-  //     }
-  //     if (!isNaN(id) && id > 0) {
-  //       this.rentals.getRentalsById(id).subscribe({
-  //         next: (r) => {
-  //           this.rental = r;
-  //           const suggested = this.toLocalInputValue(r.dueDate || r.issuedAt);
-  //           this.form.patchValue({ dueDate: suggested, reason: '' });
-  //           this.loading = false;
-  //           this.cdr.markForCheck();
-  //         },
-  //         error: (err) => {
-  //           this.loading = false;
-  //           this.errorMsg = typeof err?.error === 'string' ? err.error : 'Failed to load rental.';
-  //           this.cdr.markForCheck();
-  //         },
-  //       });
-  //     } else {
-  //       this.loading = false;
-  //       this.errorMsg = 'Invalid rental id.';
-  //       this.cdr.markForCheck();
-  //     }
-  //   });
-  // }
+  getDaysRented(issuedAt: Date | null): number {
+    if (!issuedAt) return 0;
+    const issued = new Date(issuedAt).getTime();
+    const now = this.today.getTime();
+    const diffMs = now - issued;
+    return Math.floor(diffMs / (1000 * 60 * 60 * 24));
+  }
 
-  private toLocalInputValue(iso?: string | null): string {
-    try {
-      const d = iso ? new Date(iso) : new Date();
-      const pad = (n: number) => String(n).padStart(2, '0');
-      const yyyy = d.getFullYear();
-      const MM = pad(d.getMonth() + 1);
-      const dd = pad(d.getDate());
-      const hh = pad(d.getHours());
-      const mm = pad(d.getMinutes());
-      return `${yyyy}-${MM}-${dd}T${hh}:${mm}`; // for input[type=datetime-local]
-    } catch {
-      return '';
+  getDuration(issuedAt: Date | null): number {
+    if (!issuedAt) return 0;
+    const issued = new Date(issuedAt).getTime();
+    const now = this.today.getTime();
+    const diffMs = now - issued;
+    return Math.floor(diffMs / (1000 * 60 * 60 * 24));
+  }
+
+  builder = inject(FormBuilder);
+
+  form = this.builder.group({
+    equipmentName: [null as Equipment | null, Validators.required],
+    customerName: [null as CustomerDTO | null, Validators.required],
+    issuedAt: [null as Date | null, [Validators.required]],
+    dueDate: [null as Date | null, [Validators.required]],
+    returnedAt: [null as Date | null, [Validators.required]],
+    returnNotes: ["", [Validators.required]],
+    equipmentId: [0],
+    status: ["Active"],
+    equipmentStatus: ["Rented"],
+    equipmentCondition: ["", [Validators.required]],
+    equipment: [null as Equipment | null],
+    customerId: [0]
+  })
+
+  // Get data:
+  refName = this.form.controls['equipmentName']
+  refCusName = this.form.controls['customerName']
+  refIssue = this.form.controls['issuedAt']
+  refDue = this.form.controls['dueDate']
+  refCondition = this.form.controls["equipmentCondition"]
+  refStatus = this.form.controls["equipmentStatus"]
+  refNotes = this.form.controls["returnNotes"]
+
+  ngOnInit(): void {
+    this.rentalId = this.route.snapshot.params['id'];
+    this.rentalService.getRentalsById(this.rentalId).subscribe(rental => {
+      if (rental) {
+        const mappedRental = {
+          ...rental,
+          equipmentName: rental.equipmentName ? {name: rental.equipmentName} as Equipment: null,
+          customerName: rental.customerName ? {name: rental.customerName} as CustomerDTO: null
+        }
+        this.form.patchValue(mappedRental);
+      }
+    });
+  }
+
+  onSubmit() {
+    // Check Validation
+    if (this.form.valid) {
+      console.log("modify rental form is valid")
+
+      // get new entries
+      const updateRental = new RentalDTO(
+        this.form.value.issuedAt!,
+        this.form.value.dueDate!,
+        this.form.value.returnedAt!,
+        this.form.value.returnNotes!,
+        this.form.value.customerId!,
+        this.form.value.equipmentId!,
+        this.form.value.equipmentCondition!,
+        this.form.value.equipmentStatus!,
+        this.form.value.status!,
+      );
+
+      updateRental.id = this.rentalId;
+
+      this.rentalService.updateRental(this.rentalId, updateRental).subscribe(() => {
+        alert("Rental modified successfully");
+        this.router.navigate(["/all-rentals"]);
+      });
+    }else {
+      alert("Modify rental form is invalid")
     }
-  }
-
-  save() {
-    // if (this.form.invalid) {
-    //   this.form.markAllAsTouched();
-    //   return;
-    // }
-    // const v = this.form.value;
-    // const iso = new Date(v.dueDate).toISOString();
-    // this.rentals.updateRental(this.rentalId, ).subscribe({
-    //   next: () => this.router.navigate(['/rental-detail', this.rentalId]),
-    //   error: (err) => alert('Failed to update: ' + (err?.error || err?.message || err)),
-    // });
   }
 
   back() {
