@@ -26,7 +26,6 @@ export class RentalEditScreen {
   rental!: RentalDTO;
   rentalId = 0;
   errorMessage: string | null = null;
-  private today: any;
 
   constructor(
     private route: ActivatedRoute,
@@ -65,10 +64,11 @@ export class RentalEditScreen {
   // Get data:
   refName = this.form.controls['equipmentName']
   refCusName = this.form.controls['customerName']
-  refIssue = this.form.controls['issuedAt']
-  refDue = this.form.controls['dueDate']
   refCondition = this.form.controls["equipmentCondition"]
   refStatus = this.form.controls["equipmentStatus"]
+  refIssue = this.form.controls['issuedAt']
+  refDue = this.form.controls['dueDate']
+
 
   ngOnInit(): void {
     this.rentalId = this.route.snapshot.params['id'];
@@ -116,5 +116,6 @@ export class RentalEditScreen {
 
   back() {
     this.router.navigate(['/rental-detail', this.rentalId]);
+    console.log(this.rentalId);
   }
 }
