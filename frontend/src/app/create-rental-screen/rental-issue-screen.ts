@@ -12,7 +12,7 @@ import {CustomerDTO, Equipment, RentalDTO} from '../../../services/model-service
 @Component({
   selector: 'app-rental-issue-screen',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterLink, NgOptimizedImage],
+  imports: [CommonModule, ReactiveFormsModule, RouterLink],
   templateUrl: './rental-issue-screen.html',
   styleUrls: ['./rental-issue-screen.css'],
 })
@@ -43,8 +43,8 @@ export class RentalIssueScreen {
   form = this.builder.group({
     equipmentName: [null as Equipment | null, Validators.required],
     customerName: [null as CustomerDTO | null, Validators.required],
-    issuedAt: [null, [Validators.required]],
-    dueDate: [null, [Validators.required]],
+    issuedAt: [null as Date | null, [Validators.required]],
+    dueDate: [null as Date | null, [Validators.required]],
     returnedAt: [null],
     returnNotes: [null],
     equipmentId: [0],

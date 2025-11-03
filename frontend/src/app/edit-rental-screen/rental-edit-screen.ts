@@ -44,15 +44,17 @@ export class RentalEditScreen {
     this.equipmentCondition$ = isBrowser ? this.equipmentService.getEquipmentCondition() : of([]);
   }
 
-  builder = inject(FormBuilder);
+  // Inject builder
+  builder = inject(FormBuilder)
 
+  // Validation
   form = this.builder.group({
     equipmentName: [null as Equipment | null, Validators.required],
     customerName: [null as CustomerDTO | null, Validators.required],
     issuedAt: [null as Date | null, [Validators.required]],
     dueDate: [null as Date | null, [Validators.required]],
-    returnedAt: [null as Date | null, [Validators.required]],
-    returnNotes: ["", [Validators.required]],
+    returnedAt: [null  as Date | null],
+    returnNotes: [""],
     equipmentId: [0],
     status: ["Active"],
     equipmentStatus: ["Rented"],
