@@ -27,9 +27,22 @@ namespace Midterm_EquipmentRental_Team2.Controllers
         }
 
 
-        
-        
-        
+        [HttpGet("login")]
+        [Authorize(Roles = "Admin, User")]
+        public ActionResult Login()
+        {
+            var email = User.Identity?.Name;
+            var user = _context.Users.FirstOrDefault(u => u.Email == email);
+            if (user == null)
+            {
+                user = new User { Email = email ?? "unknown", Role = "User", IsActive = true };
+            }
+            if(user.Role!="Admin")
+            {
+                return Ok("welcome, User!");
+            }
+            return Ok("Welcome, Admin!");
+        }
 
         // generate login tokens by user
         // private string GenerateToken(User user)
