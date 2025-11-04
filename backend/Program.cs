@@ -8,6 +8,7 @@ using Midterm_EquipmentRental_Team2.Repositories;
 using Midterm_EquipmentRental_Team2.Services;
 using Midterm_EquipmentRental_Team2.UnitOfWork;
 using System.Text.Json.Serialization;
+using System.Security.Claims;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -31,18 +32,34 @@ builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
 builder.Services.AddScoped<IRentalRepository, RentalRepository>();
 builder.Services.AddScoped<IRentalService, RentalService>();
 
+var jwtSection = builder.Configuration.GetSection("jwt");
+var signingKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(jwtSection["key"]));
+
 // Configure Authentication and Authorization
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
         options.TokenValidationParameters = new TokenValidationParameters
         {
-            ValidateIssuer = false,
-            ValidateAudience = false,
+            ValidateIssuer = true,
+            ValidateAudience = true,
             ValidateLifetime = true,
             ValidateIssuerSigningKey = true,
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("your-secret-key-goes-here0123456789")),
+            ValidIssuer = jwtSection["Issuer"],
+            ValidAudience = jwtSection["Audience"],
+            IssuerSigningKey = signingKey,
+
+            NameClaimType = ClaimTypes.Email
         };
+
+        //options.TokenValidationParameters = new TokenValidationParameters
+        //{
+        //    ValidateIssuer = false,
+        //    ValidateAudience = false,
+        //    ValidateLifetime = true,
+        //    ValidateIssuerSigningKey = true,
+        //    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("your-secret-key-goes-here0123456789")),
+        //};
     });
 
 
