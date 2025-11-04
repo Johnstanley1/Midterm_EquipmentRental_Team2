@@ -4,7 +4,7 @@ import {FormBuilder, ReactiveFormsModule, Validators} from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RentalService } from '../../../services/rental-services';
 import {Observable, of} from 'rxjs';
-import {Equipment} from '../../../services/model-services';
+import {Equipment, RentalDTO} from '../../../services/model-services';
 import {EquipmentService} from '../../../services/equipment-services';
 
 @Component({
@@ -17,6 +17,7 @@ import {EquipmentService} from '../../../services/equipment-services';
 export class RentalReturnScreen {
   rentalId: number;
   equipmentCondition$: Observable<Equipment[]>;
+  rental!: RentalDTO;
 
   constructor(
     private fb: FormBuilder,
@@ -44,16 +45,33 @@ export class RentalReturnScreen {
   refCondition = this.form.controls['equipmentCondition']
   refNotes = this.form.controls['notes']
 
+  ngOnInit(): void {
+    this.rentalId = this.route.snapshot.params['id'];
+    this.rentalService.getRentalsById(this.rentalId).subscribe(rental => {
+      if (rental) {
+        this.rental = rental; // <-- save original rental
+        this.form.patchValue({
+          equipmentCondition: rental.equipmentCondition,
+          notes: rental.returnNotes,
+        });
+      }
+    });
+  }
+
   submit() {
-    const v = this.form.value;
-    this.rentalService.returnRental().subscribe(() =>{
-      alert("Rental modified successfully");
-      this.router.navigate(["/all-rentals"]);
-    })
+    if (this.form.valid) {
+      console.log("Return rental form is valid")
+
+      this.rentalService.returnRental(this.rental).subscribe(() =>{
+        alert("Rental returned successfully");
+        this.router.navigate(["/all-rentals"]);
+      })
+    }else {
+      alert("Return rental form is invalid")
+    }
   }
 
   back() {
     this.router.navigate(['/rental-detail', this.rentalId]);
-    console.log(this.rentalId);
   }
 }

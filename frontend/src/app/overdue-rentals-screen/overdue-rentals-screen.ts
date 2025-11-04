@@ -43,29 +43,29 @@ export class OverdueRentalsScreen {
   }
 
   onForceReturn(r: RentalDTO) {
-    if (!confirm('Force return this equipment now?')) return;
-    if (this.isAdmin) {
-      this.rentals.returnRental().subscribe({
-        next: () => {
-          // Optimistically remove the item and push to stream
-          this.lastList = this.lastList.filter((x) => x.id !== r.id);
-          this.overdueSubject.next([...this.lastList]);
-          // Then reload from server to ensure consistency
-          this.load();
-        },
-        error: (err) => alert('Failed to force return: ' + (err?.error || err?.message || err)),
-      });
-    } else {
-      // Non-admins cannot force; attempt normal return (allowed if it's their own rental)
-      this.rentals.returnRental().subscribe({
-        next: () => {
-          this.lastList = this.lastList.filter((x) => x.id !== r.id);
-          this.overdueSubject.next([...this.lastList]);
-          this.load();
-        },
-        error: (err) => alert('Failed to return: ' + (err?.error || err?.message || err)),
-      });
-    }
+    // if (!confirm('Force return this equipment now?')) return;
+    // if (this.isAdmin) {
+    //   this.rentals.returnRental().subscribe({
+    //     next: () => {
+    //       // Optimistically remove the item and push to stream
+    //       this.lastList = this.lastList.filter((x) => x.id !== r.id);
+    //       this.overdueSubject.next([...this.lastList]);
+    //       // Then reload from server to ensure consistency
+    //       this.load();
+    //     },
+    //     error: (err) => alert('Failed to force return: ' + (err?.error || err?.message || err)),
+    //   });
+    // } else {
+    //   // Non-admins cannot force; attempt normal return (allowed if it's their own rental)
+    //   this.rentals.returnRental().subscribe({
+    //     next: () => {
+    //       this.lastList = this.lastList.filter((x) => x.id !== r.id);
+    //       this.overdueSubject.next([...this.lastList]);
+    //       this.load();
+    //     },
+    //     error: (err) => alert('Failed to return: ' + (err?.error || err?.message || err)),
+    //   });
+    // }
   }
 
   private load() {

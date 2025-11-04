@@ -138,7 +138,7 @@ export class RentalService {
 
 
   // Return a rental by id
-  returnRental(): Observable<any> {
+  returnRental(rentalDTO: RentalDTO): Observable<any> {
     let headers = new HttpHeaders();
 
     if (typeof window !== 'undefined') {
@@ -147,6 +147,6 @@ export class RentalService {
         headers = headers.set('Authorization', `Bearer ${token}`);
       }
     }
-    return this.http.post(`${this.baseUrl}/return`, { headers });
+    return this.http.post(`${this.baseUrl}/return`, rentalDTO, { headers });
   }
 }

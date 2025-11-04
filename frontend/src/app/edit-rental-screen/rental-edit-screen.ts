@@ -114,8 +114,6 @@ export class RentalEditScreen {
       updatedRental.status = this.form.value.status!
       updatedRental.equipment = this.form.value.equipment!
 
-      console.log(updatedRental);
-
       updatedRental.id = this.rentalId;
 
       this.rentalService.updateRental(this.rentalId, updatedRental).subscribe(() => {

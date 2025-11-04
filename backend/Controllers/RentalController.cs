@@ -168,12 +168,13 @@ namespace Midterm_EquipmentRental_Team2.Controllers
 
         [Authorize(Roles = "Admin, User")]
         [HttpPost("return")]
-        public ActionResult<Rental> ReturnRental(int id)
+        public ActionResult<Rental> ReturnRental([FromBody] Rental rental)
         {
             // Fetch exisiting rental
-            var existingRental = _unitOfWork.Rentals.GetRentalEntityById(id);
+            var existingRental = _unitOfWork.Rentals.GetRentalEntityById(rental.Id);
             if (existingRental == null)
-                return NotFound($"No customer found with id {id}");
+                return NotFound($"No customer found with id {rental.Id}");
+            Console.WriteLine(existingRental);
 
             // Mark as returned
             existingRental.ReturnedAt = DateTime.UtcNow;
