@@ -32,8 +32,7 @@ export class RentalEditScreen {
     private rentalService: RentalService,
     private equipmentService: EquipmentService,
     private customerService: CustomerService,
-    private cdr: ChangeDetectorRef,
-    @Inject(PLATFORM_ID) private platformId: Object
+    @Inject(PLATFORM_ID) platformId: Object
   ) {
     const isBrowser = isPlatformBrowser(platformId);
     this.equipments$ = isBrowser ? this.equipmentService.getAllEquipments() : of([]);

@@ -17,6 +17,7 @@
           <th>Customer</th>
           <th>Issue Date</th>
           <th>Due Date</th>
+          <th>Returned Date</th>
           <th>Status</th>
           <th></th>
         </tr>
@@ -33,8 +34,9 @@
                 <tr>
                   <td>{{ r.equipmentName || r.equipmentId }}</td>
                   <td>{{ r.customerName }}</td>
-                  <td>{{ r.issuedAt | date : 'mediumDate' }}</td>
+                  <td>{{ r.issuedAt ? (r.issuedAt | date : 'mediumDate') : '—' }}</td>
                   <td>{{ r.dueDate ? (r.dueDate | date : 'mediumDate') : '—' }}</td>
+                  <td>{{ r.returnedAt ? (r.returnedAt | date : 'mediumDate') : '—' }}</td>
                   <td>
                     <span
                       class="badge"

@@ -5,24 +5,32 @@
       <button class="btn btn-outline-primary" (click)="back()">Back</button>
     </div>
   <form [formGroup]="form" (ngSubmit)="submit()" class="row g-3">
-    <div class="col-md-6">
+    <div class="col-md-6 mb-3">
       <label class="form-label">Condition</label>
-      <select class="form-select" formControlName="condition">
-        <option>New</option>
-        <option>Excellent</option>
-        <option>Good</option>
-        <option>Fair</option>
-        <option>Poor</option>
+      <select class="form-select"  formControlName="equipmentCondition">
+        @if (equipmentCondition$ | async; as equipments) {
+          @for (e of equipments; track e.id) {
+            <option [ngValue]="e.name">{{ e.name }}</option>
+          }
+        } @else {
+          <option disabled>Loading...</option>
+        }
       </select>
+      @if (refCondition.invalid && (refCondition.touched || refCondition.dirty)) {
+        @if (refCondition.errors?.['required']) {
+          <small class="text-danger">Due date is required</small>
+        }
+      }
     </div>
-    <div class="col-12">
+
+    <div class="mb-3">
       <label class="form-label">Notes</label>
-      <textarea
-        class="form-control"
-        formControlName="notes"
-        rows="4"
-        placeholder="Return notes"
-      ></textarea>
+      <textarea class="form-control" formControlName="notes" rows="4" placeholder="Add return notes"></textarea>
+      @if (refNotes.invalid && (refNotes.touched || refNotes.dirty)) {
+        @if (refNotes.errors?.['required']) {
+          <small class="text-danger">Due date is required</small>
+        }
+      }
     </div>
     <div class="col-12">
       <button class="btn btn-warning" type="submit">Return</button>
