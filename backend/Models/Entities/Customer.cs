@@ -34,8 +34,5 @@ namespace Midterm_EquipmentRental_Team2.Models
         public bool IsActive { get; set; } = true;
 
         public ICollection<Rental> Rentals { get; set; } = new List<Rental>(); // Navigation property for rentals
-
-        public string Email { get; set; }
-
     }
 }
