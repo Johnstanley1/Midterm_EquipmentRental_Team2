@@ -84,7 +84,10 @@ export class RentalDTO{
   equipment?: Equipment
   customerName?: string;
 
-  constructor(issuedAt: Date, dueDate: Date, returnedAt: Date, returnNotes: string, customerId: number, equipmentId: number, equipmentCondition: string, equipmentStatus: string, status: string) {
+  constructor(equipmentName: string, customerName: string,  issuedAt: Date, dueDate: Date, returnedAt: Date, returnNotes: string, customerId: number,
+              equipmentId: number, equipmentCondition: string, equipmentStatus: string, status: string, equipment: Equipment) {
+    this.equipmentName = equipmentName;
+    this.customerName = customerName;
     this.issuedAt = issuedAt;
     this.dueDate = dueDate;
     this.returnedAt = returnedAt;
@@ -94,5 +97,6 @@ export class RentalDTO{
     this.equipmentCondition = equipmentCondition;
     this.equipmentStatus = equipmentStatus;
     this.status = status;
+    this.equipment = equipment;
   }
 }

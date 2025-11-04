@@ -91,11 +91,13 @@ export class RentalIssueScreen {
 
       const customerId = customer?.id;
       const equipmentId = equipment?.id;
+      const customerName = customer?.name;
+      const equipmentName = equipment?.name;
 
       // Create new equipment object, pass data:
       if (customerId != null && equipmentId != null) {
-        const rental = new RentalDTO(issuedAt, dueDate, returnedAt, returnNotes, customerId,
-          equipmentId, equipmentCondition, equipmentStatus, status)
+        const rental = new RentalDTO(equipmentName!, customerName!, issuedAt, dueDate, returnedAt, returnNotes, customerId,
+          equipmentId, equipmentCondition, equipmentStatus, status, equipment!)
 
         console.log(JSON.stringify(rental));
 

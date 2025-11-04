@@ -12,7 +12,7 @@ import {EquipmentService} from '../../../services/equipment-services';
 @Component({
   selector: 'app-rental-edit-screen',
   standalone: true,
-    imports: [CommonModule, ReactiveFormsModule, NgOptimizedImage],
+    imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './rental-edit-screen.html',
   styleUrls: ['./rental-edit-screen.css'],
 })
@@ -75,6 +75,7 @@ export class RentalEditScreen {
     this.rentalId = this.route.snapshot.params['id'];
     this.rentalService.getRentalsById(this.rentalId).subscribe(rental => {
       if (rental) {
+        this.rental = rental; // <-- save original rental
         this.form.patchValue({
           equipmentName: rental.equipmentName,
           customerName: rental.customerName,
@@ -82,36 +83,43 @@ export class RentalEditScreen {
           equipmentStatus: rental.equipmentStatus,
           issuedAt: rental.issuedAt,
           dueDate: rental.dueDate,
+          returnedAt: rental.returnedAt,
+          returnNotes: rental.returnNotes,
           customerId: rental.customerId,
           equipmentId: rental.equipmentId,
           status: rental.status,
+          equipment: rental.equipment,
         });
       }
     });
   }
-
 
   onSubmit() {
     // Check Validation
     if (this.form.valid) {
       console.log("modify rental form is valid")
 
-      // get new entries
-      const updateRental = new RentalDTO(
-        this.form.value.issuedAt!,
-        this.form.value.dueDate!,
-        this.form.value.returnedAt!,
-        this.form.value.returnNotes!,
-        this.form.value.customerId!,
-        this.form.value.equipmentId!,
-        this.form.value.equipmentCondition!,
-        this.form.value.equipmentStatus!,
-        this.form.value.status!,
-      );
+      // get existing entries
+      const updatedRental: RentalDTO = { ...this.rental };
 
-      updateRental.id = this.rentalId;
+      updatedRental.equipmentName = this.form.value.equipmentName!
+      updatedRental.customerName = this.form.value.customerName!
+      updatedRental.issuedAt = this.form.value.issuedAt!
+      updatedRental.dueDate = this.form.value.dueDate!
+      updatedRental.returnedAt = this.form.value.returnedAt!
+      updatedRental.returnNotes = this.form.value.returnNotes!
+      updatedRental.customerId = this.form.value.customerId!
+      updatedRental.equipmentId = this.form.value.equipmentId!
+      updatedRental.equipmentCondition = this.form.value.equipmentCondition!
+      updatedRental.equipmentStatus = this.form.value.equipmentStatus!
+      updatedRental.status = this.form.value.status!
+      updatedRental.equipment = this.form.value.equipment!
 
-      this.rentalService.updateRental(this.rentalId, updateRental).subscribe(() => {
+      console.log(updatedRental);
+
+      updatedRental.id = this.rentalId;
+
+      this.rentalService.updateRental(this.rentalId, updatedRental).subscribe(() => {
         alert("Rental modified successfully");
         this.router.navigate(["/all-rentals"]);
       });
