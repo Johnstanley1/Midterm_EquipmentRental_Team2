@@ -63,13 +63,15 @@ export class OverdueRentalsScreen {
 
     this.stats$ = this.overdueRentals$.pipe(
       map((list) => {
-        const days = list!.map((r) => this.getDaysOverdue(r.dueDate));
-        const total = list!.length;
-        const avgDays = total ? days!.reduce((a, b) => a + b, 0) / total : 0;
-        const maxDays = days!.length ? Math.max(...days) : 0;
+        if (!list || !list.length) return { total: 0, avgDays: 0, maxDays: 0 };
+        const days = list.map((r) => this.getDaysOverdue(r?.dueDate));
+        const total = list.length;
+        const avgDays = total ? days.reduce((a, b) => a + b, 0) / total : 0;
+        const maxDays = Math.max(...days);
         return { total, avgDays, maxDays };
       })
     );
+
   }
 
   getDaysOverdue(dueDate: Date | null): number {
