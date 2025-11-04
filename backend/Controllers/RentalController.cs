@@ -227,7 +227,6 @@ namespace Midterm_EquipmentRental_Team2.Controllers
             _unitOfWork.Rentals.UpdateRental(existingRental);
             _unitOfWork.Complete();
             return Ok(existingRental);
-            //return CreatedAtAction(nameof(GetAllRentals), new { id = id }, rental);
         }
 
 

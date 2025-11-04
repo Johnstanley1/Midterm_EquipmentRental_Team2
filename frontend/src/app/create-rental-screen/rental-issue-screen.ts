@@ -99,8 +99,6 @@ export class RentalIssueScreen {
         const rental = new RentalDTO(equipmentName!, customerName!, issuedAt, dueDate, returnedAt, returnNotes, customerId,
           equipmentId, equipmentCondition, equipmentStatus, status, equipment!)
 
-        console.log(JSON.stringify(rental));
-
         this.rentalService.createRental(rental).subscribe(() => {
           alert("Rental issued successfully");
           // Route:
