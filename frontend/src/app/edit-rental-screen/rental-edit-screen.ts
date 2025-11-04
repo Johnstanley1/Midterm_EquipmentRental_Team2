@@ -1,12 +1,11 @@
 import {Component, Inject, PLATFORM_ID, ChangeDetectorRef, inject} from '@angular/core';
 import {CommonModule, NgOptimizedImage} from '@angular/common';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RentalService } from '../../../services/rental-services';
 import { isPlatformBrowser } from '@angular/common';
 import {Observable, of} from 'rxjs';
-import {Customer, CustomerDTO, Equipment, RentalDTO} from '../../../services/model-services';
-import {catchError} from 'rxjs/operators';
+import {CustomerDTO, Equipment, RentalDTO} from '../../../services/model-services';
 import {CustomerService} from '../../../services/customer-services';
 import {EquipmentService} from '../../../services/equipment-services';
 
