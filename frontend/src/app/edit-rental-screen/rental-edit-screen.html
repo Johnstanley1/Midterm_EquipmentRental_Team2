@@ -1,46 +1,7 @@
-<!--<div class="container mt-5">-->
-<!--  <div class="d-flex justify-content-between align-items-center p-3">-->
-<!--    <h3 class="m-0">Modify Rental</h3>-->
-<!--    <a routerLink="/all-rentals" class="btn btn-outline-primary">Back</a>-->
-<!--  </div>-->
-<!--    <div class="card shadow-sm">-->
-<!--      <div class="card-header">Edit/Extend</div>-->
-<!--      <div class="card-body">-->
-<!--        <form [formGroup]="form" (ngSubmit)="save()" class="row g-3">-->
-<!--          <div class="col-md-6">-->
-<!--            <label class="form-label">New Due Date</label>-->
-<!--            <input type="datetime-local" class="form-control" formControlName="dueDate" />-->
-<!--            <div-->
-<!--              class="text-danger small"-->
-<!--              *ngIf="form.get('dueDate')?.touched && form.get('dueDate')?.invalid"-->
-<!--            >-->
-<!--              Due date is required.-->
-<!--            </div>-->
-<!--          </div>-->
-
-<!--          <div class="col-md-6">-->
-<!--            <label class="form-label">Reason (optional)</label>-->
-<!--            <input-->
-<!--              type="text"-->
-<!--              class="form-control"-->
-<!--              formControlName="reason"-->
-<!--              placeholder="Reason for extension"-->
-<!--            />-->
-<!--          </div>-->
-
-<!--          <div class="col-12 d-flex gap-2 mt-2">-->
-<!--            <button type="submit" class="btn btn-primary">Save</button>-->
-<!--            <button type="button" class="btn btn-secondary" (click)="back()">Cancel</button>-->
-<!--          </div>-->
-<!--        </form>-->
-<!--      </div>-->
-<!--    </div>-->
-<!--</div>-->
-
 <div class="container mt-5">
     <div class="d-flex justify-content-between align-items-center p-3">
       <h3 class="m-0">Modify Rentals</h3>
-      <button class="btn btn-outline-primary" (submit)="back()">Back</button>
+      <button class="btn btn-outline-primary" (click)="back()">Back</button>
     </div>
   <div class="row">
     <div class="col-md-12">
@@ -124,7 +85,8 @@
 
               <div class="mb-3">
                 <label class="form-label">Issue Date</label>
-                <input class="form-control" type="date" formControlName="issuedAt"/>
+                <input class="form-control" type="date" formControlName="issuedAt"
+                       [value]="form.value.issuedAt ? (form.value.issuedAt | date: 'yyyy-MM-dd') : ''" />
                 @if (refIssue.invalid && (refIssue.touched || refIssue.dirty)) {
                   @if (refIssue.errors?.['required']) {
                     <small class="text-danger">Issue date is required</small>
@@ -134,7 +96,8 @@
 
               <div class="mb-3">
                 <label class="form-label">Due Date</label>
-                <input class="form-control" type="date" formControlName="dueDate"/>
+                <input class="form-control" type="date" formControlName="dueDate"
+                       [value]="form.value.dueDate ? (form.value.dueDate | date: 'yyyy-MM-dd') : ''"/>
                 @if (refDue.invalid && (refDue.touched || refDue.dirty)) {
                   @if (refDue.errors?.['required']) {
                     <small class="text-danger">Due date is required</small>
@@ -155,7 +118,7 @@
           <!-- Image Card -->
           <div class="col-md-5 d-flex justify-content-center">
             <div class="card shadow-sm" style="width: 18rem;">
-              <img ngSrc="/images/excavator.jpg" class="card-img-top" alt="excavator logo" height="200" width="200">
+              <img src="/images/excavator.jpg" class="card-img-top" alt="excavator logo" height="200" width="200">
               <div class="card-body text-center">
               </div>
             </div>

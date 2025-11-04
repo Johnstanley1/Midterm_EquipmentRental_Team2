@@ -90,6 +90,7 @@ export class RentalEditScreen {
     });
   }
 
+
   onSubmit() {
     // Check Validation
     if (this.form.valid) {
