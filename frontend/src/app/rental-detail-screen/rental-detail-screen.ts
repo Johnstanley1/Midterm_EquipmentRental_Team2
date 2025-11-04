@@ -46,10 +46,8 @@ export class RentalDetailScreen {
   cancel(id: number): void {
     if (confirm('Are you sure you want to cancel this rental?')) {
       id =  this.rentalId
-      console.log(id)
       this.rentalService.deleteRental(id).subscribe({
         next: () => {
-          console.log("navigating to all rentals")
           this.router.navigate(['/all-rentals']);
         },
         error: (err) => {
