@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using Midterm_EquipmentRental_Team2.Data;
 using Midterm_EquipmentRental_Team2.Models;
@@ -25,8 +26,10 @@ namespace Midterm_EquipmentRental_Team2.Controllers
             _context = context;
         }
 
-        
 
+        
+        
+        
 
         // generate login tokens by user
         // private string GenerateToken(User user)
