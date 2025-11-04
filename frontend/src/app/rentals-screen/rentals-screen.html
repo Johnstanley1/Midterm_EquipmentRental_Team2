@@ -104,6 +104,7 @@
           <th>Equipment</th>
           <th>Issue Date</th>
           <th>Due Date</th>
+          <th>IsAvailable</th>
           <th>Status</th>
           <th>Duration</th>
         </tr>
@@ -122,12 +123,7 @@
                   <td>{{ r.dueDate ? (r.dueDate | date : 'mediumDate') : '—' }}</td>
                   <td>{{ r.status === 'Returned' }}</td>
                   <td>
-              <span
-                class="badge"
-                [ngClass]="{
-                  'bg-success': r.status === 'Returned'
-                }"
-              >{{ r.status }}</span>
+                    <span class="badge" [ngClass]="{'bg-success': r.status === 'Returned'}">{{ r.status }}</span>
                   </td>
                   <td><p><strong>Days Rented:</strong> {{ getDuration(r.issuedAt) }}</p></td>
                 </tr>

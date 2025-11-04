@@ -12,7 +12,6 @@ import {EquipmentService} from '../../../services/equipment-services';
     FormsModule,
     ReactiveFormsModule,
     AsyncPipe,
-    NgOptimizedImage,
     RouterLink
   ],
   templateUrl: './edit-equipment-screen.html',

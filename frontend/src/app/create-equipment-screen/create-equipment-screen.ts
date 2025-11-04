@@ -12,8 +12,7 @@ import {AsyncPipe, isPlatformBrowser, NgOptimizedImage} from '@angular/common';
   imports: [
     ReactiveFormsModule,
     AsyncPipe,
-    RouterLink,
-    NgOptimizedImage
+    RouterLink
   ],
   templateUrl: './create-equipment-screen.html',
   styleUrl: './create-equipment-screen.css'

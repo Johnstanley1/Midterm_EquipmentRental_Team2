@@ -9,7 +9,7 @@ import { RouterLink } from '@angular/router';
 @Component({
   selector: 'app-customer-screen',
   standalone: true,
-  imports: [CommonModule, AsyncPipe, RouterLink, NgOptimizedImage],
+  imports: [CommonModule, AsyncPipe, RouterLink],
   templateUrl: './customer-screen.html',
   styleUrls: ['./customer-screen.css'],
 })

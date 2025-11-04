@@ -9,7 +9,7 @@ import {Observable, of} from 'rxjs';
 @Component({
   selector: 'app-create-customer-screen',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, RouterLink, NgOptimizedImage],
+  imports: [ReactiveFormsModule, CommonModule, RouterLink],
   templateUrl: './create-customer-screen.html',
   styleUrls: ['./create-customer-screen.css'],
 })

@@ -10,7 +10,7 @@ import {catchError} from 'rxjs/operators';
 @Component({
   selector: 'app-customer-detail-screen',
   standalone: true,
-  imports: [CommonModule, AsyncPipe, RouterLink, NgOptimizedImage],
+  imports: [CommonModule, AsyncPipe, RouterLink],
   templateUrl: './customer-detail-screen.html',
   styleUrls: ['./customer-detail-screen.css'],
 })

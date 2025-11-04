@@ -8,7 +8,7 @@ import {catchError} from 'rxjs/operators';
 
 @Component({
   selector: 'app-equipment-screen',
-  imports: [RouterLink, AsyncPipe, NgOptimizedImage],
+  imports: [RouterLink, AsyncPipe],
   templateUrl: './equipment-screen.html',
   styleUrl: './equipment-screen.css',
 })

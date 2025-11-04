@@ -10,7 +10,6 @@ import {catchError} from 'rxjs/operators';
   selector: 'app-equipment-detail-screen',
   imports: [
     AsyncPipe,
-    NgOptimizedImage,
     RouterLink,
     NgIf,
   ],
