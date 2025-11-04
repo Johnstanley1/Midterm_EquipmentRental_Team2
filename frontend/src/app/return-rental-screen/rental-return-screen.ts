@@ -13,7 +13,6 @@ import { RentalService } from '../../../services/rental-services';
 })
 export class RentalReturnScreen {
   form;
-
   rentalId: number;
 
   constructor(
@@ -34,5 +33,10 @@ export class RentalReturnScreen {
     // this.rentals
     //   .returnRental(this.rentalId, v.notes || '', v.condition || 'Good')
     //   .subscribe(() => this.router.navigate(['/all-rentals']));
+  }
+
+  back() {
+    this.router.navigate(['/rental-detail', this.rentalId]);
+    console.log(this.rentalId);
   }
 }
