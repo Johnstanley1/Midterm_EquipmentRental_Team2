@@ -18,5 +18,7 @@ namespace Midterm_EquipmentRental_Team2.Models
         public string Role { get; set; }
 
         public bool IsActive { get; set; } = true;
+
+        public string Email { get; set; }
     }
 }

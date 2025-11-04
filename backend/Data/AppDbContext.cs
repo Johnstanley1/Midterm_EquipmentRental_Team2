@@ -25,14 +25,16 @@ namespace Midterm_EquipmentRental_Team2.Data
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<User>().HasData(
-                new User { Id = 1, Username = "admin", Password = "admin", Role = "Admin", IsActive = true }, // admin
-                new User { Id = 2, Username = "user1", Password = "user1", Role = "User", IsActive = true },
-                new User { Id = 3, Username = "user2", Password = "user2", Role = "User", IsActive = true },
-                new User { Id = 4, Username = "user3", Password = "user3", Role = "User", IsActive = true },
-                new User { Id = 5, Username = "user4", Password = "user4", Role = "User", IsActive = true },
-                new User { Id = 6, Username = "user5", Password = "user5", Role = "User", IsActive = true },
-                new User { Id = 7, Username = "alex", Password = "alex", Role = "User", IsActive = true },
-                new User { Id = 8, Username = "maria", Password = "maria", Role = "User", IsActive = true }
+                // new User { Id = 1, Username = "admin", Password = "admin", Role = "Admin", IsActive = true }, // admin
+                // new User { Id = 2, Username = "user1", Password = "user1", Role = "User", IsActive = true },
+                // new User { Id = 3, Username = "user2", Password = "user2", Role = "User", IsActive = true },
+                // new User { Id = 4, Username = "user3", Password = "user3", Role = "User", IsActive = true },
+                // new User { Id = 5, Username = "user4", Password = "user4", Role = "User", IsActive = true },
+                // new User { Id = 6, Username = "user5", Password = "user5", Role = "User", IsActive = true },
+                // new User { Id = 7, Username = "alex", Password = "alex", Role = "User", IsActive = true },
+                // new User { Id = 8, Username = "maria", Password = "maria", Role = "User", IsActive = true },
+                new User { Id = 1, Username = "john", Password = "john123", Role = "Admin", Email = "johnstanley.ajagu@gmail.com", IsActive = true },
+                new User { Id = 2, Username = "jane", Password = "jane123", Role = "User", Email = "mickeywang19920110@gmail.com", IsActive = true }
             );
 
             modelBuilder.Entity<Equipment>().HasData(

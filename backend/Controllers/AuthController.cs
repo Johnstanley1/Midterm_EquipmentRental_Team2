@@ -18,60 +18,62 @@ namespace Midterm_EquipmentRental_Team2.Controllers
     public class AuthController : ControllerBase
     {
         private readonly AppDbContext _context;
-        private const string JwtSecret = "your-secret-key-goes-here0123456789"; // Use a secure key in production
+        // private const string JwtSecret = "your-secret-key-goes-here0123456789"; // Use a secure key in production
 
         public AuthController(AppDbContext context)
         {
             _context = context;
         }
 
+        
+
 
         // generate login tokens by user
-        private string GenerateToken(User user)
-        {
-            // map the logged-in User to a Customer (by same username) to embed CustomerId in claims
-            var customer = _context.Customers.FirstOrDefault(c => c.Username == user.Username);
-            var customerId = customer?.Id ?? 0;
+        // private string GenerateToken(User user)
+        // {
+        //     // map the logged-in User to a Customer (by same username) to embed CustomerId in claims
+        //     var customer = _context.Customers.FirstOrDefault(c => c.Username == user.Username);
+        //     var customerId = customer?.Id ?? 0;
 
-            var claims = new List<Claim>
-            {
-                new Claim(ClaimTypes.Name, user.Username),
-                new Claim(ClaimTypes.Role, user.Role),
-                new Claim("UserId", customerId.ToString()) // used by rental endpoints as CustomerId
-            };
+        //     var claims = new List<Claim>
+        //     {
+        //         new Claim(ClaimTypes.Name, user.Username),
+        //         new Claim(ClaimTypes.Role, user.Role),
+        //         new Claim("UserId", customerId.ToString()) // used by rental endpoints as CustomerId
+        //     };
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(JwtSecret));
-            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-            var token = new JwtSecurityToken(
-                claims: claims,
-                expires: DateTime.Now.AddMinutes(30),
-                signingCredentials: creds
-            );
-            return new JwtSecurityTokenHandler().WriteToken(token);
-        }
+        //     var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(JwtSecret));
+        //     var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+        //     var token = new JwtSecurityToken(
+        //         claims: claims,
+        //         expires: DateTime.Now.AddMinutes(30),
+        //         signingCredentials: creds
+        //     );
+        //     return new JwtSecurityTokenHandler().WriteToken(token);
+        // }
 
 
         // login http post request
-        [HttpPost("login")]
-        public ActionResult Login([FromBody] LoginRequest request)
-        {
-            var user = _context.Users
-                .FirstOrDefault(u => 
-                    u.Username == request.Username && 
-                    u.Password == request.Password
-                );
+        // [HttpPost("login")]
+        // public ActionResult Login([FromBody] LoginRequest request)
+        // {
+        //     var user = _context.Users
+        //         .FirstOrDefault(u => 
+        //             u.Username == request.Username && 
+        //             u.Password == request.Password
+        //         );
 
-            if (user == null)
-                return Unauthorized("Invalid username or password");
+        //     if (user == null)
+        //         return Unauthorized("Invalid username or password");
 
-            var token = GenerateToken(user);
-            return Ok(new 
-            {
-                token,
-                user.Role,
-                user.Username
-            });
-        }
+        //     var token = GenerateToken(user);
+        //     return Ok(new 
+        //     {
+        //         token,
+        //         user.Role,
+        //         user.Username
+        //     });
+        // }
 
         
 
