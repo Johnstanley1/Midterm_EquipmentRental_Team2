@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
+import {GoogleLogin} from './model-services';
 
 @Injectable({
   providedIn: 'root'
@@ -10,8 +11,8 @@ export class ApiClient {
 
   constructor(private http: HttpClient) {}
 
-  login(email: string): Observable<LoginResponse> {
-    return this.http.get<LoginResponse>(`${this.baseUrl}/login?email=${email}`);
+  login(googleToken: string): Observable<GoogleLogin> {
+    return this.http.post<GoogleLogin>(`${this.baseUrl}/login`, { token: googleToken });
   }
 
   setToken(token: string) {

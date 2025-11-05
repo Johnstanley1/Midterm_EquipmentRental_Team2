@@ -5,7 +5,9 @@ import { Observable } from 'rxjs';
 
 @Injectable()
 export class TokenInterceptorService implements HttpInterceptor {
+
   constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
+
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const isBrowser = isPlatformBrowser(this.platformId);
     const token = isBrowser ? localStorage.getItem('token') : null;
