@@ -46,7 +46,10 @@
 <!--            <button type="submit" class="btn btn-primary w-100 mb-3" (click)="login()">Login</button>-->
             <div class="text-center mt-3" id="login">
               <div class="login-container">
-                <button (click)="loginWithGoogle()">Login with Google</button>
+                <button class="btn btn-outline-danger" (click)="loginWithGoogle()">
+                  Login with Google
+                  <img src="/icons/login.png" alt="login logo"  style="max-width:40px ; max-height: 40px" height="40" width="40">
+                </button>
               </div>
             </div>
           </form>
