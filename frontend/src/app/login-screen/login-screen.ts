@@ -61,7 +61,11 @@ export class LoginScreen {
         client_id: "397528110694-sep6ih3oq0vc4p1m32rq2qmlvphi5u7k.apps.googleusercontent.com",
         callback: (response: any) => this.zone.run(() => this.handleCredentialResponse(response))
     });
-    google.accounts.id.prompt();
+    // google.accounts.id.prompt();
+    google.accounts.id.renderButton(
+      document.getElementById('login'),
+      { theme: 'outline', size: 'large' }
+    );
 
   }
 

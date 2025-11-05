@@ -31,8 +31,10 @@ builder.Services.AddScoped<ICustomerService, CustomerService>();
 builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
 builder.Services.AddScoped<IRentalRepository, RentalRepository>();
 builder.Services.AddScoped<IRentalService, RentalService>();
+builder.Services.AddScoped<JWTService>();
 
-var jwtSection = builder.Configuration.GetSection("jwt");
+
+var jwtSection = builder.Configuration.GetSection("Jwt");
 var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSection["key"]));
 
 // Configure Authentication and Authorization

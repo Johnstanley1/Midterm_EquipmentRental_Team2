@@ -33,10 +33,11 @@ namespace Midterm_EquipmentRental_Team2.Controllers
 
 
         [HttpPost("login")]
-        public ActionResult Login([FromBody] LoginRequest loginRequest)
+        public IActionResult Login([FromBody] LoginRequest loginRequest)
         {
-            var payload = GoogleJsonWebSignature.ValidateAsync(loginRequest.Token);
-            var email = User.Identity?.Name;
+            var payload = GoogleJsonWebSignature.ValidateAsync(loginRequest.Token).Result;
+            Console.WriteLine(payload);
+            var email = payload.Email;
             var user = _context.Users.FirstOrDefault(u => u.Email == email);
 
             if (user == null)
@@ -46,7 +47,15 @@ namespace Midterm_EquipmentRental_Team2.Controllers
                 _context.SaveChanges();
             }
 
-            var token = _jwtService.GenerateToken(User, TimeSpan.FromHours(1));
+            var principal = new ClaimsPrincipal(new ClaimsIdentity(new[]
+            {
+                new Claim(ClaimTypes.Email, email),
+                new Claim(ClaimTypes.NameIdentifier, payload.Subject),
+                new Claim(ClaimTypes.Name, payload.Name ?? email),
+                new Claim(ClaimTypes.Role, user.Role)
+            }, "Google"));
+
+            var token = _jwtService.GenerateToken(principal, TimeSpan.FromHours(1));
 
             return Ok(new
             {
