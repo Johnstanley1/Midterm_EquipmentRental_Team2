@@ -33,14 +33,14 @@ namespace Midterm_EquipmentRental_Team2.Controllers
 
         [HttpGet("login")]
         [Authorize] 
-        public ActionResult Login([FromBody] LoginRequest request)
+        public ActionResult Login()
         {
             var email = User.FindFirstValue(ClaimTypes.Email);
             var user = _context.Users.FirstOrDefault(u => u.Email == email);
 
             if (user == null)
             {
-                user = new User { Email = request.Email ?? "unknown", Role = "User", IsActive = true };
+                user = new User { Email = email ?? "unknown", Role = "User", IsActive = true };
             }
 
             var token = _jwtService.GenerateToken(User, TimeSpan.FromHours(1));
