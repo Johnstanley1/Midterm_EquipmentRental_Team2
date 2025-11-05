@@ -33,7 +33,7 @@ namespace Midterm_EquipmentRental_Team2.Data
                 // new User { Id = 6, Username = "user5", Password = "user5", Role = "User", IsActive = true },
                 // new User { Id = 7, Username = "alex", Password = "alex", Role = "User", IsActive = true },
                 // new User { Id = 8, Username = "maria", Password = "maria", Role = "User", IsActive = true },
-                new User { Id = 1,  Role = "Admin", Email = "johnstanley.ajagu@gmail.com", ExternalProvider = "Google", ExternalId = "", IsActive = true },
+                new User { Id = 1,  Role = "Admin", Email = "johnstanley.ajagu@gmail.com", ExternalProvider = "Google", ExternalId = "", IsActive = true },// admin
                 new User { Id = 2,  Role = "User", Email = "mickeywang19920110@gmail.com", ExternalProvider = "Google", ExternalId = "", IsActive = true }
             );
 
