@@ -154,6 +154,7 @@ namespace Midterm_EquipmentRental_Team2.Data
                     Id = 1,
                     Name = "Admin",
                     Username = "admin",
+                    Email = "johnstanley.ajagu@gmail.com",
                     Password = "admin",
                     Role = Customer.UserRole.Admin,
                     IsActive = true
@@ -163,6 +164,7 @@ namespace Midterm_EquipmentRental_Team2.Data
                     Id = 2,
                     Name = "John Doe",
                     Username = "john",
+                    Email = "mickeywang19920110@gmail.com",
                     Password = "john123",
                     Role = Customer.UserRole.Admin,
                     IsActive = true
@@ -172,6 +174,7 @@ namespace Midterm_EquipmentRental_Team2.Data
                     Id = 3,
                     Name = "Jane Smith",
                     Username = "jane",
+                    Email = "mickeywang19920110@gmail.com",
                     Password = "jane123",
                     Role = Customer.UserRole.User,
                     IsActive = true
@@ -181,6 +184,7 @@ namespace Midterm_EquipmentRental_Team2.Data
                     Id = 4,
                     Name = "Alex Johnson",
                     Username = "alex",
+                    Email = "mickeywang19920110@gmail.com",
                     Password = "alex",
                     Role = Customer.UserRole.User,
                     IsActive = true
@@ -190,6 +194,7 @@ namespace Midterm_EquipmentRental_Team2.Data
                     Id = 5,
                     Name = "Maria Garcia",
                     Username = "maria",
+                    Email = "mickeywang19920110@gmail.com",
                     Password = "maria",
                     Role = Customer.UserRole.User,
                     IsActive = true
@@ -199,6 +204,7 @@ namespace Midterm_EquipmentRental_Team2.Data
                     Id = 6,
                     Name = "User1",
                     Username = "user1",
+                    Email = "mickeywang19920110@gmail.com",
                     Password = "user1",
                     Role = Customer.UserRole.User,
                     IsActive = true
@@ -208,6 +214,7 @@ namespace Midterm_EquipmentRental_Team2.Data
                     Id = 7,
                     Name = "User2",
                     Username = "user2",
+                    Email = "mickeywang19920110@gmail.com",
                     Password = "user2",
                     Role = Customer.UserRole.User,
                     IsActive = true
@@ -217,6 +224,7 @@ namespace Midterm_EquipmentRental_Team2.Data
                     Id = 8,
                     Name = "User3",
                     Username = "user3",
+                    Email = "mickeywang19920110@gmail.com",
                     Password = "user3",
                     Role = Customer.UserRole.User,
                     IsActive = true
@@ -226,6 +234,7 @@ namespace Midterm_EquipmentRental_Team2.Data
                     Id = 9,
                     Name = "User4",
                     Username = "User4",
+                    Email = "mickeywang19920110@gmail.com",
                     Password = "User4",
                     Role = Customer.UserRole.User,
                     IsActive = true
@@ -235,6 +244,7 @@ namespace Midterm_EquipmentRental_Team2.Data
                     Id = 10,
                     Name = "User5",
                     Username = "user5",
+                    Email = "mickeywang19920110@gmail.com",
                     Password = "user5",
                     Role = Customer.UserRole.User,
                     IsActive = true
