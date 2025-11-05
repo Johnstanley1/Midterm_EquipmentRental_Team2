@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, inject} from '@angular/core';
+import {AfterViewInit, Component, inject, NgZone} from '@angular/core';
 import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
@@ -15,13 +15,15 @@ import {ApiClient} from '../../../services/api-client';
   templateUrl: './login-screen.html',
   styleUrl: './login-screen.css',
 })
-export class LoginScreen implements AfterViewInit {
+export class LoginScreen {
   min_Length = 4;
   max_length = 20;
-  private google: any;
-  private zone: any;
 
-  constructor(private http: HttpClient, private router: Router, private api: ApiClient) {}
+  constructor(private http: HttpClient,
+              private router: Router,
+              private api: ApiClient,
+              private zone: NgZone
+  ) {}
 
   // Inject builder
   builder = inject(FormBuilder);
@@ -48,15 +50,6 @@ export class LoginScreen implements AfterViewInit {
   });
 
 
-  ngAfterViewInit(): void {
-    this.google.accounts.id.initialize({
-      client_id: "397528110694-gvm5c9acstpr4jh30hmn1p4of4r18ah1.apps.googleusercontent.com",
-      callback: (response: any) => this.zone.run(() => this.handleCredentialResponse(response))
-    });
-
-    this.google.accounts.id.renderButton(document.getElementById('google')!,{ theme: 'outline', size: 'large' });
-  }
-
   private handleCredentialResponse(response: any) {
     const googleToken = response.credential; // JWT from Google
 
@@ -72,7 +65,18 @@ export class LoginScreen implements AfterViewInit {
   }
 
   login(): void {
-    this.google.accounts.id.prompt()
+    const google = (window as any).google;
+    if (!google) {
+      console.error('Google API not loaded');
+      return;
+    }
+
+    google.accounts.id.initialize({
+        client_id: "397528110694-gvm5c9acstpr4jh30hmn1p4of4r18ah1.apps.googleusercontent.com",
+        callback: (response: any) => this.zone.run(() => this.handleCredentialResponse(response))
+    });
+    google.accounts.id.prompt();
+
   }
 
   // // Get data:

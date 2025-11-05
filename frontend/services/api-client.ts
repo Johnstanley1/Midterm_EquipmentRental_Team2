@@ -7,7 +7,7 @@ import {GoogleLogin} from './model-services';
   providedIn: 'root'
 })
 export class ApiClient {
-  private baseUrl = '/api/auth';
+  private baseUrl = 'https://localhost:7220/api/auth';
 
   constructor(private http: HttpClient) {}
 
