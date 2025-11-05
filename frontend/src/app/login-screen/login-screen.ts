@@ -50,20 +50,6 @@ export class LoginScreen {
   });
 
 
-  private handleCredentialResponse(response: any) {
-    const googleToken = response.credential; // JWT from Google
-
-    this.api.login(googleToken).subscribe({
-      next: (res) => {
-        this.api.setToken(res.token); // store your app JWT
-        this.router.navigate(['/home']);
-      },
-      error: (err) => {
-        console.error('Login failed', err);
-      }
-    });
-  }
-
   login(): void {
     const google = (window as any).google;
     if (!google) {
@@ -78,6 +64,21 @@ export class LoginScreen {
     google.accounts.id.prompt();
 
   }
+
+  private handleCredentialResponse(response: any) {
+    const googleToken = response.credential; // JWT from Google
+
+    this.api.login(googleToken).subscribe({
+      next: (res) => {
+        this.api.setToken(res.token); // store your app JWT
+        this.router.navigate(['/home']);
+      },
+      error: (err) => {
+        console.error('Login failed', err);
+      }
+    });
+  }
+
 
   // // Get data:
   // refName = this.loginForm.controls['_username'];

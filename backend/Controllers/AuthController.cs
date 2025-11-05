@@ -35,7 +35,7 @@ namespace Midterm_EquipmentRental_Team2.Controllers
         [Authorize] 
         public ActionResult Login()
         {
-            var email = User.FindFirstValue(ClaimTypes.Email);
+            var email = User.Identity?.Name;
             var user = _context.Users.FirstOrDefault(u => u.Email == email);
 
             if (user == null)
