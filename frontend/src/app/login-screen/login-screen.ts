@@ -17,6 +17,8 @@ import { Router } from '@angular/router';
 export class LoginScreen {
   min_Length = 4;
   max_length = 20;
+  private baseUrl = '/api/auth';
+
 
   constructor(private http: HttpClient, private router: Router) {}
 
@@ -49,37 +51,40 @@ export class LoginScreen {
   refPassword = this.loginForm.controls['_password'];
 
   // on login
-  login() {
-    if (this.loginForm.invalid) {
-      console.log(this.refName, this.refPassword);
-      this.loginForm.markAllAsTouched();
-    }
+  // login() {
+  //   if (this.loginForm.invalid) {
+  //     console.log(this.refName, this.refPassword);
+  //     this.loginForm.markAllAsTouched();
+  //   }
+  //
+  //   // Get data:
+  //   const username = this.loginForm.value._username;
+  //   const password = this.loginForm.value._password;
+  //
+  //   // Create credentials object
+  //   const credentials = { username, password };
+  //
+  //   // create credentials object and pass data
+  //   this.http.post<any>('/api/Auth/login', credentials).subscribe({
+  //     next: (res) => {
+  //       localStorage.setItem('token', res.token); // save token to local storage
+  //       if (res.role) localStorage.setItem('role', res.role);
+  //       if (res.username) localStorage.setItem('username', res.username);
+  //
+  //       if (res.role === 'Admin') {
+  //         this.router.navigate(['/home']);
+  //       } else if (res.role === "User") {
+  //         this.router.navigate(['/home']);
+  //       } else {
+  //         this.router.navigate(['/login']);
+  //       }
+  //     },
+  //     error: (err) => {
+  //       console.log('Invalid credentials');
+  //     },
+  //   });
+  // }
 
-    // Get data:
-    const username = this.loginForm.value._username;
-    const password = this.loginForm.value._password;
-
-    // Create credentials object
-    const credentials = { username, password };
-
-    // create credentials object and pass data
-    this.http.post<any>('/api/Auth/login', credentials).subscribe({
-      next: (res) => {
-        localStorage.setItem('token', res.token); // save token to local storage
-        if (res.role) localStorage.setItem('role', res.role);
-        if (res.username) localStorage.setItem('username', res.username);
-
-        if (res.role === 'Admin') {
-          this.router.navigate(['/home']);
-        } else if (res.role === "User") {
-          this.router.navigate(['/home']);
-        } else {
-          this.router.navigate(['/login']);
-        }
-      },
-      error: (err) => {
-        console.log('Invalid credentials');
-      },
-    });
-  }
+  // on login
+  login() {}
 }
