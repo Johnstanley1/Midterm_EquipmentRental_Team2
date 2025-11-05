@@ -9,6 +9,9 @@ using Midterm_EquipmentRental_Team2.Services;
 using Midterm_EquipmentRental_Team2.UnitOfWork;
 using System.Text.Json.Serialization;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.Google;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -34,36 +37,110 @@ builder.Services.AddScoped<IRentalService, RentalService>();
 builder.Services.AddScoped<JWTService>();
 
 
-var jwtSection = builder.Configuration.GetSection("Jwt");
+var jwtSection = builder.Configuration.GetSection("jwt");
 var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSection["key"]));
 
 // Configure Authentication and Authorization
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(options =>
+//builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+//    .AddJwtBearer(options =>
+//    {
+//      options.TokenValidationParameters = new TokenValidationParameters
+//      {
+//      ValidateIssuer = false,
+//      ValidateAudience = false,
+//      ValidateLifetime = true,
+//      ValidateIssuerSigningKey = true,
+//      IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("your-secret-key-goes-here0123456789")),
+//      };
+//    });
+
+//builder.Services.AddAuthentication(options =>
+//{
+//    options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+//    options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
+//})
+//.AddCookie(options =>
+//{
+//    options.LoginPath = "/auth/login";
+//    options.AccessDeniedPath = "/auth/denied";
+//    options.LogoutPath = "/auth/logout";
+//})
+//.AddOpenIdConnect(options =>
+//{
+//    options.Authority = "https://accounts.google.com";
+//    options.ClientId = builder.Configuration["Authentication:Google:ClientId"] ?? "";
+//    options.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"] ?? "";
+//    Console.WriteLine("Google ClientId: " + builder.Configuration["Authentication:Google:ClientId"]);
+//    Console.WriteLine("Google ClientSecret: " + builder.Configuration["Authentication:Google:ClientSecret"]);
+
+//    options.CallbackPath = "/signin-google";  // must match Google console
+//    options.ResponseType = "code";
+//    options.Scope.Add("openid");
+//    options.Scope.Add("profile");
+//    options.Scope.Add("email");
+//    options.SaveTokens = true;
+
+//    options.Events = new OpenIdConnectEvents
+//    {
+//        OnTokenValidated = async ctx =>
+//        {
+//            var service = ctx.HttpContext.RequestServices.GetRequiredService<JWTService>();
+//            await service.GenerateAndValidateToken(ctx);
+//        }
+//    };
+//});
+
+//builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+//    .AddJwtBearer(options =>
+//    {
+//        options.TokenValidationParameters = new TokenValidationParameters
+//        {
+//            ValidateIssuer = true,
+//            ValidateAudience = true,
+//            ValidateLifetime = true,
+//            ValidateIssuerSigningKey = true,
+//            ValidIssuer = jwtSection["Issuer"],
+//            ValidAudience = jwtSection["Audience"],
+//            IssuerSigningKey = signingKey,
+
+//            NameClaimType = ClaimTypes.Email
+//        };
+//    });
+
+
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
     {
-        options.TokenValidationParameters = new TokenValidationParameters
-        {
-            ValidateIssuer = true,
-            ValidateAudience = true,
-            ValidateLifetime = true,
-            ValidateIssuerSigningKey = true,
-            ValidIssuer = jwtSection["Issuer"],
-            ValidAudience = jwtSection["Audience"],
-            IssuerSigningKey = signingKey,
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = jwtSection["Issuer"],
+        ValidAudience = jwtSection["Audience"],
+        IssuerSigningKey = signingKey,
 
-            NameClaimType = ClaimTypes.Email
-        };
-
-        //options.TokenValidationParameters = new TokenValidationParameters
-        //{
-        //    ValidateIssuer = false,
-        //    ValidateAudience = false,
-        //    ValidateLifetime = true,
-        //    ValidateIssuerSigningKey = true,
-        //    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("your-secret-key-goes-here0123456789")),
-        //};
-    });
-
+        NameClaimType = ClaimTypes.Email
+    };
+})
+.AddCookie(options =>
+{
+    options.LoginPath = "/auth/login";
+    options.AccessDeniedPath = "/auth/denied";
+    options.LogoutPath = "/auth/logout";
+})
+.AddGoogle(options =>
+{
+    options.ClientId = builder.Configuration["Authentication:Google:ClientId"] ?? "";
+    options.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"] ?? "";
+    options.Scope.Add("profile");
+    options.Scope.Add("email");
+});
 
 
 // add jwt authentication to swagger

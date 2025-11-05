@@ -10,42 +10,64 @@ import { Subscription, filter } from 'rxjs';
   styleUrl: './nav-bar.css',
 })
 export class NavBar implements OnInit, OnDestroy {
-  username: string | null = null;
+  email: string | null = null;
   private routerSub?: Subscription;
-  private isBrowser: boolean;
 
-  constructor(private router: Router, @Inject(PLATFORM_ID) platformId: Object) {
-    this.isBrowser = isPlatformBrowser(platformId);
+  constructor(private router: Router, @Inject(PLATFORM_ID) private platformId: Object) {
+
   }
 
   ngOnInit(): void {
-    this.refreshUsername();
+    if (isPlatformBrowser(this.platformId)) {
+      const params = new URLSearchParams(window.location.search);
+      const email = params.get('email');
+      const role = params.get('role');
+
+      console.log(email, role);
+
+      if (email) {
+        // Save user info locally
+        localStorage.setItem('email', email);
+        localStorage.setItem('role', role || 'User');
+
+        // Navigate to home or dashboard based on role
+        if (role === 'Admin') {
+          this.router.navigate(['/home']);
+        } else if (role === "User") {
+          this.router.navigate(['/home']);
+        } else {
+          this.router.navigate(['/login']);
+        }
+      }
+    }
+
+    this.refreshUserDisplay();
     // Refresh username after any navigation (e.g., after login redirect)
     this.routerSub = this.router.events
       .pipe(filter((e): e is NavigationEnd => e instanceof NavigationEnd))
-      .subscribe(() => this.refreshUsername());
+      .subscribe(() => this.refreshUserDisplay());
   }
 
   ngOnDestroy(): void {
     this.routerSub?.unsubscribe();
   }
 
-  private refreshUsername() {
-    if (this.isBrowser) {
-      this.username = localStorage.getItem('username');
+  private refreshUserDisplay() {
+    if (isPlatformBrowser(this.platformId)) {
+      this.email = localStorage.getItem('email');
     } else {
-      this.username = null;
+      this.email = null;
     }
   }
 
   // logout
   logout() {
-    if (this.isBrowser) {
+    if (isPlatformBrowser(this.platformId)) {
       localStorage.removeItem('token');
       localStorage.removeItem('role');
-      localStorage.removeItem('username');
+      localStorage.removeItem('email');
     }
-    this.username = null;
+    this.email = null;
     this.router.navigate(['/login']); // redirect to login page
   }
 }

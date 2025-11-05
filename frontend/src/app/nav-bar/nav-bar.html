@@ -29,8 +29,8 @@
     </div>
 
     <div class="d-flex align-items-center ms-auto gap-3">
-      <li class="nav-item" *ngIf="username as u">
-        <span class="navbar-text">User: <strong>{{ u }}</strong></span>
+      <li class="nav-item" *ngIf="email as e">
+        <span class="navbar-text">User: <strong>{{ e }}</strong></span>
       </li>
       <li class="nav-item">
         <button class="btn btn-close-white" (click)="logout()">Logout</button>

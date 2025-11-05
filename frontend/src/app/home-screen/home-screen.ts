@@ -11,5 +11,4 @@ import {RouterLink} from '@angular/router';
   styleUrl: './home-screen.css'
 })
 export class HomeScreen {
-
 }

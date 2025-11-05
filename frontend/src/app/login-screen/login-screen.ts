@@ -1,8 +1,9 @@
-import {AfterViewInit, Component, inject, NgZone} from '@angular/core';
+import {AfterViewInit, Component, Inject, inject, NgZone, OnInit, PLATFORM_ID} from '@angular/core';
 import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import {ApiClient} from '../../../services/api-client';
+import {isPlatformBrowser} from '@angular/common';
 
 /*
  * login logic for the login screen
@@ -19,10 +20,8 @@ export class LoginScreen {
   min_Length = 4;
   max_length = 20;
 
-  constructor(private http: HttpClient,
-              private router: Router,
-              private api: ApiClient,
-              private zone: NgZone
+  constructor(private router: Router,
+              @Inject(PLATFORM_ID) private platformId: Object
   ) {}
 
   // Inject builder
@@ -49,49 +48,40 @@ export class LoginScreen {
     ],
   });
 
-
-  login(): void {
-    const google = (window as any).google;
-    if (!google) {
-      console.error('Google API not loaded');
-      return;
+  loginWithGoogle(): void {
+    if (isPlatformBrowser(this.platformId)) {
+      window.location.href = 'http://localhost:5027/api/auth/login';
     }
+  }
 
-    google.accounts.id.initialize({
-        client_id: "397528110694-sep6ih3oq0vc4p1m32rq2qmlvphi5u7k.apps.googleusercontent.com",
-        callback: (response: any) => this.zone.run(() => this.handleCredentialResponse(response))
-    });
-    // google.accounts.id.prompt();
-    google.accounts.id.renderButton(
-      document.getElementById('login'),
-      { theme: 'outline', size: 'large' }
-    );
+  private handleRedirect() {
+    // After backend redirects back to Angular with ?email=&role= query params
 
   }
 
-  private handleCredentialResponse(response: any) {
-    const googleToken = response.credential; // JWT from Google
-
-    this.api.login(googleToken).subscribe({
-      next: (res) => {
-        this.api.setToken(res.token); // store your app JWT
-        this.router.navigate(['/home']);
-          if (res.role) localStorage.setItem('role', res.role);
-          if (res.email) localStorage.setItem('username', res.email);
-
-          if (res.role === 'Admin') {
-            this.router.navigate(['/home']);
-          } else if (res.role === "User") {
-            this.router.navigate(['/home']);
-          } else {
-            this.router.navigate(['/login']);
-          }
-        },
-        error: (err) => {
-          console.log('Invalid credentials', err);
-        },
-    });
-  }
+  // private handleCredentialResponse(response: any) {
+  //   const googleToken = response.credential; // JWT from Google
+  //
+  //   this.api.login(googleToken).subscribe({
+  //     next: (res) => {
+  //       this.api.setToken(res.token); // store your app JWT
+  //       this.router.navigate(['/home']);
+  //         if (res.role) localStorage.setItem('role', res.role);
+  //         if (res.email) localStorage.setItem('username', res.email);
+  //
+  //         if (res.role === 'Admin') {
+  //           this.router.navigate(['/home']);
+  //         } else if (res.role === "User") {
+  //           this.router.navigate(['/home']);
+  //         } else {
+  //           this.router.navigate(['/login']);
+  //         }
+  //       },
+  //       error: (err) => {
+  //         console.log('Invalid credentials', err);
+  //       },
+  //   });
+  // }
 
 
   // // Get data:
@@ -132,7 +122,6 @@ export class LoginScreen {
   //     },
   //   });
   // }
-
 
 
 }

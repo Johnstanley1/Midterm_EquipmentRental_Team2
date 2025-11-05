@@ -1,4 +1,6 @@
 ﻿using Google.Apis.Auth;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -9,6 +11,8 @@ using System.Data;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Google.Apis.Auth.OAuth2;
 
 /// <summary>
 /// API Controller for managing authentication of users.
@@ -22,47 +26,55 @@ namespace Midterm_EquipmentRental_Team2.Controllers
     public class AuthController : ControllerBase
     {
         private readonly AppDbContext _context;
-        private readonly JWTService _jwtService;
 
-        public AuthController(AppDbContext context, JWTService jwtService)
+        public AuthController(AppDbContext context)
         {
             _context = context;
-            _jwtService = jwtService;
         }
 
 
-
-        [HttpPost("login")]
-        public IActionResult Login([FromBody] LoginRequest loginRequest)
+        [HttpGet("login")]
+        public IActionResult Login()
         {
-            var payload = GoogleJsonWebSignature.ValidateAsync(loginRequest.Token).Result;
-            Console.WriteLine(payload);
-            var email = payload.Email;
-            var user = _context.Users.FirstOrDefault(u => u.Email == email);
+            var props = new AuthenticationProperties
+            {
+                RedirectUri = "/api/auth/redirect"
+            };
+            return Challenge(props, "Google");
+        }
 
+
+        [HttpPost("logout")]
+        public IActionResult Logout()
+        {
+            var props = new AuthenticationProperties
+            {
+                RedirectUri = "http://localhost:4200/login"
+            };
+            return SignOut(props, CookieAuthenticationDefaults.AuthenticationScheme);
+        }
+
+
+        // Google redirects here after successful login
+        [HttpGet("redirect")]
+        [Authorize]
+        public IActionResult Callback()
+        {
+            var email = User.FindFirstValue(ClaimTypes.Email);
+            var role = User.FindFirstValue(ClaimTypes.Role) ?? "User";
+
+            // Find user in DB
+            var user = _context.Users.FirstOrDefault(u => u.Email == email);
             if (user == null)
             {
-                user = new User { Email = email ?? "unknown", Role = "User", IsActive = true };
+                user = new User { Email = email ?? "unknown", Role = role };
                 _context.Users.Add(user);
                 _context.SaveChanges();
             }
 
-            var principal = new ClaimsPrincipal(new ClaimsIdentity(new[]
-            {
-                new Claim(ClaimTypes.Email, email),
-                new Claim(ClaimTypes.NameIdentifier, payload.Subject),
-                new Claim(ClaimTypes.Name, payload.Name ?? email),
-                new Claim(ClaimTypes.Role, user.Role)
-            }, "Google"));
-
-            var token = _jwtService.GenerateToken(principal, TimeSpan.FromHours(1));
-
-            return Ok(new
-            {
-                token,
-                user.Email,
-                user.Role
-            });
+            // Redirect to frontend, passing role in query param
+            var redirectUrl = $"http://localhost:4200/home?role={role}&email={email}";
+            return Redirect(redirectUrl);
         }
 
 
@@ -114,8 +126,5 @@ namespace Midterm_EquipmentRental_Team2.Controllers
         //         user.Username
         //     });
         // }
-
-
-
     }
 }
