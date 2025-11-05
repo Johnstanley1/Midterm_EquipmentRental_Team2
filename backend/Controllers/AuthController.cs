@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using Midterm_EquipmentRental_Team2.Data;
 using Midterm_EquipmentRental_Team2.Models;
+using Midterm_EquipmentRental_Team2.Services;
+using System.Data;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -19,30 +21,40 @@ namespace Midterm_EquipmentRental_Team2.Controllers
     public class AuthController : ControllerBase
     {
         private readonly AppDbContext _context;
-        // private const string JwtSecret = "your-secret-key-goes-here0123456789"; // Use a secure key in production
+        private readonly JWTService _jwtService;
 
-        public AuthController(AppDbContext context)
+        public AuthController(AppDbContext context, JWTService jwtService)
         {
             _context = context;
+            _jwtService = jwtService;
         }
+
 
 
         [HttpGet("login")]
-        [Authorize(Roles = "Admin, User")]
-        public ActionResult Login()
+        [Authorize] 
+        public ActionResult Login([FromBody] LoginRequest request)
         {
-            var email = User.Identity?.Name;
+            var email = User.FindFirstValue(ClaimTypes.Email);
             var user = _context.Users.FirstOrDefault(u => u.Email == email);
+
             if (user == null)
             {
-                user = new User { Email = email ?? "unknown", Role = "User", IsActive = true };
+                user = new User { Email = request.Email ?? "unknown", Role = "User", IsActive = true };
             }
-            if(user.Role!="Admin")
+
+            var token = _jwtService.GenerateToken(User, TimeSpan.FromHours(1));
+
+            return Ok(new
             {
-                return Ok("welcome, User!");
-            }
-            return Ok("Welcome, Admin!");
+                token,
+                user.Email,
+                user.Role
+            });
         }
+
+
+        // private const string JwtSecret = "your-secret-key-goes-here0123456789"; // Use a secure key in production
 
         // generate login tokens by user
         // private string GenerateToken(User user)
@@ -91,7 +103,7 @@ namespace Midterm_EquipmentRental_Team2.Controllers
         //     });
         // }
 
-        
+
 
     }
 }
