@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Google.Apis.Auth;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using Midterm_EquipmentRental_Team2.Data;
@@ -32,15 +33,17 @@ namespace Midterm_EquipmentRental_Team2.Controllers
 
 
         [HttpPost("login")]
-        [Authorize] 
-        public ActionResult Login()
+        public ActionResult Login([FromBody] LoginRequest loginRequest)
         {
+            var payload = GoogleJsonWebSignature.ValidateAsync(loginRequest.Token);
             var email = User.Identity?.Name;
             var user = _context.Users.FirstOrDefault(u => u.Email == email);
 
             if (user == null)
             {
                 user = new User { Email = email ?? "unknown", Role = "User", IsActive = true };
+                _context.Users.Add(user);
+                _context.SaveChanges();
             }
 
             var token = _jwtService.GenerateToken(User, TimeSpan.FromHours(1));

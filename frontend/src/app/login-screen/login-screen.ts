@@ -58,7 +58,7 @@ export class LoginScreen {
     }
 
     google.accounts.id.initialize({
-        client_id: "397528110694-gvm5c9acstpr4jh30hmn1p4of4r18ah1.apps.googleusercontent.com",
+        client_id: "397528110694-sep6ih3oq0vc4p1m32rq2qmlvphi5u7k.apps.googleusercontent.com",
         callback: (response: any) => this.zone.run(() => this.handleCredentialResponse(response))
     });
     google.accounts.id.prompt();
@@ -72,10 +72,20 @@ export class LoginScreen {
       next: (res) => {
         this.api.setToken(res.token); // store your app JWT
         this.router.navigate(['/home']);
-      },
-      error: (err) => {
-        console.error('Login failed', err);
-      }
+          if (res.role) localStorage.setItem('role', res.role);
+          if (res.email) localStorage.setItem('username', res.email);
+
+          if (res.role === 'Admin') {
+            this.router.navigate(['/home']);
+          } else if (res.role === "User") {
+            this.router.navigate(['/home']);
+          } else {
+            this.router.navigate(['/login']);
+          }
+        },
+        error: (err) => {
+          console.log('Invalid credentials', err);
+        },
     });
   }
 
