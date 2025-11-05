@@ -31,7 +31,7 @@ namespace Midterm_EquipmentRental_Team2.Controllers
 
 
 
-        [HttpGet("login")]
+        [HttpPost("login")]
         [Authorize] 
         public ActionResult Login()
         {
