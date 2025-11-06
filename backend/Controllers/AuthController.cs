@@ -13,6 +13,7 @@ using System.Security.Claims;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Google.Apis.Auth.OAuth2;
+using Microsoft.AspNetCore.Authentication.Google;
 
 /// <summary>
 /// API Controller for managing authentication of users.
@@ -36,11 +37,18 @@ namespace Midterm_EquipmentRental_Team2.Controllers
         [HttpGet("login")]
         public IActionResult Login()
         {
+            //var props = new AuthenticationProperties
+            //{
+            //    RedirectUri = "/api/auth/redirect"
+            //};
+            //return Challenge(props, "Google");
+
             var props = new AuthenticationProperties
             {
-                RedirectUri = "/api/auth/redirect"
+                RedirectUri = "http://localhost:4200/home"
             };
-            return Challenge(props, "Google");
+            return Challenge(props, GoogleDefaults.AuthenticationScheme);
+
         }
 
 
@@ -55,36 +63,16 @@ namespace Midterm_EquipmentRental_Team2.Controllers
         }
 
 
-        // Google redirects here after successful login
-        [HttpGet("redirect")]
+        [HttpGet("profile")]
         [Authorize]
-        public IActionResult Callback()
+        public IActionResult Profile()
         {
-            var email = User.FindFirstValue(ClaimTypes.Email);
-
-            // Find user in DB
             var user = _context.Users.FirstOrDefault(u => u.Email == email);
-
-            if (user == null)
+            return Ok(new
             {
-                // New user, default to "User"
-                user = new User
-                {
-                    Email = email,
-                    Role = "User", // default role
-                    ExternalProvider = "Google",
-                    ExternalId = User.FindFirstValue(ClaimTypes.NameIdentifier) ?? ""
-                };
-                _context.Users.Add(user);
-                _context.SaveChanges();
-            }
-
-            // Use role from DB
-            var role = user.Role;
-
-            // Redirect to frontend, passing role in query param
-            var redirectUrl = $"http://localhost:4200/home?role={role}&email={email}";
-            return Redirect(redirectUrl);
+                Email = User.FindFirstValue(ClaimTypes.Email),
+                Role = User.FindFirstValue(ClaimTypes.Role)
+            });
         }
 
 

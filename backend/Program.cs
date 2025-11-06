@@ -70,6 +70,7 @@ builder.Services.AddAuthentication(options =>
             var user = db.Users.FirstOrDefault(u => u.Email == email);
             if (user == null)
             {
+                // create user
                 user = new User
                 {
                     Email = email,
