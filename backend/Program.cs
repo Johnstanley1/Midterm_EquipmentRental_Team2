@@ -12,6 +12,7 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Midterm_EquipmentRental_Team2.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -37,28 +38,10 @@ builder.Services.AddScoped<IRentalService, RentalService>();
 builder.Services.AddScoped<JWTService>();
 
 
-var jwtSection = builder.Configuration.GetSection("jwt");
-var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSection["key"]));
-
-builder.Services.AddAuthentication(options =>
+builder.Services.AddAuthentication(options => 
 {
     options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
     options.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
-})
-.AddJwtBearer(options =>
-{
-    options.TokenValidationParameters = new TokenValidationParameters
-    {
-        ValidateIssuer = true,
-        ValidateAudience = true,
-        ValidateLifetime = true,
-        ValidateIssuerSigningKey = true,
-        ValidIssuer = jwtSection["Issuer"],
-        ValidAudience = jwtSection["Audience"],
-        IssuerSigningKey = signingKey,
-
-        NameClaimType = ClaimTypes.Email
-    };
 })
 .AddCookie(options =>
 {
@@ -70,9 +53,79 @@ builder.Services.AddAuthentication(options =>
 {
     options.ClientId = builder.Configuration["Authentication:Google:ClientId"] ?? "";
     options.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"] ?? "";
+    options.CallbackPath = "/signin-oidc"; // required
+    options.Scope.Add("openid");
     options.Scope.Add("profile");
     options.Scope.Add("email");
+
+    // Map claims & assign role on successful login
+    options.Events.OnCreatingTicket = ticket =>
+    {
+        var email = ticket.Principal.FindFirstValue(ClaimTypes.Email);
+        if (!string.IsNullOrEmpty(email))
+        {
+            using var scope = builder.Services.BuildServiceProvider().CreateScope();
+            var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+
+            var user = db.Users.FirstOrDefault(u => u.Email == email);
+            if (user == null)
+            {
+                user = new User
+                {
+                    Email = email,
+                    Role = "User",
+                    ExternalProvider = "Google",
+                    ExternalId = ticket.Principal.FindFirstValue(ClaimTypes.NameIdentifier)
+                };
+                db.Users.Add(user);
+                db.SaveChanges();
+            }
+
+            // Add Role claim for [Authorize(Roles="Admin")]
+            var claimsIdentity = ticket.Principal.Identity as ClaimsIdentity;
+            claimsIdentity?.AddClaim(new Claim(ClaimTypes.Role, user.Role));
+        }
+        return Task.CompletedTask;
+    };
 });
+
+
+//var jwtSection = builder.Configuration.GetSection("jwt");
+//var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSection["key"]));
+
+//builder.Services.AddAuthentication(options =>
+//{
+//    options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+//    options.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
+//})
+//.AddJwtBearer(options =>
+//{
+//    options.TokenValidationParameters = new TokenValidationParameters
+//    {
+//        ValidateIssuer = true,
+//        ValidateAudience = true,
+//        ValidateLifetime = true,
+//        ValidateIssuerSigningKey = true,
+//        ValidIssuer = jwtSection["Issuer"],
+//        ValidAudience = jwtSection["Audience"],
+//        IssuerSigningKey = signingKey,
+
+//        NameClaimType = ClaimTypes.Email
+//    };
+//})
+//.AddCookie(options =>
+//{
+//    options.LoginPath = "/auth/login";
+//    options.AccessDeniedPath = "/auth/denied";
+//    options.LogoutPath = "/auth/logout";
+//})
+//.AddGoogle(options =>
+//{
+//    options.ClientId = builder.Configuration["Authentication:Google:ClientId"] ?? "";
+//    options.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"] ?? "";
+//    options.Scope.Add("profile");
+//    options.Scope.Add("email");
+//});
 
 
 // add jwt authentication to swagger
