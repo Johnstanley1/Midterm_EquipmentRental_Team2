@@ -12,12 +12,10 @@ namespace Midterm_EquipmentRental_Team2.Services
             _jwtService = jwtService;
         }
 
-
         private void AttachJwtToken(ClaimsPrincipal user)
         {
 
             var token = _jwtService.GenerateToken(user);
-
             _httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
 
         }
@@ -25,15 +23,10 @@ namespace Midterm_EquipmentRental_Team2.Services
 
         public async Task<(string, string)> GetProtectedDataAsync(string path, ClaimsPrincipal principal)
         {
-
             AttachJwtToken(principal);
-
             var requestUri = new Uri(_httpClient.BaseAddress!, path);
-
             var response = await _httpClient.GetAsync(requestUri);
-
             var body = await response.Content.ReadAsStringAsync();
-
             return (response.StatusCode.ToString(), body);
 
         }
