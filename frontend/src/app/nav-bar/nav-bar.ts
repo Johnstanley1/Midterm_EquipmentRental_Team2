@@ -22,7 +22,7 @@ export class NavBar implements OnInit, OnDestroy {
       const params = new URLSearchParams(window.location.search);
       const email = params.get('email');
       const role = params.get('role');
-      
+
       if (email) {
         // Save user info locally
         localStorage.setItem('email', email);
