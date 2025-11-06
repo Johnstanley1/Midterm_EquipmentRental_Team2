@@ -61,16 +61,26 @@ namespace Midterm_EquipmentRental_Team2.Controllers
         public IActionResult Callback()
         {
             var email = User.FindFirstValue(ClaimTypes.Email);
-            var role = User.FindFirstValue(ClaimTypes.Role) ?? "User";
 
             // Find user in DB
             var user = _context.Users.FirstOrDefault(u => u.Email == email);
+
             if (user == null)
             {
-                user = new User { Email = email ?? "unknown", Role = role };
+                // New user, default to "User"
+                user = new User
+                {
+                    Email = email,
+                    Role = "User", // default role
+                    ExternalProvider = "Google",
+                    ExternalId = User.FindFirstValue(ClaimTypes.NameIdentifier) ?? ""
+                };
                 _context.Users.Add(user);
                 _context.SaveChanges();
             }
+
+            // Use role from DB
+            var role = user.Role;
 
             // Redirect to frontend, passing role in query param
             var redirectUrl = $"http://localhost:4200/home?role={role}&email={email}";
