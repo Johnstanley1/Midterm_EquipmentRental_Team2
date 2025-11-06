@@ -34,6 +34,7 @@ namespace Midterm_EquipmentRental_Team2.Repositories
                     CustomerId = r.CustomerId,
                     EquipmentId = r.EquipmentId,
                     CustomerName = r.Customer.Name,
+                    CustomerEMail = r.Customer.Email,
                     EquipmentName = r.Equipment.Name,
                     Equipment = r.Equipment
                 })
@@ -68,6 +69,7 @@ namespace Midterm_EquipmentRental_Team2.Repositories
                     CustomerId = r.CustomerId,
                     CustomerName = r.Customer.Name,
                     EquipmentName = r.Equipment.Name,
+                    CustomerEMail = r.Customer.Email,
                     Equipment = r.Equipment
                 })
                 .FirstOrDefault(r => r.Id == id);
@@ -93,6 +95,7 @@ namespace Midterm_EquipmentRental_Team2.Repositories
                     EquipmentStatus = r.EquipmentStatus.ToString(),
                     CustomerId = r.CustomerId,
                     CustomerName = r.Customer.Name,
+                    CustomerEMail = r.Customer.Email,
                     EquipmentName = r.Equipment.Name,
                     Equipment = r.Equipment
                 })
@@ -125,6 +128,7 @@ namespace Midterm_EquipmentRental_Team2.Repositories
                     EquipmentStatus = r.EquipmentStatus.ToString(),
                     CustomerId = r.CustomerId,
                     CustomerName = r.Customer.Name,
+                    CustomerEMail = r.Customer.Email,
                     EquipmentName = r.Equipment.Name,
                     Equipment = r.Equipment 
                 })
@@ -148,6 +152,7 @@ namespace Midterm_EquipmentRental_Team2.Repositories
                     EquipmentStatus = r.EquipmentStatus.ToString(),
                     CustomerId = r.CustomerId,
                     CustomerName = r.Customer.Name,
+                    CustomerEMail = r.Customer.Email,
                     EquipmentName = r.Equipment.Name,
                     Equipment = r.Equipment // or map to EquipmentDTO if needed
                 })
@@ -172,6 +177,7 @@ namespace Midterm_EquipmentRental_Team2.Repositories
                     EquipmentStatus = r.EquipmentStatus.ToString(),
                     CustomerId = r.CustomerId,
                     CustomerName = r.Customer.Name,
+                    CustomerEMail = r.Customer.Email,
                     EquipmentName = r.Equipment.Name,
                     Equipment = r.Equipment // or map to EquipmentDTO
                 })

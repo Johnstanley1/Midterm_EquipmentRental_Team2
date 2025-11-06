@@ -17,6 +17,7 @@ namespace Midterm_EquipmentRental_Team2.Models.DTOs
         public int CustomerId { get; set; }
         public int EquipmentId { get; set; }
         public String CustomerName { get; set; }
+        public String CustomerEMail { get; set; }
         public String EquipmentName { get; set; }
         public Equipment Equipment { get; set; } = new();
     }

@@ -5,6 +5,8 @@ using Microsoft.VisualBasic;
 using Midterm_EquipmentRental_Team2.Models;
 using Midterm_EquipmentRental_Team2.Models.DTOs;
 using Midterm_EquipmentRental_Team2.UnitOfWork;
+using System.Data;
+using System.Security.Claims;
 using static Midterm_EquipmentRental_Team2.Models.Equipment;
 
 namespace Midterm_EquipmentRental_Team2.Controllers
@@ -25,21 +27,23 @@ namespace Midterm_EquipmentRental_Team2.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<RentalDTO>> GetAllRentals()
         {
+            var role = User.FindFirstValue(ClaimTypes.Role);
+            var email = User?.FindFirstValue(ClaimTypes.Email)?.Trim().ToLower();
+
             IEnumerable<RentalDTO> rentals;
 
-            if (User.IsInRole("Admin"))
+            if (role == "Admin")
             {
                 // Admin sees all rentals
-                rentals = _unitOfWork.Rentals.GetAllRentals();
+               return Ok(_unitOfWork.Rentals.GetAllRentals());
             }
             else
             {
                 // users see only their rentals
-                var username = User.Identity.Name; 
-                rentals = _unitOfWork.Rentals.GetAllRentals();
+                return Ok(_unitOfWork.Rentals.GetAllRentals()
+                    .Where(c => !string.IsNullOrWhiteSpace(c.CustomerEMail) &&
+                        c.CustomerEMail.Trim().ToLower() == email));
             }
-
-            return Ok(rentals);
         }
 
 
@@ -54,8 +58,8 @@ namespace Midterm_EquipmentRental_Team2.Controllers
                 return NotFound($"No rentals found with id {id}");
 
 
-            if (User.IsInRole("User") && rental.CustomerName != User.Identity?.Name) // Users can only access their own data
-                return Forbid();
+            //if (User.IsInRole("User") && rental.CustomerName != User.Identity?.Name) // Users can only access their own data
+            //    return Forbid();
 
             return Ok(rental);
         }
@@ -67,22 +71,30 @@ namespace Midterm_EquipmentRental_Team2.Controllers
         public ActionResult<IEnumerable<RentalDTO>> GetRentedEquipments(int equipmentId)
         {
             var rentals = _unitOfWork.Rentals.GetRentedEquipments(equipmentId);
-            Console.WriteLine($"Found {rentals.Count()} rentals for equipment ID {equipmentId}");
-
+            var role = User.FindFirstValue(ClaimTypes.Role);
+            var email = User?.FindFirstValue(ClaimTypes.Email)?.Trim().ToLower();
 
             if (rentals == null)
                 return NotFound($"No rentals found with id");
 
-
-            // If user is not admin, only return their own rentals
-            if (User.IsInRole("User"))
+            if (role == "Admin")
             {
-                var username = User.Identity?.Name;
-                rentals = rentals.Where(r => r.CustomerName == username);
+                // Admin sees all rentals
+                return Ok(rentals);
+            }
+            else
+            {
+                // users see only their rentals
+                return Ok(rentals.Where(c => !string.IsNullOrWhiteSpace(c.CustomerEMail) &&
+                        c.CustomerEMail.Trim().ToLower() == email));
             }
 
-
-            return Ok(rentals);
+            //// If user is not admin, only return their own rentals
+            //if (User.IsInRole("User"))
+            //{
+            //    var username = User.Identity?.Name;
+            //    rentals = rentals.Where(r => r.CustomerName == username);
+            //}
         }
 
 
@@ -92,19 +104,30 @@ namespace Midterm_EquipmentRental_Team2.Controllers
         public ActionResult<IEnumerable<RentalDTO>> GetActiveRentals()
         {
             var rentals = _unitOfWork.Rentals.GetActiveRentals();
+            var role = User.FindFirstValue(ClaimTypes.Role);
+            var email = User?.FindFirstValue(ClaimTypes.Email)?.Trim().ToLower();
 
             if (rentals == null)
                 return NotFound($"No rental found with id");
 
-
-            // If user is not admin, only return their own rentals
-            if (User.IsInRole("User"))
+            if (role == "Admin")
             {
-                var username = User.Identity?.Name;
-                rentals = rentals.Where(r => r.CustomerName == username);
+                // Admin sees all rentals
+                return Ok(rentals);
+            }
+            else
+            {
+                // users see only their rentals
+                return Ok(rentals.Where(c => !string.IsNullOrWhiteSpace(c.CustomerEMail) &&
+                        c.CustomerEMail.Trim().ToLower() == email));
             }
 
-            return Ok(rentals);
+            //// If user is not admin, only return their own rentals
+            //if (User.IsInRole("User"))
+            //{
+            //    var username = User.Identity?.Name;
+            //    rentals = rentals.Where(r => r.CustomerName == username);
+            //}
         }
 
 
@@ -114,19 +137,30 @@ namespace Midterm_EquipmentRental_Team2.Controllers
         public ActionResult<IEnumerable<RentalDTO>> GetCompletedRentals()
         {
             var rentals = _unitOfWork.Rentals.GetCompletedRentals();
+            var role = User.FindFirstValue(ClaimTypes.Role);
+            var email = User?.FindFirstValue(ClaimTypes.Email)?.Trim().ToLower();
 
             if (rentals == null)
                 return NotFound($"No rental found with id");
 
 
-            // If user is not admin, only return their own rentals
-            if (User.IsInRole("User"))
+            if (role == "Admin")
             {
-                var username = User.Identity?.Name;
-                rentals = rentals.Where(r => r.CustomerName == username);
+                // Admin sees all rentals
+                return Ok(rentals);
             }
-
-            return Ok(rentals);
+            else
+            {
+                // users see only their rentals
+                return Ok(rentals.Where(c => !string.IsNullOrWhiteSpace(c.CustomerEMail) &&
+                        c.CustomerEMail.Trim().ToLower() == email));
+            }
+            //// If user is not admin, only return their own rentals
+            //if (User.IsInRole("User"))
+            //{
+            //    var username = User.Identity?.Name;
+            //    rentals = rentals.Where(r => r.CustomerName == username);
+            //}
         }
 
 
@@ -136,18 +170,31 @@ namespace Midterm_EquipmentRental_Team2.Controllers
         public ActionResult<IEnumerable<RentalDTO>> GetOverdueRentals()
         {
             var rentals = _unitOfWork.Rentals.GetOverdueRentals();
+            var role = User.FindFirstValue(ClaimTypes.Role);
+            var email = User?.FindFirstValue(ClaimTypes.Email)?.Trim().ToLower();
 
             if (rentals == null)
                 return NotFound($"No customer found with id");
 
-            // If user is not admin, only return their own rentals
-            if (User.IsInRole("User"))
+
+            if (role == "Admin")
             {
-                var username = User.Identity?.Name;
-                rentals = rentals.Where(r => r.CustomerName == username);
+                // Admin sees all rentals
+                return Ok(rentals);
+            }
+            else
+            {
+                // users see only their rentals
+                return Ok(rentals.Where(c => !string.IsNullOrWhiteSpace(c.CustomerEMail) &&
+                        c.CustomerEMail.Trim().ToLower() == email));
             }
 
-            return Ok(rentals);
+            //// If user is not admin, only return their own rentals
+            //if (User.IsInRole("User"))
+            //{
+            //    var username = User.Identity?.Name;
+            //    rentals = rentals.Where(r => r.CustomerName == username);
+            //}
         }
 
 
@@ -174,7 +221,6 @@ namespace Midterm_EquipmentRental_Team2.Controllers
             var existingRental = _unitOfWork.Rentals.GetRentalEntityById(rental.Id);
             if (existingRental == null)
                 return NotFound($"No customer found with id {rental.Id}");
-            Console.WriteLine(existingRental);
 
             // Mark as returned
             existingRental.ReturnedAt = DateTime.UtcNow;
@@ -263,7 +309,6 @@ namespace Midterm_EquipmentRental_Team2.Controllers
 
             return Ok(existingRental);
         }
-
 
 
         private int GetUserId()
