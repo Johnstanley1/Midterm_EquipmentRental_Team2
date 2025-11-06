@@ -23,6 +23,8 @@ export class NavBar implements OnInit, OnDestroy {
       const email = params.get('email');
       const role = params.get('role');
 
+      console.log(email, role);
+
       if (email) {
         // Save user info locally
         localStorage.setItem('email', email);
@@ -61,11 +63,12 @@ export class NavBar implements OnInit, OnDestroy {
   // logout
   logout() {
     if (isPlatformBrowser(this.platformId)) {
-      localStorage.removeItem('token');
-      localStorage.removeItem('role');
-      localStorage.removeItem('email');
+      // localStorage.removeItem('token');
+      // localStorage.removeItem('role');
+      // localStorage.removeItem('email');
+      window.location.href = 'http://localhost:5027/api/auth/logout';
     }
-    this.email = null;
-    this.router.navigate(['/login']); // redirect to login page
+    // this.email = null;
+    // this.router.navigate(['/login']); // redirect to login page
   }
 }

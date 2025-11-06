@@ -46,7 +46,7 @@ namespace Midterm_EquipmentRental_Team2.Controllers
         }
 
 
-        [HttpPost("logout")]
+        [HttpGet("logout")]
         public IActionResult Logout()
         {
             var props = new AuthenticationProperties
