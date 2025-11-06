@@ -26,13 +26,27 @@ export class NavBar implements OnInit, OnDestroy {
         withCredentials: true
       }).subscribe({
         next: data => {
-          this.email = data.email;
           localStorage.setItem('role', data.role);
+          localStorage.setItem('email', data.email);
+          this.email = data.email;
         },
         error: err => {
           this.email = null;
         }
       })
+
+      // Refresh username after any navigation (e.g., after login redirect)
+      this.routerSub = this.router.events
+        .pipe(filter((e): e is NavigationEnd => e instanceof NavigationEnd))
+        .subscribe(() => this.refreshUserDisplay());
+    }
+  }
+
+  private refreshUserDisplay() {
+    if (isPlatformBrowser(this.platformId)) {
+      this.email = localStorage.getItem('email');
+    } else {
+      this.email = null;
     }
   }
 
@@ -44,11 +58,11 @@ export class NavBar implements OnInit, OnDestroy {
   logout() {
     if (isPlatformBrowser(this.platformId)) {
       // localStorage.removeItem('token');
-      // localStorage.removeItem('role');
-      // localStorage.removeItem('email');
-      window.location.href = 'http://localhost:5027/api/auth/logout';
+      localStorage.removeItem('role');
+      localStorage.removeItem('email');
     }
-    // this.email = null;
+    this.email = null;
+    window.location.href = 'http://localhost:5027/api/auth/logout';
     // this.router.navigate(['/login']); // redirect to login page
   }
 
