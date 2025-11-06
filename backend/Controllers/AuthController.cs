@@ -37,12 +37,6 @@ namespace Midterm_EquipmentRental_Team2.Controllers
         [HttpGet("login")]
         public IActionResult Login()
         {
-            //var props = new AuthenticationProperties
-            //{
-            //    RedirectUri = "/api/auth/redirect"
-            //};
-            //return Challenge(props, "Google");
-
             var props = new AuthenticationProperties
             {
                 RedirectUri = "http://localhost:4200/home"
@@ -67,7 +61,6 @@ namespace Midterm_EquipmentRental_Team2.Controllers
         [Authorize]
         public IActionResult Profile()
         {
-            var user = _context.Users.FirstOrDefault(u => u.Email == email);
             return Ok(new
             {
                 Email = User.FindFirstValue(ClaimTypes.Email),
