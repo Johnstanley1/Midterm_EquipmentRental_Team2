@@ -33,16 +33,6 @@ namespace Midterm_EquipmentRental_Team2.Controllers
             var role = User.FindFirstValue(ClaimTypes.Role);
             var email = User?.FindFirstValue(ClaimTypes.Email)?.Trim().ToLower();
 
-            Console.WriteLine("User email claim: " + User.FindFirstValue(ClaimTypes.Email));
-            Console.WriteLine("Role claim: " + User.FindFirstValue(ClaimTypes.Role));
-
-            foreach (var claim in User.Claims)
-            {
-                Console.WriteLine($"Type: {claim.Type}, Value: {claim.Value}");
-            }
-
-
-
             if (role == "Admin")
             {
                 return Ok(_unitOfWork.Customers.GetAllCustomers());
@@ -61,12 +51,13 @@ namespace Midterm_EquipmentRental_Team2.Controllers
         public ActionResult<CustomerDTO> GetCustomerById(int id)
         {
             var customer = _unitOfWork.Customers.GetCustomerById(id);
+
             if (customer == null)
                 return NotFound($"No customer found with id {id}");
 
             
-            if (User.IsInRole("User") && customer.Username != User.Identity?.Name) // Users can only access their own data
-                return Forbid();
+            //if (User.IsInRole("User") && customer.Username != User.Identity?.Name) // Users can only access their own data
+            //    return Forbid();
 
             return Ok(customer);
         }
@@ -80,8 +71,8 @@ namespace Midterm_EquipmentRental_Team2.Controllers
             if (customer == null)
                 return NotFound($"No customer found with id {id}");
 
-            if (User.IsInRole("User") && customer.Username != User.Identity?.Name) // Users can only access their own data
-                return Forbid();
+            //if (User.IsInRole("User") && customer.Username != User.Identity?.Name) // Users can only access their own data
+            //    return Forbid();
 
             return Ok(customer);
         }
@@ -95,8 +86,8 @@ namespace Midterm_EquipmentRental_Team2.Controllers
             if (customer == null)
                 return NotFound($"No customer found with id {id}");
 
-            if (User.IsInRole("User") && customer.Username != User.Identity?.Name) // Users can only access their own data
-                return Forbid();
+            //if (User.IsInRole("User") && customer.Username != User.Identity?.Name) // Users can only access their own data
+            //    return Forbid();
 
             return Ok(customer);
         }
