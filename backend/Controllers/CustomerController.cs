@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Midterm_EquipmentRental_Team2.Models;
 using Midterm_EquipmentRental_Team2.UnitOfWork;
 using Midterm_EquipmentRental_Team2.Models.DTOs;
+using System.Security.Claims;
 
 
 /// <summary>
@@ -28,8 +29,30 @@ namespace Midterm_EquipmentRental_Team2.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<CustomerDTO>> GetAllCustomers()
         {
-            var customers = _unitOfWork.Customers.GetAllCustomers();
-            return Ok(customers);
+            // Admin sees all, User sees only themselves
+            var role = User.FindFirstValue(ClaimTypes.Role);
+            var email = User?.FindFirstValue(ClaimTypes.Email)?.Trim().ToLower();
+
+            Console.WriteLine("User email claim: " + User.FindFirstValue(ClaimTypes.Email));
+            Console.WriteLine("Role claim: " + User.FindFirstValue(ClaimTypes.Role));
+
+            foreach (var claim in User.Claims)
+            {
+                Console.WriteLine($"Type: {claim.Type}, Value: {claim.Value}");
+            }
+
+
+
+            if (role == "Admin")
+            {
+                return Ok(_unitOfWork.Customers.GetAllCustomers());
+            }
+            else 
+            {
+                return Ok(_unitOfWork.Customers.GetAllCustomers()
+                     .Where(c => !string.IsNullOrWhiteSpace(c.Email) &&
+                        c.Email.Trim().ToLower() == email));
+            }
         }
 
 

@@ -67,13 +67,15 @@ export class CustomerDTO {
   id?: number;
   name: string;
   username: string;
+  email: string;
   role: string;
   isActive: boolean;
   rentals: RentalDTO[]
 
-  constructor(name: string, username: string, role: string, isActive: boolean, rentals: RentalDTO[]){
+  constructor(name: string, username: string, email: string, role: string, isActive: boolean, rentals: RentalDTO[]){
     this.name = name;
     this.username = username;
+    this.email = email;
     this.role = role;
     this.isActive = isActive;
     this.rentals = rentals

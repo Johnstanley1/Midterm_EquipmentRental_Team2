@@ -31,6 +31,7 @@ namespace Midterm_EquipmentRental_Team2.Repositories
                     Id = c.Id,
                     Name = c.Name,
                     Username = c.Username,
+                    Email = c.Email,
                     Password = c.Password,
                     Role = c.Role.ToString(),
                     IsActive = c.IsActive
@@ -56,6 +57,7 @@ namespace Midterm_EquipmentRental_Team2.Repositories
                     Id = c.Id,
                     Name = c.Name,
                     Username = c.Username,
+                    Email = c.Email,
                     Password = c.Password,
                     Role = c.Role.ToString(),
                     IsActive = c.IsActive
@@ -76,6 +78,7 @@ namespace Midterm_EquipmentRental_Team2.Repositories
                     Id = c.Id,
                     Name = c.Name,
                     Username = c.Username,
+                    Email = c.Email,
                     Role = c.Role.ToString(),
                     IsActive = c.IsActive,
                     Rentals = c.Rentals.Select(r => new RentalDTO
@@ -110,6 +113,7 @@ namespace Midterm_EquipmentRental_Team2.Repositories
                     Id = c.Id,
                     Name = c.Name,
                     Username = c.Username,
+                    Email = c.Email,
                     Role = c.Role.ToString(),
                     IsActive = c.IsActive,
                     Rentals = c.Rentals

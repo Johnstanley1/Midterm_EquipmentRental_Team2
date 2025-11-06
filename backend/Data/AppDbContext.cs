@@ -34,7 +34,8 @@ namespace Midterm_EquipmentRental_Team2.Data
                 // new User { Id = 7, Username = "alex", Password = "alex", Role = "User", IsActive = true },
                 // new User { Id = 8, Username = "maria", Password = "maria", Role = "User", IsActive = true },
                 new User { Id = 1,  Role = "Admin", Email = "johnstanley.ajagu@gmail.com", ExternalProvider = "Google", ExternalId = "", IsActive = true },// admin
-                new User { Id = 2,  Role = "User", Email = "mickeywang19920110@gmail.com", ExternalProvider = "Google", ExternalId = "", IsActive = true }
+                new User { Id = 2,  Role = "User", Email = "mickeywang19920110@gmail.com", ExternalProvider = "Google", ExternalId = "", IsActive = true },
+                new User { Id = 3, Role = "User", Email = "joeestan@gmail.com", ExternalProvider = "Google", ExternalId = "", IsActive = true }
             );
 
             modelBuilder.Entity<Equipment>().HasData(
@@ -164,7 +165,7 @@ namespace Midterm_EquipmentRental_Team2.Data
                     Id = 2,
                     Name = "John Doe",
                     Username = "john",
-                    Email = "mickeywang19920110@gmail.com",
+                    Email = "johnstanley.ajagu@gmail.com",
                     Password = "john123",
                     Role = Customer.UserRole.Admin,
                     IsActive = true
@@ -174,7 +175,7 @@ namespace Midterm_EquipmentRental_Team2.Data
                     Id = 3,
                     Name = "Jane Smith",
                     Username = "jane",
-                    Email = "mickeywang19920110@gmail.com",
+                    Email = "joeestan@gmail.com",
                     Password = "jane123",
                     Role = Customer.UserRole.User,
                     IsActive = true
@@ -194,7 +195,7 @@ namespace Midterm_EquipmentRental_Team2.Data
                     Id = 5,
                     Name = "Maria Garcia",
                     Username = "maria",
-                    Email = "mickeywang19920110@gmail.com",
+                    Email = "joeestan@gmail.com",
                     Password = "maria",
                     Role = Customer.UserRole.User,
                     IsActive = true
@@ -204,7 +205,7 @@ namespace Midterm_EquipmentRental_Team2.Data
                     Id = 6,
                     Name = "User1",
                     Username = "user1",
-                    Email = "mickeywang19920110@gmail.com",
+                    Email = "joeestan@gmail.com",
                     Password = "user1",
                     Role = Customer.UserRole.User,
                     IsActive = true
@@ -224,7 +225,7 @@ namespace Midterm_EquipmentRental_Team2.Data
                     Id = 8,
                     Name = "User3",
                     Username = "user3",
-                    Email = "mickeywang19920110@gmail.com",
+                    Email = "joeestan@gmail.com",
                     Password = "user3",
                     Role = Customer.UserRole.User,
                     IsActive = true
@@ -244,7 +245,7 @@ namespace Midterm_EquipmentRental_Team2.Data
                     Id = 10,
                     Name = "User5",
                     Username = "user5",
-                    Email = "mickeywang19920110@gmail.com",
+                    Email = "joeestan@gmail.com",
                     Password = "user5",
                     Role = Customer.UserRole.User,
                     IsActive = true
