@@ -268,9 +268,10 @@ namespace Midterm_EquipmentRental_Team2.Controllers
             existingRental.Status = rental.Status;
             existingRental.EquipmentCondition = rental.EquipmentCondition;
             existingRental.EquipmentStatus = rental.EquipmentStatus;
-            existingRental.CustomerId = rental.CustomerId; 
+            existingRental.CustomerId = rental.CustomerId;
             existingRental.EquipmentId = rental.EquipmentId;
             existingRental.Equipment = rental.Equipment;
+            existingRental.Customer = rental.Customer;
 
             _unitOfWork.Rentals.UpdateRental(existingRental);
             _unitOfWork.Complete();
