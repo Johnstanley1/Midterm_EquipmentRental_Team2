@@ -49,13 +49,15 @@ export class Customer {
   id?: number;
   name: string;
   username: string;
+  email: string;
   password: string;
   role: string; // "Admin" or "User"
   isActive: boolean;
 
-  constructor(name: string, username: string, password: string, role: string, isActive: boolean) {
+  constructor(name: string, username: string, email: string, password: string, role: string, isActive: boolean) {
     this.name = name;
     this.username = username;
+    this.email = email;
     this.password = password;
     this.role = role;
     this.isActive = isActive;

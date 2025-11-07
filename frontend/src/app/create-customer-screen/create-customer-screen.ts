@@ -37,6 +37,7 @@ export class CreateCustomerScreen {
       ],
     ],
     _username: ["", [Validators.required, Validators.minLength(this.min_Length), Validators.maxLength(this.max_length)]],
+    _email: ["", [Validators.required]],
     _password: ["", [Validators.required, Validators.minLength(this.min_Length), Validators.maxLength(this.max_length)]],
     _role: ["", [Validators.required]],
     _isActive: [false],
@@ -48,6 +49,10 @@ export class CreateCustomerScreen {
 
   get refUserName() {
     return this.createForm.controls['_username'];
+  }
+
+  get refEmail() {
+    return this.createForm.controls['_email'];
   }
 
   get refPassword() {
@@ -70,12 +75,13 @@ export class CreateCustomerScreen {
       // Get data:
       const customer_name = this.createForm.value._name!
       const username = this.createForm.value._username!;
+      const email = this.createForm.value._email!;
       const password = this.createForm.value._password!;
       const role = this.createForm.value._role!;
       const isActive = this.createForm.value._isActive!;
 
       // Create new customer object, pass data:
-      const customer = new Customer(customer_name, username, password, role, isActive)
+      const customer = new Customer(customer_name, username, email, password, role, isActive)
 
 
       this.customerService.createCustomer(customer).subscribe(() => {
