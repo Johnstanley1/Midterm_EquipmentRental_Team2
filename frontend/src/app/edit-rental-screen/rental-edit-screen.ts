@@ -5,7 +5,7 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RentalService } from '../../../services/rental-services';
 import { isPlatformBrowser } from '@angular/common';
 import {Observable, of} from 'rxjs';
-import {CustomerDTO, Equipment, RentalDTO} from '../../../services/model-services';
+import {CustomerDTO, Equipment, Rental, RentalDTO} from '../../../services/model-services';
 import {CustomerService} from '../../../services/customer-services';
 import {EquipmentService} from '../../../services/equipment-services';
 
@@ -22,7 +22,7 @@ export class RentalEditScreen {
   customers$: Observable<CustomerDTO []>;
   equipmentStatus$: Observable<Equipment[]>;
   equipmentCondition$: Observable<Equipment[]>;
-  rental!: RentalDTO;
+  rental!: Rental;
   rentalId = 0;
   errorMessage: string | null = null;
 
@@ -72,57 +72,67 @@ export class RentalEditScreen {
 
   ngOnInit(): void {
     this.rentalId = this.route.snapshot.params['id'];
-    this.rentalService.getRentalsById(this.rentalId).subscribe(rental => {
-      if (rental) {
-        this.rental = rental; // <-- save original rental
-        this.form.patchValue({
-          equipmentName: rental.equipmentName,
-          customerName: rental.customerName,
-          equipmentCondition: rental.equipmentCondition,
-          equipmentStatus: rental.equipmentStatus,
-          issuedAt: rental.issuedAt,
-          dueDate: rental.dueDate,
-          returnedAt: rental.returnedAt,
-          returnNotes: rental.returnNotes,
-          customerId: rental.customerId,
-          equipmentId: rental.equipmentId,
-          status: rental.status,
-          equipment: rental.equipment,
-        });
-      }
+    this.rentalService.GetRentalEntityById(this.rentalId).subscribe(rental => {
+        console.log('Rental received from API:', rental);
+        if (!rental) {
+          console.warn('No rental returned from backend.');
+          return;
+        }
+        this.rental = rental;
+        console.log('Equipment:', rental.equipment);
+        console.log('Customer:', rental.customer);
+
+      // if (rental) {
+      //   this.rental = rental; // <-- save original rental
+      //   console.log(this.rental.equipment.name);
+      //   this.form.patchValue({
+      //     equipmentName: rental.equipment.name,
+      //     customerName: rental.customer.name,
+      //     equipmentCondition: rental.equipmentCondition,
+      //     equipmentStatus: rental.equipmentStatus,
+      //     issuedAt: rental.issuedAt,
+      //     dueDate: rental.dueDate,
+      //     returnedAt: rental.returnedAt,
+      //     returnNotes: rental.returnNotes,
+      //     customerId: rental.customerId,
+      //     equipmentId: rental.equipmentId,
+      //     status: rental.status,
+      //     equipment: rental.equipment,
+      //   });
+      // }
     });
   }
 
   onSubmit() {
-    // Check Validation
-    if (this.form.valid) {
-      console.log("modify rental form is valid")
-
-      // get existing entries
-      const updatedRental = new RentalDTO(
-        this.form.value.equipmentName!,
-        this.form.value.customerName!,
-        this.form.value.issuedAt!,
-        this.form.value.dueDate!,
-        this.form.value.returnedAt!,
-        this.form.value.returnNotes!,
-        this.form.value.customerId!,
-        this.form.value.equipmentId!,
-        this.form.value.equipmentCondition!,
-        this.form.value.equipmentStatus!,
-        this.form.value.status!,
-        this.form.value.equipment!,
-      );
-
-      updatedRental.id = this.rentalId;
-
-      this.rentalService.updateRental(this.rentalId, updatedRental).subscribe(() => {
-        alert("Rental modified successfully");
-        this.router.navigate(["/all-rentals"]);
-      });
-    }else {
-      alert("Modify rental form is invalid")
-    }
+  //   // Check Validation
+  //   if (this.form.valid) {
+  //     console.log("modify rental form is valid")
+  //
+  //     // get existing entries
+  //     const updatedRental = new Rental(
+  //       this.form.value.issuedAt!,
+  //       this.form.value.dueDate!,
+  //       this.form.value.returnedAt!,
+  //       this.form.value.returnNotes!,
+  //       this.form.value.status!,
+  //       this.form.value.equipmentCondition!,
+  //       this.form.value.equipmentStatus!,
+  //       this.form.value.customerId!,
+  //       this.form.value.equipmentId!,
+  //       this.form.value.equipment!,
+  //       this.form.value.customerName!
+  //     );
+  //
+  //     updatedRental.id = this.rentalId;
+  //     console.log(updatedRental);
+  //
+  //     this.rentalService.updateRental(this.rentalId, updatedRental).subscribe(() => {
+  //       alert("Rental modified successfully");
+  //       this.router.navigate(["/all-rentals"]);
+  //     });
+  //   }else {
+  //     alert("Modify rental form is invalid")
+  //   }
   }
 
   back() {

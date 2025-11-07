@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import { Observable } from 'rxjs';
-import {RentalDTO} from './model-services';
+import {Rental, RentalDTO} from './model-services';
 
 @Injectable({ providedIn: 'root' })
 
@@ -36,6 +36,19 @@ export class RentalService {
       }
     }
     return this.http.get<RentalDTO>(`${this.baseUrl}/${id}`, { headers });
+  }
+
+  // Get one rental by id
+  GetRentalEntityById(id: number): Observable<Rental> {
+    let headers = new HttpHeaders();
+
+    if (typeof window !== 'undefined') {
+      const token = localStorage.getItem('token');
+      if (token) {
+        headers = headers.set('Authorization', `Bearer ${token}`);
+      }
+    }
+    return this.http.get<Rental>(`${this.baseUrl}/${id}`, { headers });
   }
 
 
@@ -110,7 +123,7 @@ export class RentalService {
 
 
   // Extend rental due date by sending a new due date and reason
-  updateRental(id: number, rentalDTO: RentalDTO){
+  updateRental(id: number, rental: Rental){
     let headers = new HttpHeaders();
 
     if (typeof window !== 'undefined') {
@@ -119,7 +132,7 @@ export class RentalService {
         headers = headers.set('Authorization', `Bearer ${token}`);
       }
     }
-    return this.http.put(`${this.baseUrl}/${id}/extend`, rentalDTO, { headers });
+    return this.http.put(`${this.baseUrl}/${id}/extend`, rental, { headers });
   }
 
 

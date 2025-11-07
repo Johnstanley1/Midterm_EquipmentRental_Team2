@@ -95,8 +95,8 @@ export class Rental{
   equipmentStatus: string;
   customerId: number = 0;
   equipmentId: number = 0;
-  equipment?: Equipment;
-  customer?: Customer;
+  equipment: Equipment;
+  customer: Customer;
 
   constructor(issuedAt: Date, dueDate: Date, returnedAt: Date, returnNotes: string, status: string, equipmentCondition: string,
               equipmentStatus: string,  customerId: number, equipmentId: number, equipment: Equipment, customer: Customer) {
