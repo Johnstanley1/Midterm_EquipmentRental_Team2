@@ -106,27 +106,20 @@ export class RentalsScreen {
   onDelete(id: number){
     if (confirm('Are you sure you want to delete this rental?')){
 
-      this.rentals$ = this.rentals$.pipe(
-        map((rentals) => rentals.filter((e) => e.id !== id))
-      );
-      this.rentals.deleteRental(id).subscribe({
-        // Refresh the list after deletion
-        next:(data) =>{
-          this.rentals$ = this.rentals$.pipe(
-            map((data) => data.filter((d) => d.id != id))
-          )
-        },
-        error:(err) => {
-          if (err.status === 404) {
-            this.errorMessage = 'Rental not found.';
-          } else if (err.status === 403) {
-            this.errorMessage = 'You do not have permission to delete rental.';
-          } else {
-            this.errorMessage = 'Failed to delete rental. Please try again.';
+      const role = localStorage.getItem('role');
+      if (role == "Admin") {
+        this.rentals$ = this.rentals$.pipe(
+          map((rentals) => rentals.filter((e) => e.id !== id))
+        );
+
+        this.rentals.deleteRental(id).subscribe({
+          error: (err) => {
+            console.error('Delete failed:', err);
           }
-        }
-      })
+        })
+      }else{
+        alert("You don't have permission to delete the equipment");
+      }
     }
   }
-
 }
