@@ -123,15 +123,16 @@ namespace Midterm_EquipmentRental_Team2.Controllers
         [HttpPut("{id}")]
         public ActionResult<Customer> UpdateCustomer(int id, [FromBody] Customer customer)
         {
+
+            // Admin sees all, User sees only themselves
+            var role = User.FindFirstValue(ClaimTypes.Role);
+            var email = User?.FindFirstValue(ClaimTypes.Email)?.Trim().ToLower();
             var existingCustomer = _unitOfWork.Customers.GetByCustomerEntityId(id);
+
             if (existingCustomer == null)
                 return NotFound($"No customer found with id {id}");
 
-
-            if (User.IsInRole("User") && existingCustomer.Username != User.Identity?.Name) // Users can only access their own data
-                return Forbid();
-
-            if (User.IsInRole("Admin"))
+            if (role == "Admin")
             {
                 existingCustomer.Id = id;
                 existingCustomer.Name = customer.Name;
@@ -140,6 +141,10 @@ namespace Midterm_EquipmentRental_Team2.Controllers
                 existingCustomer.IsActive = customer.IsActive;
                 existingCustomer.Role = customer.Role;
                 existingCustomer.IsActive = customer.IsActive;
+
+                _unitOfWork.Customers.UpdateCustomer(existingCustomer);
+                _unitOfWork.Complete();
+                return Ok(existingCustomer);
             }
             else
             {
@@ -149,11 +154,11 @@ namespace Midterm_EquipmentRental_Team2.Controllers
                 existingCustomer.Password = customer.Password;
                 existingCustomer.IsActive = customer.IsActive;
                 existingCustomer.IsActive = customer.IsActive;
-            }
 
-            _unitOfWork.Customers.UpdateCustomer(existingCustomer);
-            _unitOfWork.Complete();
-            return Ok(existingCustomer);
+                _unitOfWork.Customers.UpdateCustomer(existingCustomer);
+                _unitOfWork.Complete();
+                return Ok(existingCustomer);
+            }
         }
 
 
