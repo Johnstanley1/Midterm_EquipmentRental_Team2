@@ -51,13 +51,7 @@ export class RentalDetailScreen {
           this.router.navigate(['/all-rentals']);
         },
         error: (err) => {
-          if (err.status === 404) {
-            this.errorMessage = 'Rental not found.';
-          } else if (err.status === 403) {
-            this.errorMessage = 'You do not have permission to delete this rental.';
-          } else {
-            this.errorMessage = 'Failed to delete rental. Please try again.';
-          }
+          alert('You do not have permission to cancel, please return rental.');
         }
       });
     }
