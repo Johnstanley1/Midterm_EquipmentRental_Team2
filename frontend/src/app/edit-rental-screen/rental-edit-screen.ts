@@ -99,20 +99,20 @@ export class RentalEditScreen {
       console.log("modify rental form is valid")
 
       // get existing entries
-      const updatedRental: RentalDTO = { ...this.rental };
-
-      updatedRental.equipmentName = this.form.value.equipmentName!
-      updatedRental.customerName = this.form.value.customerName!
-      updatedRental.issuedAt = this.form.value.issuedAt!
-      updatedRental.dueDate = this.form.value.dueDate!
-      updatedRental.returnedAt = this.form.value.returnedAt!
-      updatedRental.returnNotes = this.form.value.returnNotes!
-      updatedRental.customerId = this.form.value.customerId!
-      updatedRental.equipmentId = this.form.value.equipmentId!
-      updatedRental.equipmentCondition = this.form.value.equipmentCondition!
-      updatedRental.equipmentStatus = this.form.value.equipmentStatus!
-      updatedRental.status = this.form.value.status!
-      updatedRental.equipment = this.form.value.equipment!
+      const updatedRental = new RentalDTO(
+        this.form.value.equipmentName!,
+        this.form.value.customerName!,
+        this.form.value.issuedAt!,
+        this.form.value.dueDate!,
+        this.form.value.returnedAt!,
+        this.form.value.returnNotes!,
+        this.form.value.customerId!,
+        this.form.value.equipmentId!,
+        this.form.value.equipmentCondition!,
+        this.form.value.equipmentStatus!,
+        this.form.value.status!,
+        this.form.value.equipment!,
+      );
 
       updatedRental.id = this.rentalId;
 
