@@ -65,7 +65,24 @@ namespace Midterm_EquipmentRental_Team2.Controllers
         }
 
 
-         
+        [Authorize(Roles = "Admin, User")]
+        [HttpGet("{id}/")]
+        public ActionResult<RentalDTO> GetRentalEntityById(int id)
+        {
+            var rental = _unitOfWork.Rentals.GetRentalEntityById(id);
+
+            if (rental == null)
+                return NotFound($"No rentals found with id {id}");
+
+
+            //if (User.IsInRole("User") && rental.CustomerName != User.Identity?.Name) // Users can only access their own data
+            //    return Forbid();
+
+            return Ok(rental);
+        }
+
+
+
         [Authorize(Roles = "Admin, User")]
         [HttpGet("equipment/{equipmentId}")]
         public ActionResult<IEnumerable<RentalDTO>> GetRentedEquipments(int equipmentId)
