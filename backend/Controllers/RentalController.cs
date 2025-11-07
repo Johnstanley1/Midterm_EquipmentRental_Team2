@@ -66,7 +66,7 @@ namespace Midterm_EquipmentRental_Team2.Controllers
 
 
         [Authorize(Roles = "Admin, User")]
-        [HttpGet("{id}/")]
+        [HttpGet("/{id}")]
         public ActionResult<RentalDTO> GetRentalEntityById(int id)
         {
             var rental = _unitOfWork.Rentals.GetRentalEntityById(id);
