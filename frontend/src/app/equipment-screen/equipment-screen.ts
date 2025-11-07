@@ -1,9 +1,9 @@
-import { Component, Inject, PLATFORM_ID } from '@angular/core';
+import {Component, Inject, PLATFORM_ID} from '@angular/core';
 import { EquipmentService } from '../../../services/equipment-services';
 import {Equipment} from '../../../services/model-services';
 import { RouterLink } from '@angular/router';
 import {AsyncPipe, isPlatformBrowser, NgOptimizedImage} from '@angular/common';
-import {map, Observable, of} from 'rxjs';
+import {map, Observable, of, throwError} from 'rxjs';
 import {catchError} from 'rxjs/operators';
 
 @Component({
@@ -39,31 +39,23 @@ export class EquipmentScreen {
       : of([] as Equipment[]);
   }
 
-
   btnDelete_click(id: number){
     if (confirm('Are you sure you want to delete this equipment?')){
 
-      this.equipments$ = this.equipments$.pipe(
-        map((equipments) => equipments.filter((e) => e.id !== id))
-      );
+      const role = localStorage.getItem('role')
 
-      this.equipmentService.deleteEquipment(id).subscribe({
-        // Refresh the list after deletion
-        next:(data) =>{
-          this.equipments$ = this.equipments$.pipe(
-            map((data) => data.filter((d) => d.id != id))
-          )
-        },
-        error:(err) => {
-          if (err.status === 404) {
-            this.errorMessage = 'Equipment not found.';
-          } else if (err.status === 403) {
-            this.errorMessage = 'You do not have permission to delete equipment.';
-          } else {
-            this.errorMessage = 'Failed to delete equipment. Please try again.';
+      if (role == "Admin") {
+        this.equipments$ = this.equipments$.pipe(
+          map((data) => data.filter((d) => d.id != id))
+        )
+        this.equipmentService.deleteEquipment(id).subscribe({
+          error: (err) => {
+            console.error('Delete failed:', err);
           }
-        }
-      })
+        })
+      }else{
+        alert("You don't have permission to delete the equipment");
+      }
     }
   }
 }
