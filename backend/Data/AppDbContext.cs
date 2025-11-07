@@ -266,7 +266,7 @@ namespace Midterm_EquipmentRental_Team2.Data
                {
                    Id = 1,
                    CustomerId = 1,
-                   EquipmentId = 7,
+                   EquipmentId = 6,
                    IssuedAt = DateTime.UtcNow.AddDays(-10),
                    DueDate = DateTime.UtcNow.AddDays(10),
                    ReturnedAt = null,
@@ -306,7 +306,7 @@ namespace Midterm_EquipmentRental_Team2.Data
                {
                    Id = 4,
                    CustomerId = 4,
-                   EquipmentId = 5,
+                   EquipmentId = 1,
                    IssuedAt = DateTime.UtcNow.AddDays(-2),
                    DueDate = DateTime.UtcNow.AddDays(12),
                    ReturnedAt = null,

@@ -19,24 +19,16 @@ namespace Midterm_EquipmentRental_Team2.Models
         [Required(ErrorMessage = "Issue date is required")]
         public DateTime IssuedAt { get; set; }
 
-
         [Required(ErrorMessage = "Due date is required")]
         public DateTime? DueDate { get; set; }
-
         public DateTime? ReturnedAt { get; set; }
 
         [MaxLength(255)]
         public string? ReturnNotes { get; set; }
-
         public int CustomerId { get; set; }
-
-        [JsonIgnore]
         public Customer? Customer { get; set; }
         public int EquipmentId { get; set; }
-
-        [JsonIgnore]
         public Equipment? Equipment { get; set; }
-
         public Equipment.EquipmentCondition? EquipmentCondition { get; set; }
         public Equipment.EquipmentStatus? EquipmentStatus { get; set; }
         public RentalStatus Status { get; set; }

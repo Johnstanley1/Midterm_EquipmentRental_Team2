@@ -66,13 +66,13 @@ namespace Midterm_EquipmentRental_Team2.Controllers
 
 
         [Authorize(Roles = "Admin, User")]
-        [HttpGet("/{id}")]
-        public ActionResult<RentalDTO> GetRentalEntityById(int id)
+        [HttpGet("rentalId/{rentalId}")]
+        public ActionResult<Rental> GetRentalEntityById(int rentalId)
         {
-            var rental = _unitOfWork.Rentals.GetRentalEntityById(id);
+            var rental = _unitOfWork.Rentals.GetRentalEntityById(rentalId);
 
             if (rental == null)
-                return NotFound($"No rentals found with id {id}");
+                return NotFound($"No rentals found with id {rentalId}");
 
 
             //if (User.IsInRole("User") && rental.CustomerName != User.Identity?.Name) // Users can only access their own data

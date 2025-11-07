@@ -39,7 +39,7 @@ export class RentalService {
   }
 
   // Get one rental by id
-  GetRentalEntityById(id: number): Observable<Rental> {
+  GetRentalEntityById(rentalId: number): Observable<Rental> {
     let headers = new HttpHeaders();
 
     if (typeof window !== 'undefined') {
@@ -48,7 +48,7 @@ export class RentalService {
         headers = headers.set('Authorization', `Bearer ${token}`);
       }
     }
-    return this.http.get<Rental>(`${this.baseUrl}/${id}`, { headers });
+    return this.http.get<Rental>(`${this.baseUrl}/rentalId/${rentalId}`, { headers });
   }
 
 
