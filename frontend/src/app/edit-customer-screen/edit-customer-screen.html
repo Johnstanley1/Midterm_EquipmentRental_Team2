@@ -36,7 +36,7 @@
               } }
             </div>
             <div class="mb-3">
-              <label for="email" class="form-label">Username</label>
+              <label for="email" class="form-label">Email</label>
               <input type="email" class="form-control" formControlName="email" placeholder="Enter customer email"/>
               @if (refEmail.invalid && (refEmail.touched || refEmail.dirty)) {
                 @if(refEmail.errors?.['required']) {
