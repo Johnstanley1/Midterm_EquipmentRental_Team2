@@ -95,7 +95,6 @@ export class RentalEditScreen {
           customerId: rental.customerId,
           equipmentId: rental.equipmentId,
           status: rental.status,
-          equipment: rental.equipment,
         });
       }
     });
