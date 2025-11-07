@@ -26,6 +26,8 @@ export class EditCustomerScreen {
 
     username: ['', [Validators.required, Validators.maxLength(50)]],
 
+    email: ['', [Validators.required]],
+
     password: ['', [Validators.maxLength(100)]],
 
     role: ['User', [Validators.required]],
@@ -40,6 +42,10 @@ export class EditCustomerScreen {
 
   get refUserName() {
     return this.form.controls['username'];
+  }
+
+  get refEmail() {
+    return this.form.controls['email'];
   }
 
   get refPassword() {
@@ -74,6 +80,7 @@ export class EditCustomerScreen {
       const updatedCustomer = new Customer(
         this.form.value.name!,
         this.form.value.username!,
+        this.form.value.email!,
         this.form.value.password ?? '',
         this.form.value.role!,
         this.form.value.isActive!,

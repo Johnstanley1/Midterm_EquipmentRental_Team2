@@ -36,6 +36,15 @@
               } }
             </div>
             <div class="mb-3">
+              <label for="email" class="form-label">Username</label>
+              <input type="email" class="form-control" formControlName="email" placeholder="Enter customer email"/>
+              @if (refEmail.invalid && (refEmail.touched || refEmail.dirty)) {
+                @if(refEmail.errors?.['required']) {
+                  <small class="text-danger">Username is required</small>
+                }
+              }
+            </div>
+            <div class="mb-3">
               <label class="form-label">Password (leave blank to keep)</label>
               <input type="password" class="form-control" formControlName="password" placeholder="Enter customer password"/>
               @if (refPassword.invalid && (refPassword.touched || refPassword.dirty)) { @if
