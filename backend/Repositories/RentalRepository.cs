@@ -202,7 +202,14 @@ namespace Midterm_EquipmentRental_Team2.Repositories
 
         public void Add(Rental rental)
         {
+            _context.Attach(new Customer { Id = rental.CustomerId });
+            _context.Attach(new Equipment { Id = rental.EquipmentId });
+
+            rental.Customer = null;
+            rental.Equipment = null;
+
             _context.Rentals.Add(rental);
+
         }
 
         public void Delete(Rental rental)
