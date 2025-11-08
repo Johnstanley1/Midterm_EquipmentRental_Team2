@@ -17,8 +17,6 @@ import {EquipmentService} from '../../../services/equipment-services';
   styleUrls: ['./rental-edit-screen.css'],
 })
 export class RentalEditScreen {
-  equipments$!: Observable<Equipment []>;
-  customers$!: Observable<CustomerDTO []>;
   equipmentStatus$: Observable<Equipment[]>;
   equipmentCondition$: Observable<Equipment[]>;
   rental!: Rental;
@@ -36,8 +34,6 @@ export class RentalEditScreen {
     @Inject(PLATFORM_ID) platformId: Object
   ) {
     const isBrowser = isPlatformBrowser(platformId);
-    this.equipments$ = isBrowser ? this.equipmentService.getAllEquipments() : of([]);
-    this.customers$ = isBrowser ? this.customerService.getAllCustomers() : of([]);
     this.equipmentStatus$ = isBrowser ? this.equipmentService.getEquipmentStatus() : of([]);
     this.equipmentCondition$ = isBrowser ? this.equipmentService.getEquipmentCondition() : of([]);
   }
@@ -99,42 +95,8 @@ export class RentalEditScreen {
           equipmentId: rental.equipmentId,
           status: rental.status,
         });
-        console.log(this.form.value)
-        console.log('Patched equipment object:', selectedEquipment);
-        console.log('Patched customer object:', selectedCustomer);
       }
     });
-
-      // console.log('Rental received from API:', rental);
-      // if (!rental) {
-      //   console.warn('No rental returned from backend.');
-      //   return;
-      // }
-      // this.rentalDTO = rental;
-      // console.log('Equipment:', rental.equipment);
-
-      // this.rental = rental;
-      // console.log('Equipment:', rental.equipment);
-      // console.log('Customer:', rental.customer);
-
-      // if (rental) {
-      //   this.rentalDTO = rental; // <-- save original rental
-      //   this.form.patchValue({
-      //     equipmentName: rental.equipment,
-      //     // customerName: rental.customer,
-      //     equipmentCondition: rental.equipmentCondition,
-      //     equipmentStatus: rental.equipmentStatus,
-      //     issuedAt: rental.issuedAt,
-      //     dueDate: rental.dueDate,
-      //     returnedAt: rental.returnedAt,
-      //     returnNotes: rental.returnNotes,
-      //     customerId: rental.customerId,
-      //     equipmentId: rental.equipmentId,
-      //     status: rental.status
-      //   });
-      //   console.log(this.form.value)
-      // }
-
   }
 
 
@@ -158,7 +120,6 @@ export class RentalEditScreen {
       const equipmentId = equipment?.id;
 
 
-
       // get existing entries
       const updatedRental = new Rental(
         issuedAt!,
@@ -174,41 +135,7 @@ export class RentalEditScreen {
         this.form.value.customer!
       )
 
-      // const updatedRentalDTO = new RentalDTO(
-      //   this.form.value.equipment?.name!,
-      //   this.form.value.customer?.name!,
-      //   this.form.value.issuedAt!,
-      //   this.form.value.dueDate!,
-      //   this.form.value.returnedAt!,
-      //   this.form.value.returnNotes!,
-      //   this.form.value.customerId!,
-      //   this.form.value.equipmentId!,
-      //   this.form.value.equipmentCondition!,
-      //   this.form.value.equipmentStatus!,
-      //   this.form.value.status!,
-      //   this.form.value.equipment!
-      // );
-
-      // const updatedRentalDTO = new RentalDTO(
-      //   customerName!,
-      //   equipmentName!,
-      //   issuedAt!,
-      //   dueDate!,
-      //   returnedAt!,
-      //   returnNotes!,
-      //   customerId!,
-      //   equipmentId!,
-      //   equipmentCondition!,
-      //   equipmentStatus!,
-      //   status!,
-      //   equipment!
-      // );
-
       updatedRental.id = this.rentalId;
-      console.log(updatedRental);
-
-      // updatedRentalDTO.id = this.rentalId;
-      // console.log(updatedRentalDTO);
 
       this.rentalService.updateRental(this.rentalId, updatedRental).subscribe(() => {
         alert("Rental modified successfully");
