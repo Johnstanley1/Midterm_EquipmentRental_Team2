@@ -17,13 +17,11 @@ type OverdueRental = RentalDTO & { daysOverdue: number };
   styleUrls: ['./overdue-rentals-screen.css'],
 })
 export class OverdueRentalsScreen {
-  private today: any;
-
   errorMessage: string | null = null;
   overdueRentals$ =  of<RentalDTO [] | null>(null);
-  isAdmin = false;
-  rentalId = 0;
   rental!: RentalDTO;
+  today = new Date;
+
 
 
   private overdueSubject = new BehaviorSubject<OverdueRental[]>([]);
@@ -54,13 +52,6 @@ export class OverdueRentalsScreen {
   }
 
   ngOnInit(): void {
-    this.rentalId = this.route.snapshot.params['id'];
-    this.rentalService.getRentalsById(this.rentalId).subscribe(rental => {
-      if (rental) {
-        this.rental = rental; // <-- save original rental
-      }
-    });
-
     this.stats$ = this.overdueRentals$.pipe(
       map((list) => {
         if (!list || !list.length) return { total: 0, avgDays: 0, maxDays: 0 };
@@ -83,19 +74,30 @@ export class OverdueRentalsScreen {
     return Math.floor(diffMs / (1000 * 60 * 60 * 24));
   }
 
+  getDaysRented(issuedAt: Date | null): number {
+    if (!issuedAt) return 0;
+    const issued = new Date(issuedAt).getTime();
+    const now = this.today.getTime();
+    const diffMs = now - issued;
+    return Math.floor(diffMs / (1000 * 60 * 60 * 24));
+  }
+
   onExtend(r: RentalDTO) {
     this.router.navigate(['/edit-rental', r.id]);
   }
 
   onForceReturn(r: RentalDTO) {
     if (!confirm('Force return this equipment now?')) return;
-    if (this.isAdmin) {
+
+    const role = localStorage.getItem("role")
+
+    if (role == "Admin") {
       this.rentalService.returnRental(this.rental).subscribe(() =>{
         alert("Rental returned successfully");
         this.router.navigate(["/all-rentals"]);
       });
     } else {
-      this.rentalService.returnRental(this.rental).subscribe({});
+      alert("You are not authorised to force return a rental")
     }
   }
 }

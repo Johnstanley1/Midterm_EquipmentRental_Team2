@@ -30,15 +30,13 @@
                 <td>{{ r.customerName || r.customerId }}</td>
                 <td>{{ r.issuedAt | date : 'yyyy-MM-dd' }}</td>
                 <td>
-                  <span class="badge bg-danger">{{ getDaysOverdue(r.dueDate) }} days</span>
+                  <span class="badge bg-danger">{{ getDaysRented(r.dueDate) }} days</span>
                 </td>
                 <td><span class="badge bg-danger">Overdue</span></td>
                 <td>
-                  <a [routerLink]="['/rental-detail', r.id]" class="btn btn-sm btn-primary me-2">Details</a>
+                  <a  [routerLink]="['/rental-detail', r.id]" class="btn btn-sm btn-primary me-2">Details</a>
                   <button class="btn btn-sm btn-warning me-2" (click)="onExtend(r)">Extend Return</button>
-                  @if (1 == 1) {
-                    <button class="btn btn-sm btn-outline-danger" (click)="onForceReturn(r)"> Force Return </button>
-                  }
+                  <button class="btn btn-sm btn-outline-danger" (click)="onForceReturn(r)"> Force Return </button>
                 </td>
               </tr>
             }
@@ -51,11 +49,13 @@
       <div class="col-md-6 offset-md-6">
         <div class="card border-info">
           <div class="card-header bg-info-subtle fw-semibold">Statistics</div>
-          <div class="card-body" *ngIf="stats$ | async as st">
-            <div><strong>Total Overdue:</strong> {{ st.total }}</div>
-            <div><strong>Average Days Overdue:</strong> {{ st.avgDays | number : '1.0-1' }}</div>
-            <div><strong>Longest Overdue:</strong> {{ st.maxDays }} days</div>
-          </div>
+          @if (stats$ | async; as st) {
+            <div class="card-body">
+              <div><strong>Total Overdue:</strong> {{ st.total }}</div>
+              <div><strong>Average Days Overdue:</strong> {{ st.avgDays | number : '1.0-1' }}</div>
+              <div><strong>Longest Overdue:</strong> {{ st.maxDays }} days</div>
+            </div>
+          }
         </div>
       </div>
     </div>
