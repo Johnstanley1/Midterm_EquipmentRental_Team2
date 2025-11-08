@@ -156,8 +156,6 @@ export class RentalEditScreen {
       const equipmentCondition = this.form.value.equipmentCondition!;
       const customerId = customer?.id;
       const equipmentId = equipment?.id;
-      const customerName = customer?.name;
-      const equipmentName = equipment?.name;
 
 
 
