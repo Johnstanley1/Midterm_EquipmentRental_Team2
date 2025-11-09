@@ -81,6 +81,7 @@ export class EditEquipmentScreen {
     // Check Validation
     if (this.modifyForm.valid) {
       console.log("modify equipment form valid")
+      const role = localStorage.getItem('role')
 
       // get new entries
       const updatedEquipment = new Equipment(
@@ -94,10 +95,14 @@ export class EditEquipmentScreen {
 
       updatedEquipment.id = this.equipmentId;
 
-      this.equipmentService.updateEquipment(this.equipmentId, updatedEquipment).subscribe(() => {
-        alert("Equipment modified successfully");
-        this.router.navigate(["/all-equipments"]);
-      });
+      if (role === "Admin"){
+        this.equipmentService.updateEquipment(this.equipmentId, updatedEquipment).subscribe(() => {
+          alert("Equipment modified successfully");
+          this.router.navigate(["/all-equipments"]);
+        });
+      }else{
+        alert('You are not authorized to modify equipments');
+      }
     }else {
       alert("Modify equipment form is invalid")
     }
