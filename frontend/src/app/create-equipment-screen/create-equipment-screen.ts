@@ -70,6 +70,7 @@ export class CreateEquipmentScreen {
     // Check Validation
     if (this.createForm.valid) {
       console.log("Add equipment form valid")
+      const role = localStorage.getItem('role')
 
       // Get data:
       const equipment_name = this.createForm.value._equipment_name!
@@ -82,12 +83,15 @@ export class CreateEquipmentScreen {
       // Create new equipment object, pass data:
       const equipment = new Equipment(equipment_name, description, isAvailable, status, category, condition)
 
-
-      this.equipmentService.createEquipment(equipment).subscribe(() => {
-        alert("Equipment added successfully");
-        // Route:
-        this.router.navigate(["/all-equipments"]);
-      })
+      if (role === "Admin"){
+        this.equipmentService.createEquipment(equipment).subscribe(() => {
+          alert("Equipment added successfully");
+          // Route:
+          this.router.navigate(["/all-equipments"]);
+        })
+      }else{
+        alert("You are not authorized to add equipments")
+      }
     }else {
       alert("Add equipment form is invalid")
     }
