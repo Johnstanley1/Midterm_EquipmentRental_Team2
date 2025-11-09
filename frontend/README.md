@@ -42,7 +42,6 @@ Features:
       }
     }
 ####
-
 - Run the backend "dotnet run" and test the endpoints in swagger
 - Navigate to the frontend and install dependencies: npm install
 - Run the frontend: ng serve
