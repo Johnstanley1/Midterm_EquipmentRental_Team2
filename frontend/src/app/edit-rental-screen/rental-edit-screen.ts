@@ -104,6 +104,7 @@ export class RentalEditScreen {
     // Check Validation
     if (this.form.valid) {
       console.log("modify rental form is valid")
+      const role = localStorage.getItem('role')
 
       // Get data
       const equipment = this.form.value.equipmentName;
@@ -137,10 +138,14 @@ export class RentalEditScreen {
 
       updatedRental.id = this.rentalId;
 
-      this.rentalService.updateRental(this.rentalId, updatedRental).subscribe(() => {
-        alert("Rental modified successfully");
-        this.router.navigate(["/all-rentals"]);
-      });
+      if (role === "Admin"){
+        this.rentalService.updateRental(this.rentalId, updatedRental).subscribe(() => {
+          alert("Rental modified successfully");
+          this.router.navigate(["/all-rentals"]);
+        });
+      }else{
+        alert('You are not authorized to modify rentals');
+      }
     }else {
       alert("Modify rental form is invalid")
     }
