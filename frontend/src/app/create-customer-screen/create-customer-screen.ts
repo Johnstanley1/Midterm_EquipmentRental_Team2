@@ -71,6 +71,7 @@ export class CreateCustomerScreen {
     if (this.createForm.valid) {
 
       console.log("Add customer form valid")
+      const roles = localStorage.getItem('role')
 
       // Get data:
       const customer_name = this.createForm.value._name!
@@ -83,13 +84,15 @@ export class CreateCustomerScreen {
       // Create new customer object, pass data:
       const customer = new Customer(customer_name, username, email, password, role, isActive)
 
-
-      this.customerService.createCustomer(customer).subscribe(() => {
-        alert("Customer added successfully");
-        // Route:
-        this.router.navigate(["/all-customers"]);
-      })
-
+      if (roles === "Admin"){
+        this.customerService.createCustomer(customer).subscribe(() => {
+          alert("Customer added successfully");
+          // Route:
+          this.router.navigate(["/all-customers"]);
+        })
+      }else{
+        alert("You are not authorized to add customer")
+      }
     }else{
       alert("Add customer form is invalid")
     }
