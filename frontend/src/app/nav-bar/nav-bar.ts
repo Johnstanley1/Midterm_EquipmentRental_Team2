@@ -6,12 +6,13 @@ import {HttpClient} from '@angular/common/http';
 
 @Component({
   selector: 'app-nav-bar',
-  imports: [RouterLink, RouterLinkActive, NgIf],
+  imports: [RouterLink, RouterLinkActive],
   templateUrl: './nav-bar.html',
   styleUrl: './nav-bar.css',
 })
 export class NavBar implements OnInit, OnDestroy {
   email: string | null = null;
+  role: string | null = null;
   private routerSub?: Subscription;
 
   constructor(private router: Router,
@@ -30,10 +31,12 @@ export class NavBar implements OnInit, OnDestroy {
           localStorage.setItem('role', data.role);
           localStorage.setItem('email', data.email);
           this.email = data.email;
+          this.role = data.role;
           this.cdr.detectChanges(); // 👈 Force view update
         },
         error: err => {
           this.email = null;
+          this.role = null;
           this.cdr.detectChanges(); // 👈 Force view update
         }
       })
@@ -48,8 +51,10 @@ export class NavBar implements OnInit, OnDestroy {
   private refreshUserDisplay() {
     if (isPlatformBrowser(this.platformId)) {
       this.email = localStorage.getItem('email');
+      this.role = localStorage.getItem('role');
     } else {
       this.email = null;
+      this.role = null;
     }
   }
 
