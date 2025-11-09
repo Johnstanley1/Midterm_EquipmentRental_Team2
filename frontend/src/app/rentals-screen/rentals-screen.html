@@ -107,6 +107,7 @@
           <th>IsAvailable</th>
           <th>Status</th>
           <th>Duration</th>
+          <th>Return Note</th>
         </tr>
         </thead>
         <tbody>
@@ -126,6 +127,7 @@
                     <span class="badge" [ngClass]="{'bg-success': r.status === 'Returned'}">{{ r.status }}</span>
                   </td>
                   <td><p><strong>Days Rented:</strong> {{ getDuration(r.issuedAt) }}</p></td>
+                  <td>{{ r.returnNotes ? (r.returnNotes | titlecase) : '—' }}</td>
                 </tr>
               }
             }
