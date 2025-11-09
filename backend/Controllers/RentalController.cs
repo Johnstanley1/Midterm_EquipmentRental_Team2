@@ -242,7 +242,7 @@ namespace Midterm_EquipmentRental_Team2.Controllers
             // Mark as returned
             existingRental.ReturnedAt = DateTime.UtcNow;
             existingRental.Status = Rental.RentalStatus.Returned;
-            existingRental.ReturnNotes = rental.ReturnNotes;
+            existingRental.ReturnNotes = rental.ReturnNotes ?? null;
 
             _unitOfWork.Rentals.UpdateRental(existingRental);
             _unitOfWork.Complete();

@@ -92,7 +92,7 @@ export class OverdueRentalsScreen {
     const role = localStorage.getItem("role")
 
     if (role == "Admin") {
-      this.rentalService.returnRental(this.rental).subscribe(() =>{
+      this.rentalService.returnRental(r).subscribe(() =>{
         alert("Rental returned successfully");
         this.router.navigate(["/all-rentals"]);
       });

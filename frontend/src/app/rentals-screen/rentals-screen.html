@@ -127,7 +127,7 @@
                     <span class="badge" [ngClass]="{'bg-success': r.status === 'Returned'}">{{ r.status }}</span>
                   </td>
                   <td><p><strong>Days Rented:</strong> {{ getDuration(r.issuedAt) }}</p></td>
-                  <td>{{ r.returnNotes ? (r.returnNotes | titlecase) : '—' }}</td>
+                  <td>{{ r.returnNotes ? (r.returnNotes | titlecase) : 'Force Returned An Overdue Rental' }}</td>
                 </tr>
               }
             }
