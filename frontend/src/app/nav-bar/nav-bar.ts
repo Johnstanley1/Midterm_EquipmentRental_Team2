@@ -65,45 +65,4 @@ export class NavBar implements OnInit, OnDestroy {
     window.location.href = 'http://localhost:5027/api/auth/logout';
     // this.router.navigate(['/login']); // redirect to login page
   }
-
-
-  // ngOnInit(): void {
-  //   if (isPlatformBrowser(this.platformId)) {
-  //     const params = new URLSearchParams(window.location.search);
-  //     const email = params.get('email');
-  //     const role = params.get('role');
-  //
-  //     console.log(email, role);
-  //
-  //     if (email) {
-  //       // Save user info locally
-  //       localStorage.setItem('email', email);
-  //       localStorage.setItem('role', role || 'User');
-  //
-  //       // Navigate to home or dashboard based on role
-  //       if (role === 'Admin') {
-  //         this.router.navigate(['/home']);
-  //       } else if (role === "User") {
-  //         this.router.navigate(['/home']);
-  //       } else {
-  //         this.router.navigate(['/login']);
-  //       }
-  //     }
-  //   }
-  //
-  //   this.refreshUserDisplay();
-  //   // Refresh username after any navigation (e.g., after login redirect)
-  //   this.routerSub = this.router.events
-  //     .pipe(filter((e): e is NavigationEnd => e instanceof NavigationEnd))
-  //     .subscribe(() => this.refreshUserDisplay());
-  // }
-
-
-  // private refreshUserDisplay() {
-  //   if (isPlatformBrowser(this.platformId)) {
-  //     this.email = localStorage.getItem('email');
-  //   } else {
-  //     this.email = null;
-  //   }
-  // }
 }
