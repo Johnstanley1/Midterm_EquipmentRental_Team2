@@ -1,4 +1,4 @@
-import { Component, Inject, OnDestroy, OnInit, PLATFORM_ID } from '@angular/core';
+import {ChangeDetectorRef, Component, Inject, OnDestroy, OnInit, PLATFORM_ID} from '@angular/core';
 import { Router, RouterLink, RouterLinkActive, NavigationEnd } from '@angular/router';
 import { isPlatformBrowser, NgIf } from '@angular/common';
 import { Subscription, filter } from 'rxjs';
@@ -16,6 +16,7 @@ export class NavBar implements OnInit, OnDestroy {
 
   constructor(private router: Router,
               private http: HttpClient,
+              private cdr: ChangeDetectorRef,
               @Inject(PLATFORM_ID) private platformId: Object) {
 
   }
@@ -29,9 +30,11 @@ export class NavBar implements OnInit, OnDestroy {
           localStorage.setItem('role', data.role);
           localStorage.setItem('email', data.email);
           this.email = data.email;
+          this.cdr.detectChanges(); // 👈 Force view update
         },
         error: err => {
           this.email = null;
+          this.cdr.detectChanges(); // 👈 Force view update
         }
       })
 
