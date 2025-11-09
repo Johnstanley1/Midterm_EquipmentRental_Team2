@@ -43,7 +43,7 @@ export class OverdueRentalsScreen {
           } else if (err?.status === 401) {
             this.errorMessage = 'Your session has expired. Please log in again.';
           } else {
-            this.errorMessage = 'Failed to load customers. Please try again.';
+            this.errorMessage = 'Only Admins can access overdue rentals';
           }
           return of([] as RentalDTO[]);
         })
