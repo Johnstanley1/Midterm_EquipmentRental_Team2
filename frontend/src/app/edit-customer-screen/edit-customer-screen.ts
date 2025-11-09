@@ -88,10 +88,14 @@ export class EditCustomerScreen {
 
       updatedCustomer.id = this.id;
 
-      this.service.updateCustomer(this.id, updatedCustomer).subscribe(() => {
-        alert("Customer modified successfully");
-        this.router.navigate(["/all-customers"]);
-      });
+      if (this.form.value.role === "Admin"){
+        alert("Only Admins can modify roles")
+      }else{
+        this.service.updateCustomer(this.id, updatedCustomer).subscribe(() => {
+          alert("Customer modified successfully");
+          this.router.navigate(["/all-customers"]);
+        });
+      }
     }else {
       alert("Modify customer form is invalid")
     }

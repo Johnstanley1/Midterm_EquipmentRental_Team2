@@ -61,12 +61,14 @@
               <select class="form-select" formControlName="role">
                 <option value="Admin">Admin</option>
                 <option value="User">User</option>
-                @if (refRole.invalid && (refRole.touched || refRole.dirty)) {
-                  @if (refRole.errors?.['required']) {
-                    <small class="text-danger">Role is required</small>
-                  }
-                }
               </select>
+              @if (refRole.invalid && (refRole.touched || refRole.dirty)) {
+                @if (refRole.errors?.['required']) {
+                  <small class="text-danger">Role is required</small>
+                }
+              } @else if (refRole.value === "Admin" && (refRole.touched || refRole.dirty)){
+                <small class="text-danger">Only Admins can modify roles</small>
+              }
             </div>
             <div class="mb-3 form-check">
               <input type="checkbox" class="form-check-input" id="isActive" formControlName="isActive"/>
