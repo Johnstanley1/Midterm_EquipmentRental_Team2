@@ -182,7 +182,7 @@ namespace Midterm_EquipmentRental_Team2.Controllers
 
 
 
-        [Authorize(Roles = "Admin, User")]
+        [Authorize(Roles = "Admin")]
         [HttpGet("overdue")]
         public ActionResult<IEnumerable<RentalDTO>> GetOverdueRentals()
         {
